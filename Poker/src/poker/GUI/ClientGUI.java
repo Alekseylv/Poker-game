@@ -9,7 +9,6 @@ public class ClientGUI {
 
     public static void main(String[] args) {
 
-
         LoginGUI loginWindow = new LoginGUI();
         loginWindow.setLocation(screenSize.width / 2 - loginWindow.getSize().width / 2, screenSize.height / 2 - loginWindow.getSize().height / 2);
         loginWindow.setResizable(false);

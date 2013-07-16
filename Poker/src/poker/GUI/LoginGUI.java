@@ -10,8 +10,8 @@ public class LoginGUI extends JFrame implements ActionListener{
 
     static String PlayerName;
     static TableGUI tableWindow = new TableGUI();
-    JLabel labelName = new javax.swing.JLabel();
-    JTextField textName = new javax.swing.JTextField();
+    JLabel labelName = new JLabel();
+    JTextField textName = new JTextField();
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public LoginGUI(){
@@ -38,7 +38,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     }
 
     private JButton buttonConnect(){
-        JButton buttonConnect = new javax.swing.JButton();
+        JButton buttonConnect = new JButton();
 
         buttonConnect.setBounds(70, 50, 100, 25);
         buttonConnect.setText("Connect");
@@ -49,8 +49,9 @@ public class LoginGUI extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent buttonConnect) {
         PlayerName = textName.getText();
-        this.setVisible(false);
+
         showTable();
+        this.dispose();
     }
 
     public static TableGUI showTable(){
