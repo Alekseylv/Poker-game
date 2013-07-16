@@ -22,10 +22,9 @@ public class Client {
 			
 			TaskQueue que = new TaskQueue();
 			Conn conn = new Conn(socket, out);
+			
 			ServerListener listener = new ServerListener(in , que);
-
 			ClientGame game = new ClientGame(conn, que);	
-			conn.out.println("PLAY");
 			
 			Thread listenerThread = new Thread(listener);
 			Thread gameThread = new Thread(game);

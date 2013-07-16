@@ -49,6 +49,6 @@ public class ClientGame implements Runnable {
 	}
 	
 	public void ParseTask() {
-		
+		// need to implement message passing between client and server
 	}
 }
