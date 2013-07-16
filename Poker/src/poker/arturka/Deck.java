@@ -7,7 +7,6 @@ import java.util.Random;
  * User: mordavolt
  * Date: 7/16/13
  * Time: 11:54 AM
- * To change this template use File | Settings | File Templates.
  */
 public class Deck {
     private Card[] deck=new Card[52];

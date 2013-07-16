@@ -5,7 +5,6 @@ package poker.arturka;
  * User: mordavolt
  * Date: 7/16/13
  * Time: 10:51 AM
- * To change this template use File | Settings | File Templates.
  */
 
 public class Card {
@@ -43,6 +42,10 @@ public class Card {
 
     public Rank getRank() {
         return rank;
+    }
+
+    public boolean equals(Card card){
+        return ((card.getRank()==rank)&&(card.getSuit()==suit));
     }
 
 }
