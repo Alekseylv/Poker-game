@@ -8,21 +8,46 @@ public class ClientGame implements Runnable {
 	private ClientModel model;
 	private ClientView view;
 	private ClientController controller;
+	private volatile boolean running;
+	private TaskQueue taskList;
 	
-	public ClientGame(Conn conn) {
+	
+	public ClientGame(Conn conn, TaskQueue queue) {
 		
+		this.taskList = queue;
+		this.running = true;
+		this.conn = conn;
 		this.model = new ClientModel();
 		this.view = new ClientView(model);
 		this.controller = new ClientController(model, view);
 		
-		this.conn = conn;
-		this.model = model;
-		this.view = view;
-		this.controller = controller;
+		view.setVisible(true);
 		
 	}
 	
 	public void run() {
+		
+		while(running) {
+			synchronized (this.taskList) {
+				if (this.taskList.isEmpty()) {
+					try {
+						taskList.wait();
+					} catch (InterruptedException e) {
+
+						e.printStackTrace();
+					}
+				}
+			}
+			
+		// something goes here??	
+		}
+	}
+	
+	public void stop(){
+		this.running = false;
+	}
+	
+	public void ParseTask() {
 		
 	}
 }
