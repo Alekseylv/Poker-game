@@ -20,7 +20,10 @@ public class Client {
 				PrintWriter out = new PrintWriter(socket.getOutputStream());
 				
 				Conn conn = new Conn(socket, in, out);
-				ClientGame game = new ClientGame(conn);
+				ClientModel model = new ClientModel();
+				ClientView view = new ClientView(model);
+				ClientController controller = new ClientController(model, view);
+				ClientGame game = new ClientGame(conn, model, view, controller);
 				
 				conn.out.println("PLAY");
 				String token = in.next();
