@@ -39,7 +39,8 @@ public class ClientGame implements Runnable {
 				}
 			}
 			
-		// something goes here??	
+		// something goes here?? like
+		// parsing commands and executing them
 		}
 	}
 	

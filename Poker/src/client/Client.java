@@ -15,19 +15,23 @@ public class Client {
 		
 		try {
 			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);
-			Scanner in = new Scanner(socket.getInputStream());
 			PrintWriter out = new PrintWriter(socket.getOutputStream());
 			
+			Scanner in = new Scanner(socket.getInputStream());
+			in.useDelimiter("\n");
+			
 			TaskQueue que = new TaskQueue();
-			Conn conn = new Conn(socket, in, out);
-			ClientGame game = new ClientGame(conn, que);
-			
+			Conn conn = new Conn(socket, out);
+			ServerListener listener = new ServerListener(in , que);
+
+			ClientGame game = new ClientGame(conn, que);	
 			conn.out.println("PLAY");
-			String token = in.next();
-			if(token.equals("PLAYER WAIT"));
-			token = in.next();
-			if(token.equals("GAME START")) game.run();
 			
+			Thread listenerThread = new Thread(listener);
+			Thread gameThread = new Thread(game);
+			
+			listenerThread.start();
+			gameThread.start();
 			
 			
 		} catch (UnknownHostException e) {
