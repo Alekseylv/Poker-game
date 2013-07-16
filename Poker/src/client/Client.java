@@ -1,4 +1,4 @@
-package poker;
+package client;
 
 public class Client {
 
