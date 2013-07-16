@@ -1,5 +1,6 @@
 package client;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ServerListener implements Runnable {
@@ -15,8 +16,13 @@ public class ServerListener implements Runnable {
 	public void run() {
 		
 		while(true) {
-			String token = in.next();
-			que.addTask(token);
+			try {
+				String token = in.next();
+				que.addTask(token);
+			} catch (NoSuchElementException e) {
+				in.close();
+				break;
+			}
 		}
 	}
 }
