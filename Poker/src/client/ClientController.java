@@ -1,5 +1,7 @@
 package client;
 
+import poker.GUI.ClientView;
+
 public class ClientController {
 
 	private ClientModel model;
