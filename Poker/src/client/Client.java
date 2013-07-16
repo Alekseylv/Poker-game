@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import poker.GUI.ClientView;
+
 
 public class Client {
 
@@ -20,16 +22,13 @@ public class Client {
 				PrintWriter out = new PrintWriter(socket.getOutputStream());
 				
 				Conn conn = new Conn(socket, in, out);
-				ClientModel model = new ClientModel();
-				ClientView view = new ClientView(model);
-				ClientController controller = new ClientController(model, view);
-				ClientGame game = new ClientGame(conn, model, view, controller);
+				ClientGame game = new ClientGame(conn);
 				
 				conn.out.println("PLAY");
 				String token = in.next();
 				if(token.equals("PLAYER WAIT"));
 				token = in.next();
-				if(token.equals("GAME START")) game.start();
+				if(token.equals("GAME START")) game.run();
 				
 				
 				
