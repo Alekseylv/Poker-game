@@ -7,14 +7,11 @@ import java.util.Scanner;
 public class Conn {
 	
 	public final Socket socket;
-	public final Scanner in;
 	public final PrintWriter out;
 	
-	public Conn(Socket socket, Scanner in, PrintWriter out) {
+	public Conn(Socket socket, PrintWriter out) {
 		this.socket = socket;
-		this.in = in;
 		this.out = out;
-		in.useDelimiter("\n");
 	}
 	
 }
