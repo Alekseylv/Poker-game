@@ -9,8 +9,8 @@ public class ClientSidePlayer extends Player {
 
 	private ClientTurn lastTurn;
 	
-	public ClientSidePlayer(int id) {
-		super(id);
+	public ClientSidePlayer(Player player) {
+		super(player.getId());
 		this.lastTurn = null;
 	}
 	

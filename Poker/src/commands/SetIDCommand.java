@@ -11,7 +11,7 @@ public class SetIDCommand implements Command {
 	}
 	
 	public void execute(ClientModel model) {
-		model.setID(id);
+		model.setID(this.id);
 	}
 
 }
