@@ -1,16 +1,15 @@
 package poker.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.net.Socket;
+
+import message.data.ClientResponse;
 
 public class Connection implements Runnable {
 
 	private static final int READ_TIMEOUT = 4500;
-	private static final String TIMEOUT_MESSAGE = "TIMEOUT";
 
-	private BufferedReader clientInput = null;
 
 	public Connection(Socket client) {
 		this.client = client;
@@ -20,14 +19,20 @@ public class Connection implements Runnable {
 
 	}
 
-	public String getMove() {
+	public ClientResponse getMove() {
 		try {
 			client.setSoTimeout(READ_TIMEOUT);
-			clientInput = new BufferedReader(new InputStreamReader(
-					client.getInputStream()));
-			return clientInput.readLine();
+			in = new ObjectInputStream(client.getInputStream());
+			ClientResponse move = null;
+			try {
+				move = (ClientResponse) in.readObject();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			in.close();
+			return move;
 		} catch (IOException e) {
-			return TIMEOUT_MESSAGE;
+			return null;
 		}
 	}
 
@@ -36,4 +41,5 @@ public class Connection implements Runnable {
 	}
 
 	private Socket client;
+	public ObjectInputStream in;
 }

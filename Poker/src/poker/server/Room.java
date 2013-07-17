@@ -1,9 +1,16 @@
 package poker.server;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import message.data.ClientResponse;
+import commands.FRCallCommand;
+import commands.FRCheckCommand;
+import commands.FlopCommand;
+import commands.TurnRiverCommand;
 import poker.arturka.Game;
 
 public class Room implements Runnable {
@@ -42,7 +49,7 @@ public class Room implements Runnable {
 		return users;
 	}
 
-	public String getClientMove(int clientSessionID) {
+	public Object getClientMove(int clientSessionID) {
 		if (connections.containsKey(clientSessionID)
 				&& connections.get(clientSessionID).getClient().isConnected()) {
 			return connections.get(clientSessionID).getMove();
@@ -57,8 +64,61 @@ public class Room implements Runnable {
 		}
 	}
 
+	public ClientResponse sendToUser(int id, FRCheckCommand frCheckCommand) {
+		if (connections.containsKey(id)) {
+			try {
+				out = new ObjectOutputStream(connections.get(id).getClient().getOutputStream());
+				out.writeObject(frCheckCommand);
+				out.flush();
+				return (ClientResponse) getClientMove(id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
+	public ClientResponse sendToUser(int id, FRCallCommand frCallCommand) {
+		if (connections.containsKey(id)) {
+			try {
+				out = new ObjectOutputStream(connections.get(id).getClient().getOutputStream());
+				out.writeObject(frCallCommand);
+				out.flush();
+				return (ClientResponse) getClientMove(id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public void Broadcast(FlopCommand flopCommand) {
+		for (Connection clientConnection: connections.values()) {
+			try {
+				out = new ObjectOutputStream(clientConnection.getClient().getOutputStream());
+				out.writeObject(flopCommand);
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void Broadcast(TurnRiverCommand turnRiverCommand) {
+		for (Connection clientConnection: connections.values()) {
+			try {
+				out = new ObjectOutputStream(clientConnection.getClient().getOutputStream());
+				out.writeObject(turnRiverCommand);
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public int roomID;
 	private HashMap<Integer, Connection> connections;
 	private Game pokerGame;
 	private Connection clientConnection;
+	public ObjectOutputStream out;
 }
