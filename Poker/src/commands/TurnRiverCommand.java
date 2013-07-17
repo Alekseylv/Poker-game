@@ -1,5 +1,6 @@
 package commands;
 
+import client.ClientController;
 import client.ClientModel;
 import poker.arturka.Card;
 
@@ -18,7 +19,7 @@ public class TurnRiverCommand implements Command {
 		this.cmd = cmd;
 	}
 	
-	public void execute(ClientModel model) {
+	public void execute(ClientModel model, ClientController controllers) {
 		Card[] fieldcards = model.getFieldCards();
 		
 		switch (cmd) {

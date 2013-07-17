@@ -16,10 +16,12 @@ public class Players {
 
     public void addPlayer(int id){
         Player tempPlayer = new Player(id);
+        tempPlayer.toggleInGame();
         playerList.put(id,tempPlayer);
     }
 
     public void removePlayer(int id){
+        playerList.get(id).toggleInGame();
         playerList.remove(id);
     }
 
@@ -31,7 +33,16 @@ public class Players {
     public Player getNextPlayer(Player player){
         for(int i=0;i<playerList.size();i++){
             if(playerList.get(i).equals(player)){
-                return playerList.get((i+1)<playerList.size()?i+1:0);
+                int j=i+1;
+                if (j>=playerList.size()){
+                    j-=playerList.size();
+                }
+                while(!playerList.get(j).isInGame()){
+                    if (++j>=playerList.size()){
+                        j-=playerList.size();
+                    }
+                }
+                return playerList.get(j);
             }
         }
         return null;
@@ -59,7 +70,7 @@ public class Players {
         int pot=0;
         for(int i=0;i<playerList.size();i++){
             pot+=playerList.get(i).getBet();
-            playerList.get(i).setCash(0);
+            playerList.get(i).setBet(0);
         }
         return pot;
     }
@@ -67,7 +78,7 @@ public class Players {
     public List<Player> playersLeft(){
         List<Player> tempList=new ArrayList<Player>();
         for(int i=0;i<playerList.size();i++){
-            if(!playerList.get(i).hasFolded()){
+            if(!playerList.get(i).hasFolded()&&playerList.get(i).isInGame()){
                 tempList.add(playerList.get(i));
             }
         }
@@ -77,11 +88,32 @@ public class Players {
     public List<Player> allInPlayers(){
         List<Player> tempList=new ArrayList<Player>();
         for(int i=0;i<playerList.size();i++){
-            if(!playerList.get(i).hasFolded()&&playerList.get(i).getCash()==0){
+            if(!playerList.get(i).hasFolded()&&playerList.get(i).getCash()==0&&playerList.get(i).isInGame()){
                 tempList.add(playerList.get(i));
             }
         }
         return tempList;
     }
+
+    public List<Player> getPlayersList(){
+        List<Player> tempList=new ArrayList<Player>();
+        tempList.addAll(tempList);
+        return tempList;
+    }
+
+    public List<Player> getSafeList(){
+        List<Player> tempList=new ArrayList<Player>();
+        Player tempPlayer;
+        for(Player player:getPlayersList()){
+            tempPlayer=new Player(player);
+            tempPlayer.giveCards(null,null);
+            tempList.add(tempPlayer);
+        }
+        return tempList;
+    }
+
+	public Player getBestPlayer() {
+		return null;
+	}
 
 }

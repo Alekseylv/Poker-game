@@ -8,11 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import message.data.ClientResponse;
-import commands.FRCallCommand;
-import commands.FRCheckCommand;
-import commands.FlopCommand;
+import commands.Command;
 import commands.SetIDCommand;
-import commands.TurnRiverCommand;
 import poker.arturka.Game;
 
 public class Room implements Runnable {
@@ -54,7 +51,7 @@ public class Room implements Runnable {
 		t.start();
 		System.out.println("Player (ID:" + (clientSessionID - 1)
 				+ ") added to the room (ID: " + roomID + ")");
-		}
+	}
 
 	public List<Integer> getUsers() {
 		List<Integer> users = new ArrayList<Integer>();
@@ -79,25 +76,12 @@ public class Room implements Runnable {
 		}
 	}
 
-	public ClientResponse sendToUser(int id, FRCheckCommand frCheckCommand) {
+	public ClientResponse sendToUser(int id, Command command) {
 		if (connections.containsKey(id)) {
 			try {
-				out = new ObjectOutputStream(connections.get(id).getClient().getOutputStream());
-				out.writeObject(frCheckCommand);
-				out.flush();
-				return (ClientResponse) getClientMove(id);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-	
-	public ClientResponse sendToUser(int id, FRCallCommand frCallCommand) {
-		if (connections.containsKey(id)) {
-			try {
-				out = new ObjectOutputStream(connections.get(id).getClient().getOutputStream());
-				out.writeObject(frCallCommand);
+				out = new ObjectOutputStream(connections.get(id).getClient()
+						.getOutputStream());
+				out.writeObject(command);
 				out.flush();
 				return (ClientResponse) getClientMove(id);
 			} catch (IOException e) {
@@ -107,11 +91,12 @@ public class Room implements Runnable {
 		return null;
 	}
 
-	public void Broadcast(FlopCommand flopCommand) {
-		for (Connection clientConnection: connections.values()) {
+	public void Broadcast(Command command) {
+		for (Connection clientConnection : connections.values()) {
 			try {
-				out = new ObjectOutputStream(clientConnection.getClient().getOutputStream());
-				out.writeObject(flopCommand);
+				out = new ObjectOutputStream(clientConnection.getClient()
+						.getOutputStream());
+				out.writeObject(command);
 				out.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -119,18 +104,6 @@ public class Room implements Runnable {
 		}
 	}
 
-	public void Broadcast(TurnRiverCommand turnRiverCommand) {
-		for (Connection clientConnection: connections.values()) {
-			try {
-				out = new ObjectOutputStream(clientConnection.getClient().getOutputStream());
-				out.writeObject(turnRiverCommand);
-				out.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	public int roomID;
 	private HashMap<Integer, Connection> connections;
 	private Game pokerGame;

@@ -1,6 +1,8 @@
 package commands;
 
+import client.ClientController;
 import client.ClientModel;
+import client.State;
 
 public class FRCallCommand implements Command {
 
@@ -8,8 +10,8 @@ public class FRCallCommand implements Command {
 		
 	}
 	
-	public void execute(ClientModel model) {
-		// add logic here
+	public void execute(ClientModel model, ClientController controller) {
+		model.changeState(State.INPUTCALL);
 	}
 
 }

@@ -1,5 +1,6 @@
 package client;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,24 +17,36 @@ public class ClientController implements Observer {
 		this.view = view;
 	}
 	
-	public void update(Observable obj, Object arg) {
-		if(arg instanceof Card[]) {
-			Card[] cards = (Card[]) arg;
-			
-			if(cards.length == 2) {
-				// update held cards
-			} else if(cards.length == 5) {
-				// update field cards
-			} else {
-				System.out.println("Card[] length uncorrect");
-			}
-			
-			
-		} else if(arg instanceof Integer) {
-			// update cash
+	public void update(ClientModel model, Object arg) {
+		if(arg instanceof Card[] ) {
+			// rewrite Deck cards
 		} else if(arg instanceof State) {
-			// do something with state logic
-		} else 
-			System.out.println("arg is weird");
+			// do some changes because of state
+		} else if(arg instanceof Integer) {
+			// we just got an id
+		} else if(arg instanceof List) {
+			// we just got player list
+		}
+			
+			
+	/*	private Card fieldcards[];
+		private State state;
+		private List<ClientSidePlayer> players;	
+		private int id;
+	*/
+	}
+	
+	public void update(ClientSidePlayer player, Object arg) {
+		// rewrite concrete player on screen
+	}
+	
+	public void update(Observable obj, Object arg) {
+		if(obj instanceof ClientSidePlayer) {
+			this.update((ClientSidePlayer) obj, arg);
+		} else if(obj instanceof ClientModel) {
+			this.update((ClientModel) obj, arg);
+		} else {
+			System.out.println("Not a valid object" + obj);
+		}
 	}
 }

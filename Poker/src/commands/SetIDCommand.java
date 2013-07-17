@@ -1,5 +1,6 @@
 package commands;
 
+import client.ClientController;
 import client.ClientModel;
 
 public class SetIDCommand implements Command {
@@ -10,7 +11,7 @@ public class SetIDCommand implements Command {
 		this.id = id;
 	}
 	
-	public void execute(ClientModel model) {
+	public void execute(ClientModel model, ClientController controller) {
 		model.setID(this.id);
 	}
 

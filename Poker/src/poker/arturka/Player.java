@@ -15,12 +15,20 @@ public class Player extends Observable {
     private boolean dealer;
     private boolean fold;
     private int bet;
+    private boolean inGame;
 
     public Player(int id){
         this.id=id;
         this.cash=1000;
         hand=new Card[2];
         fold=false;
+    }
+
+    public Player(Player player){
+        this.id=player.getId();
+        this.cash=player.getCash();
+        this.hand=player.getHand();
+        this.fold=player.hasFolded();
     }
 
     public void giveCash(int cash){
@@ -65,11 +73,15 @@ public class Player extends Observable {
     public void toggleDealer() {
         dealer=!dealer;
     }
-    
+
     public void toggleFold() {
         fold=!fold;
     }
-    
+
+    public void setBet(int bet){
+        this.bet = bet;
+    }
+
     public Card[] getHand() {
     	Card[] tempHand = new Card[hand.length];
     	for (int i = 0; i < tempHand.length; i++) {
@@ -77,6 +89,18 @@ public class Player extends Observable {
     	}
     	return tempHand;
     }
-    
-    
+
+
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public void toggleInGame() {
+        inGame=!inGame;
+    }
+
+    public boolean equals(Player player){
+        return player.getId()==id;
+    }
+
 }
