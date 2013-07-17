@@ -66,13 +66,23 @@ public class Player extends Observable {
     public void toggleDealer() {
         dealer=!dealer;
     }
+
     public void toggleFold() {
         fold=!fold;
     }
 
-    public void setBet(int bet) {
+    public void setBet(int bet){
         this.bet = bet;
     }
+
+    public Card[] getHand() {
+    	Card[] tempHand = new Card[hand.length];
+    	for (int i = 0; i < tempHand.length; i++) {
+    		tempHand[i] = hand[i];
+    	}
+    	return tempHand;
+    }
+
 
     public boolean isInGame() {
         return inGame;
@@ -81,4 +91,5 @@ public class Player extends Observable {
     public void toggleInGame() {
         inGame=!inGame;
     }
+
 }
