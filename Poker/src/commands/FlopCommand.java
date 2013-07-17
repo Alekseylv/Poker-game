@@ -1,6 +1,7 @@
 package commands;
 
 import poker.arturka.Card;
+import client.ClientController;
 import client.ClientModel;
 
 public class FlopCommand implements Command {
@@ -17,9 +18,10 @@ public class FlopCommand implements Command {
 		this.card3 = card3;
 	}
 	
-	public void execute(ClientModel model) {
+
+	public void execute(ClientModel model, ClientController controller) {
 		Card[] fieldcards = {card1, card2, card3, null, null};
-		model.changeFieldCards(fieldcards);
+		model.changeFieldCards(fieldcards);	
 	}
 	
 }

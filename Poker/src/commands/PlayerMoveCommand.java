@@ -1,6 +1,7 @@
 package commands;
 
 import message.data.PlayerMove;
+import client.ClientController;
 import client.ClientModel;
 
 public class PlayerMoveCommand implements Command {
@@ -11,7 +12,7 @@ public class PlayerMoveCommand implements Command {
 		this.move = move;
 	}
 	
-	public void execute(ClientModel model) {
+	public void execute(ClientModel model, ClientController controller) {
 		// implement PlayerMoveCommand here
 	}
 }
