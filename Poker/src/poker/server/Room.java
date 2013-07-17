@@ -6,10 +6,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import message.data.ClientResponse;
 import commands.FRCallCommand;
 import commands.FRCheckCommand;
 import commands.FlopCommand;
+import commands.SetIDCommand;
 import commands.TurnRiverCommand;
 import poker.arturka.Game;
 
@@ -29,6 +31,20 @@ public class Room implements Runnable {
 		t.start();
 		System.out.println("Game started in room ID: " + roomID
 				+ ". Player count: " + this.connections.size());
+		assignClientID();
+	}
+
+	private void assignClientID() {
+		for (Integer id : connections.keySet()) {
+			try {
+				out = new ObjectOutputStream(connections.get(id).getClient()
+						.getOutputStream());
+				out.writeObject(new SetIDCommand(id));
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void addUser(Socket client) {
@@ -38,12 +54,11 @@ public class Room implements Runnable {
 		t.start();
 		System.out.println("Player (ID:" + (clientSessionID - 1)
 				+ ") added to the room (ID: " + roomID + ")");
-	}
+		}
 
 	public List<Integer> getUsers() {
 		List<Integer> users = new ArrayList<Integer>();
 		for (Integer id : connections.keySet()) {
-			System.out.println(id);
 			users.add(id);
 		}
 		return users;
