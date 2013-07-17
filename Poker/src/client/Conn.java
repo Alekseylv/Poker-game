@@ -5,6 +5,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import message.data.ClientResponse;
+
 public class Conn {
 	
 	public final Socket socket;
@@ -17,4 +19,14 @@ public class Conn {
 		
 	}
 	
+	
+	public void sendResponse(ClientResponse resp) {
+		try {
+			out.writeObject(resp);
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
