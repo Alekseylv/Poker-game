@@ -41,6 +41,10 @@ public class ClientModel extends Observable {
         notifyObservers(mycards);
 	}
 	
+	public Card[] getFieldCards() {
+		return fieldcards.clone();
+	}
+	
 	public void changeFieldCards(Card newField[]) {
 		assert(newField.length == 5);
 		this.fieldcards = newField;

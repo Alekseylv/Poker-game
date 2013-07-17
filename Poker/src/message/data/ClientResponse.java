@@ -17,7 +17,7 @@ public class ClientResponse implements Serializable {
 		this.optional = optional;
 	}
 	
-	public int getOptional() {
+	public int getBet() {
 		return optional;
 	}
 }

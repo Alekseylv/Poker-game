@@ -13,12 +13,13 @@ public class FlopCommand implements Command {
 	
 	public FlopCommand(Card card1, Card card2, Card card3) {
 		this.card1 = card1;
-		this.card2 = card1;
-		this.card3 = card1;
+		this.card2 = card2;
+		this.card3 = card3;
 	}
 	
 	public void execute(ClientModel model) {
-		// implement Flop here
+		Card[] fieldcards = {card1, card2, card3, null, null};
+		model.changeFieldCards(fieldcards);
 	}
 	
 }

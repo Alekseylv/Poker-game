@@ -9,8 +9,8 @@ public class TurnRiverCommand implements Command {
 	private RorT cmd;
 	
 	public enum RorT {
-		Turn,
-		River;
+		TURN,
+		RIVER;
 	}
 	
 	public TurnRiverCommand(Card card4, RorT cmd) {
@@ -19,6 +19,19 @@ public class TurnRiverCommand implements Command {
 	}
 	
 	public void execute(ClientModel model) {
-		// implement TurnOrRiver here
+		Card[] fieldcards = model.getFieldCards();
+		
+		switch (cmd) {
+			case TURN: {
+				fieldcards[3] = card4;
+				break;
+			}
+			case RIVER: {
+				fieldcards[4] = card4;
+				break;
+			}
+		}
+		
+		model.changeFieldCards(fieldcards);
 	}
 }
