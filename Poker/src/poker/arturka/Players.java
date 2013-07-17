@@ -56,4 +56,14 @@ public class Players {
             getRandomPlayer().toggleDealer();
         }
     }
+
+    public int playersLeft(){
+        int j=0;
+        for(int i=0;i<playerList.size();i++){
+            if(!playerList.get(i).hasFolded()){
+                j++;
+            }
+        }
+        return j;
+    }
 }
