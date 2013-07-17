@@ -1,6 +1,6 @@
 package client;
 
-public enum state {
+public enum State {
 	READY,
 	STARTING,
 	INPUT,
