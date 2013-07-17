@@ -22,7 +22,7 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
     JLabel[][] arrayPlayersCards = new JLabel[8][2];
     JLabel[] arrayPlayersNickCash = new JLabel[8];
 
-    int Cash = 950;
+    int Cash = 10000;
     int CashCurrent = 30;
 
     public TableGUI(){
@@ -54,7 +54,7 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
         arrayPlayersNickCash[7] = clientNameCash("Player7", 300, 570, 510);
 
         this.setLayout(layout);
-        this.setContentPane(new JLabel(new ImageIcon(getClass().getResource("poker/GUI/img/pokerTable.jpg"))));
+        this.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/img/pokerTable.jpg"))));
         this.setTitle("Poker Client");
         this.getContentPane().setLayout(null);
         this.setSize(900, 600);
@@ -138,18 +138,19 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
     }
 
     public JSlider CashSlider(){
-        int tick =  (int)(Math.round(((Cash - 30)/3)/ 10.0) * 10);
-
+        int tick = (Cash - 30) / 2;
 
         CashSlider.setBounds(675, 540, 210, 50);
         CashSlider.setMaximum(Cash);
         CashSlider.setMinimum(30);
-        CashSlider.setValue(CashCurrent);
+        CashSlider.setValue(30);
         CashSlider.addChangeListener(this);
         CashSlider.setMajorTickSpacing(tick);
-        CashSlider.setMinorTickSpacing((int)(Math.round((Cash / 30)/ 10.0) * 10));
+        CashSlider.setMinorTickSpacing((int)(Math.round((Cash / 20)/ 10.0) * 10)); // FORMULA
         CashSlider.setPaintTicks(true);
         CashSlider.setPaintLabels(true);
+        CashSlider.setBackground(Color.GRAY);
+        CashSlider.setForeground(Color.WHITE);
         CashSlider.setSnapToTicks(true);
         return CashSlider;
     }
@@ -162,13 +163,13 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
     }
 
     public JLabel userCard1(){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("poker/GUI/img/cards/3_of_clubs.png"));
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/img/cards/3_of_clubs.png"));
         JLabel userCard1 = new JLabel(cardImg1);
         userCard1.setBounds(425,415,70,100);
         return userCard1;
     }
     public JLabel userCard2(){
-        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("poker/GUI/img/cards/king_of_hearts.png"));
+        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/img/cards/king_of_hearts.png"));
         JLabel userCard2 = new JLabel(cardImg2);
         userCard2.setBounds(411,408,70,100);
         return userCard2;
@@ -176,7 +177,7 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
 
     public JLabel backCard(int x, int y){
 
-        ImageIcon back = new ImageIcon(getClass().getResource("poker/GUI/img/cards/back.png"));
+        ImageIcon back = new ImageIcon(getClass().getResource("/img/cards/back.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,50,70);
 
@@ -198,8 +199,10 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
 
     public void stateChanged(ChangeEvent e) {
         JSlider CashSlider = (JSlider) e.getSource();
-        CashCurrent = (int)(Math.round(CashSlider.getValue() / 10.0) * 10);
-
+        CashCurrent = (int)(Math.round(CashSlider.getValue() / 10.0) * 10); // FORMULA
+        if(CashCurrent > Cash){
+            CashCurrent = Cash;
+        }
         displayCashSlider.setText(String.valueOf("$" + CashCurrent));
     }
     public void actionPerformed(ActionEvent raiseButton) {
