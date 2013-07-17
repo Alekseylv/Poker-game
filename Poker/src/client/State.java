@@ -3,7 +3,8 @@ package client;
 public enum State {
 	READY,
 	STARTING,
-	INPUT,
+	INPUTCHECK,
+	INPUTCALL,
 	PLAYING,
 	ENDED;
 	

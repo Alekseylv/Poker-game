@@ -12,17 +12,20 @@ public class ClientModel extends Observable {
 	private int cash;
 	
 	
+	
+	
 	public ClientModel() {
 		this.mycards = new Card[2];
 		this.fieldcards = new Card[5];
 		this.state = State.READY;
+		this.cash = 0;
 	}
 	
 	public void setCash(int newCash) {
 		this.cash = newCash;
 		
 		setChanged();
-        notifyObservers(mycards);
+        notifyObservers(cash);
 	}
 	
 	public int getCash() {

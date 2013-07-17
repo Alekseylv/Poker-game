@@ -1,7 +1,8 @@
 package client;
 
-import commands.Command;
+import java.util.Observer;
 
+import commands.Command;
 import poker.GUI.ClientView;
 
 public class ClientGame implements Runnable {
@@ -23,6 +24,7 @@ public class ClientGame implements Runnable {
 		this.view = new ClientView(model);
 		this.controller = new ClientController(model, view);
 		
+		model.addObserver(this.controller);
 		view.setVisible(true);
 		
 	}
