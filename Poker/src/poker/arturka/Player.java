@@ -69,6 +69,10 @@ public class Player extends Observable {
         fold=!fold;
     }
     public Card[] getHand() {
-    	return hand;
+    	Card[] tempHand = new Card[hand.length];
+    	for (int i = 0; i < tempHand.length; i++) {
+    		tempHand[i] = hand[i];
+    	}
+    	return tempHand;
     }
 }
