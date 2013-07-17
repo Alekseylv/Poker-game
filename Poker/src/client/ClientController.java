@@ -16,24 +16,33 @@ public class ClientController implements Observer {
 		this.view = view;
 	}
 	
+	public void update(ClientModel model, Object arg) {
+		if(arg instanceof Card[] ) {
+			
+		}
+			
+			
+	/*	private int id;
+	    private int cash;
+	    private Card[] hand;
+	    private boolean dealer;
+	    private boolean fold;
+	    private int bet;
+	    private boolean inGame; 
+	*/
+	}
+	
+	public void update(ClientSidePlayer player, Object arg) {
+		
+	}
+	
 	public void update(Observable obj, Object arg) {
-		if(arg instanceof Card[]) {
-			Card[] cards = (Card[]) arg;
-			
-			if(cards.length == 2) {
-				// update held cards
-			} else if(cards.length == 5) {
-				// update field cards
-			} else {
-				System.out.println("Card[] length uncorrect");
-			}
-			
-			
-		} else if(arg instanceof Integer) {
-			// update cash
-		} else if(arg instanceof State) {
-			// do something with state logic
-		} else 
-			System.out.println("arg is weird");
+		if(obj instanceof ClientSidePlayer) {
+			this.update((ClientSidePlayer) obj, arg);
+		} else if(obj instanceof ClientModel) {
+			this.update((ClientModel) obj, arg);
+		} else {
+			System.out.println("Not a valid object" + obj);
+		}
 	}
 }

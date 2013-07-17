@@ -16,6 +16,9 @@ public class ClientSidePlayer extends Player {
 	
 	public void setLastTurn(ClientTurn turn) {
 		this.lastTurn = turn;
+		
+		setChanged();
+        notifyObservers(turn);
 	}
 	
 	public ClientTurn getLastTurn() {
