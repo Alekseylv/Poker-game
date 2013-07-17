@@ -26,6 +26,16 @@ public class ClientModel extends Observable {
         notifyObservers(this.players);
 	}
 	
+	public ClientSidePlayer getPlayer(int id) {
+		for(ClientSidePlayer i: players) {
+			if(i.getId() == id) {
+				return i;
+			}
+		}
+		
+		return null;
+	}
+	
 	public int getID() {
 		return id;
 	}

@@ -2,6 +2,7 @@ package commands;
 
 import client.ClientController;
 import client.ClientModel;
+import client.State;
 
 public class FRCheckCommand implements Command {
 
@@ -10,7 +11,7 @@ public class FRCheckCommand implements Command {
 	}
 	
 	public void execute(ClientModel model, ClientController controller) {
-		// add logic here
+		model.changeState(State.INPUTCHECK);
 	}
 
 }

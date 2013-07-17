@@ -3,6 +3,7 @@ package commands;
 import message.data.PlayerMove;
 import client.ClientController;
 import client.ClientModel;
+import client.ClientSidePlayer;
 
 public class PlayerMoveCommand implements Command {
 
@@ -13,6 +14,7 @@ public class PlayerMoveCommand implements Command {
 	}
 	
 	public void execute(ClientModel model, ClientController controller) {
-		// implement PlayerMoveCommand here
+		ClientSidePlayer player = model.getPlayer(move.id);
+		player.setBetTurnCash(move.currentBet, move.turn, move.moneyLeft);
 	}
 }

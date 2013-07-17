@@ -65,5 +65,11 @@ public class ClientSidePlayer extends Player {
         
         notifyObs(bet);
     }
+
+	public void setBetTurnCash(int currentBet, ClientTurn turn, int moneyLeft) {
+		super.setBet(currentBet);
+		super.setCash(moneyLeft);
+		this.setLastTurn(turn);	
+	}
 	
 }
