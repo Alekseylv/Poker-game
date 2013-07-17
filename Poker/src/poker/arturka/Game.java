@@ -17,6 +17,7 @@ public class Game implements Runnable {
     private List<Card> table;
     private int maxBet;
     private int state;
+    private Room room;
 
     public Game(Room room){
         deck=new Deck();
@@ -25,6 +26,7 @@ public class Game implements Runnable {
         maxBet=0;
         table=new ArrayList<Card>();
         state=0;
+        this.room=room;
         for(int id: room.getUsers()){
             players.addPlayer(id);
         }
@@ -64,14 +66,15 @@ public class Game implements Runnable {
             currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
         }while(players.getDealer()!=currentPlayer);
         Player firstBetter=players.getNextPlayer(nextPlayer);
-        //abstractions, rewrite to actual methods
+        //todo abstractions, rewrite to actual methods
         Player better=firstBetter;
+
         do{
             if(!better.hasFolded()){
                 if(better.getBet()==maxBet){
-                    String Move = Room.sendToUser(better.getId(),new FRCheckCommand());
+                    String Move = room.sendToUser(better.getId(),new FRCheckCommand());
                 }else{
-                    String Move = Room.sendToUser(better.getId(),new FRCallCommand());
+                    String Move = room.sendToUser(better.getId(),new FRCallCommand());
                 }
                 switch(moveEnum){
                     case FOLD:
@@ -102,16 +105,16 @@ public class Game implements Runnable {
                 table.add(deck.getTopCard());
                 table.add(deck.getTopCard());
                 table.add(deck.getTopCard());
-                Room.Broadcast(new FlopCommand(table.get(0),table.get(1),table.get(2)));
+                room.Broadcast(new FlopCommand(table.get(0),table.get(1),table.get(2)));
                 break;
             case 1:
                 deck.getTopCard();
                 table.add(deck.getTopCard());
-                Room.Broadcast(new TurnRiverCommand(table.get(3),TurnRiverCommand.RorT.Turn));
+                room.Broadcast(new TurnRiverCommand(table.get(3),TurnRiverCommand.RorT.Turn));
             case 2:
                 deck.getTopCard();
                 table.add(deck.getTopCard());
-                Room.Broadcast(new TurnRiverCommand(table.get(4),TurnRiverCommand.RorT.River));
+                room.Broadcast(new TurnRiverCommand(table.get(4),TurnRiverCommand.RorT.River));
         }
     }
 }
