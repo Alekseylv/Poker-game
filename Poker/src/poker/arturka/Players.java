@@ -101,6 +101,17 @@ public class Players {
         return tempList;
     }
 
+    public List<Player> getSafeList(){
+        List<Player> tempList=new ArrayList<Player>();
+        Player tempPlayer;
+        for(Player player:getPlayersList()){
+            tempPlayer=new Player(player);
+            tempPlayer.giveCards(null,null);
+            tempList.add(tempPlayer);
+        }
+        return tempList;
+    }
+
 	public Player getBestPlayer() {
 		return null;
 	}

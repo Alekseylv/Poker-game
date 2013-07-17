@@ -24,6 +24,13 @@ public class Player extends Observable {
         fold=false;
     }
 
+    public Player(Player player){
+        this.id=player.getId();
+        this.cash=player.getCash();
+        this.hand=player.getHand();
+        this.fold=player.hasFolded();
+    }
+
     public void giveCash(int cash){
         this.cash+=cash;
     }
