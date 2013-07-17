@@ -38,6 +38,9 @@ public class Player extends Observable {
     public int getCash() {
         return cash;
     }
+    public void setCash(int cash) {
+        this.cash=cash;
+    }
 
     public int getBet(){
         return bet;
@@ -64,5 +67,8 @@ public class Player extends Observable {
     }
     public void toggleFold() {
         fold=!fold;
+    }
+    public Card[] getHand() {
+    	return hand;
     }
 }

@@ -42,7 +42,7 @@ public class Game implements Runnable {
         if (players.playersLeft().size()>1){
 
         }else{
-
+            players.playersLeft().get(0).giveCash(players.getPot());
         }
     }
 
@@ -122,13 +122,13 @@ public class Game implements Runnable {
                 case 1:
                     deck.getTopCard();
                     table.add(deck.getTopCard());
-                    room.Broadcast(new TurnRiverCommand(table.get(3),TurnRiverCommand.RorT.TURN));
+                    room.Broadcast(new TurnRiverCommand(table.get(3), TurnRiverCommand.RorT.TURN));
                     state++;
                     break;
                 case 2:
                     deck.getTopCard();
                     table.add(deck.getTopCard());
-                    room.Broadcast(new TurnRiverCommand(table.get(4),TurnRiverCommand.RorT.RIVER));
+                    room.Broadcast(new TurnRiverCommand(table.get(4), TurnRiverCommand.RorT.RIVER));
                     state++;
                     break;
                 default:

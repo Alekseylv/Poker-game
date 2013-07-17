@@ -55,6 +55,15 @@ public class Players {
         }
     }
 
+    public int getPot(){
+        int pot=0;
+        for(int i=0;i<playerList.size();i++){
+            pot+=playerList.get(i).getBet();
+            playerList.get(i).setCash(0);
+        }
+        return pot;
+    }
+
     public List<Player> playersLeft(){
         List<Player> tempList=new ArrayList<Player>();
         for(int i=0;i<playerList.size();i++){
