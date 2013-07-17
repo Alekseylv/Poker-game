@@ -1,17 +1,20 @@
 package client;
 
-import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Conn {
 	
 	public final Socket socket;
-	public final PrintWriter out;
+	public final ObjectOutputStream out;
 	
-	public Conn(Socket socket, PrintWriter out) {
+	public Conn(Socket socket, OutputStream out) throws IOException {
 		this.socket = socket;
-		this.out = out;
+		this.out =  new ObjectOutputStream(out);
+		out.flush();
+		
 	}
 	
 }
