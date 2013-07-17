@@ -54,7 +54,7 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
         arrayPlayersNickCash[7] = clientNameCash("Player7", 300, 570, 510);
 
         this.setLayout(layout);
-        this.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/img/pokerTable.jpg"))));
+        this.setContentPane(new JLabel(new ImageIcon(getClass().getResource("poker/GUI/img/pokerTable.jpg"))));
         this.setTitle("Poker Client");
         this.getContentPane().setLayout(null);
         this.setSize(900, 600);
@@ -163,13 +163,13 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
     }
 
     public JLabel userCard1(){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/img/cards/3_of_clubs.png"));
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("poker/GUI/img/cards/3_of_clubs.png"));
         JLabel userCard1 = new JLabel(cardImg1);
         userCard1.setBounds(425,415,70,100);
         return userCard1;
     }
     public JLabel userCard2(){
-        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/img/cards/king_of_hearts.png"));
+        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("poker/GUI/img/cards/king_of_hearts.png"));
         JLabel userCard2 = new JLabel(cardImg2);
         userCard2.setBounds(411,408,70,100);
         return userCard2;
@@ -177,7 +177,7 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
 
     public JLabel backCard(int x, int y){
 
-        ImageIcon back = new ImageIcon(getClass().getResource("/img/cards/back.png"));
+        ImageIcon back = new ImageIcon(getClass().getResource("poker/GUI/img/cards/back.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,50,70);
 
