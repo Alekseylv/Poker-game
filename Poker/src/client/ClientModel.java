@@ -8,14 +8,14 @@ public class ClientModel extends Observable {
 
 	private Card mycards[];
 	private Card fieldcards[];
-	private state state;
+	private State state;
 	private int cash;
 	
 	
 	public ClientModel() {
 		this.mycards = new Card[2];
 		this.fieldcards = new Card[5];
-		this.state = state.READY;
+		this.state = State.READY;
 	}
 	
 	public void setCash(int newCash) {
@@ -49,14 +49,15 @@ public class ClientModel extends Observable {
         notifyObservers(fieldcards);
 	}
 	
-	public state getState() {
+	public State getState() {
 		return this.state;
 	}
 	
-	public void changeState(state newState) {
+	public void changeState(State newState) {
 		this.state = newState;
 		setChanged();
         notifyObservers(state);
+        
 	}
 	
 	
