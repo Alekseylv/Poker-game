@@ -65,10 +65,14 @@ public class Player extends Observable {
     public void toggleDealer() {
         dealer=!dealer;
     }
+    
     public void toggleFold() {
         fold=!fold;
     }
+    
     public Card[] getHand() {
     	return hand;
     }
+    
+    
 }

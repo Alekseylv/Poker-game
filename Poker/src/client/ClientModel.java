@@ -8,14 +8,12 @@ import poker.arturka.Card;
 
 public class ClientModel extends Observable {
 
-	private Card mycards[];
 	private Card fieldcards[];
 	private State state;
 	private List<ClientSidePlayer> players;	
 	private int id;
 	
 	public ClientModel() {
-		this.mycards = new Card[2];
 		this.fieldcards = new Card[5];
 		this.state = State.READY;
 		this.players = new ArrayList<ClientSidePlayer>();
@@ -36,20 +34,30 @@ public class ClientModel extends Observable {
         notifyObservers(this.id);
 	}
 	
-	public Card[] getMyCards() {
+	public void setCards(int id, Card card1, Card card2) {
 		for(ClientSidePlayer i: players) {
 			if(i.getId() == id) {
-				return i.g
+				i.giveCards(card1, card2);
 			}
 		}
 	}
 	
-	public void setMyField(Card card1, Card card2) {
-		mycards[1] = card1;
-		mycards[2] = card2;
+	public Card[] getCards(int idt) {
+		for(ClientSidePlayer i: players) {
+			if(i.getId() == idt) {
+				return i.getHand();
+			}
+		}
 		
-		setChanged();
-        notifyObservers(mycards);
+		return null;
+	}
+	
+	public Card[] getMyCards() {
+		return this.getCards(this.id);
+	}
+	
+	public void setMyField(Card card1, Card card2) {
+		this.setCards(id, card1, card2);
 	}
 	
 	public Card[] getFieldCards() {
