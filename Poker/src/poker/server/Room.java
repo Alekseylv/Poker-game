@@ -4,7 +4,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import poker.arturka.Game;
 
 public class Room implements Runnable {
@@ -18,9 +17,9 @@ public class Room implements Runnable {
 	}
 
 	public void run() {
-		// pokerGame = new Game(this);
-		// Thread t = new Thread(pokerGame);
-		// t.start();
+		pokerGame = new Game(this);
+		Thread t = new Thread(pokerGame);
+		t.start();
 		System.out.println("Game started in room ID: " + roomID
 				+ ". Player count: " + this.connections.size());
 	}

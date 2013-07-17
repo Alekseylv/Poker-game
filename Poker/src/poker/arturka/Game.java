@@ -4,7 +4,7 @@ import commands.FRCallCommand;
 import commands.FRCheckCommand;
 import commands.FlopCommand;
 import commands.TurnRiverCommand;
-import server.Room;
+import poker.server.Room;
 
 import java.util.ArrayList;
 import java.util.List;
