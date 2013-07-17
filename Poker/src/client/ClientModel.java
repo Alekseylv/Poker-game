@@ -21,6 +21,9 @@ public class ClientModel extends Observable {
 	
 	public void setPlayerList(List<ClientSidePlayer> players) {
 		this.players = players;
+		
+		setChanged();
+        notifyObservers(this.players);
 	}
 	
 	public int getID() {
