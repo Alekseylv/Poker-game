@@ -33,17 +33,20 @@ public class Game implements Runnable {
         }
     }
 
-    private void splitPot(){
-
-    }
-
     private void endGame(){
         if (players.playersLeft().size()>1){
             Player bestPlayer = players.getBestPlayer();
             if(bestPlayer.getBet()==maxBet){
                 bestPlayer.giveCash(players.getPot());
             }else{
-
+                int miniPot=bestPlayer.getBet()*(players.playersLeft().size()-1);
+                int fullPot=players.getPot();
+                bestPlayer.giveCash(miniPot);
+                List<Player> getMoneyBack=players.getPlayersList();
+                getMoneyBack.remove(bestPlayer);
+                for(Player player:getMoneyBack){
+                    player.giveCash((fullPot-miniPot)/getMoneyBack.size());
+                }
             }
         }else{
             players.playersLeft().get(0).giveCash(players.getPot());

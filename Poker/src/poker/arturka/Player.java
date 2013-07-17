@@ -92,4 +92,8 @@ public class Player extends Observable {
         inGame=!inGame;
     }
 
+    public boolean equals(Player player){
+        return player.getId()==id;
+    }
+
 }
