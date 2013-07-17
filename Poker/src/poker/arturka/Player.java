@@ -11,12 +11,14 @@ public class Player {
     private int cash;
     private Card[] hand;
     private boolean dealer;
-    int pot;
+    private boolean fold;
+    private int bet;
 
     public Player(int id){
         this.id=id;
         this.cash=1000;
         hand=new Card[2];
+        fold=false;
     }
 
     public void giveCash(int cash){
@@ -35,10 +37,17 @@ public class Player {
         return cash;
     }
 
+    public int getBet(){
+        return bet;
+    }
+
+    public boolean hasFolded(){
+        return fold;
+    }
     public boolean bet(int ammount){
         if(ammount<cash){
             cash-=ammount;
-            pot+=ammount;
+            bet+=ammount;
             return true;
         }
         return false;
@@ -50,5 +59,8 @@ public class Player {
 
     public void toggleDealer() {
         dealer=!dealer;
+    }
+    public void toggleFold() {
+        fold=!fold;
     }
 }

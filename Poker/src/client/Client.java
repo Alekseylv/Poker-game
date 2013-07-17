@@ -15,15 +15,12 @@ public class Client {
 		
 		try {
 			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);
-			PrintWriter out = new PrintWriter(socket.getOutputStream());
-			
-			Scanner in = new Scanner(socket.getInputStream());
-			in.useDelimiter("\n");
-			
+						
 			TaskQueue que = new TaskQueue();
-			Conn conn = new Conn(socket, out);
+			Conn conn = new Conn(socket, socket.getOutputStream());
 			
-			ServerListener listener = new ServerListener(in , que);
+			ServerListener listener = new ServerListener(
+					socket.getInputStream() , que);
 			ClientGame game = new ClientGame(conn, que);	
 			
 			Thread listenerThread = new Thread(listener);

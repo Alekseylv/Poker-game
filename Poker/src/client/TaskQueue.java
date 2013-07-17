@@ -3,21 +3,23 @@ package client;
 import java.util.ArrayList;
 import java.util.List;
 
+import commands.Command;
+
 public class TaskQueue {
 	
-	private List<String> taskList;
+	private List<Command> taskList;
 	
 	public TaskQueue(){
-		taskList = new ArrayList <String>();	
+		taskList = new ArrayList <Command>();	
 	}
 
-	public synchronized void addTask(String task){	
+	public synchronized void addTask(Command task){	
 		
 		taskList.add(task);		
 		notify();
 	}
 	
-	public  synchronized String getNextTask(){
+	public  synchronized Command getNextTask(){
 		if(taskList.isEmpty()){
 			return null;
 		}else{

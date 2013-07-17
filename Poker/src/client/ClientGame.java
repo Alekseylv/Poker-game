@@ -1,5 +1,7 @@
 package client;
 
+import commands.Command;
+
 import poker.GUI.ClientView;
 
 public class ClientGame implements Runnable {
@@ -38,6 +40,9 @@ public class ClientGame implements Runnable {
 					}
 				}
 			}
+		
+		Command task = taskList.getNextTask();
+		task.execute(model);
 			
 		// something goes here?? like
 		// parsing commands and executing them
