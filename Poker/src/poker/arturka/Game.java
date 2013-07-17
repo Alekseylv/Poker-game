@@ -5,6 +5,7 @@ import commands.FRCheckCommand;
 import commands.FlopCommand;
 import commands.TurnRiverCommand;
 import poker.server.Room;
+import message.data.ClientTurn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,20 +78,20 @@ public class Game implements Runnable {
                     String Move = room.sendToUser(better.getId(),new FRCallCommand());
                 }
                 switch(moveEnum){
-                    case FOLD:
+                    case ClientTurn.FOLD:
                         better.toggleFold();
                         continue;
-                    case CHECK:
+                    case ClientTurn.CHECK:
                         continue;
-                    case CALL:
+                    case ClientTurn.CALL:
                         better.bet(maxBet-better.getBet());
                         continue;
-                    case RAISE:
+                    case ClientTurn.RAISE:
                         better.bet(moveInt);
                         raiseBet(better.getBet());
                         firstBetter=better;
                         continue;
-                    case EXIT:
+                    case ClientTurn.EXIT:
                         better.toggleFold();
                         players.removePlayer(better.getId());
                 }
