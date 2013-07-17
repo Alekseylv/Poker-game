@@ -45,17 +45,10 @@ public class ClientGame implements Runnable {
 		
 		Command task = taskList.getNextTask();
 		task.execute(model);
-			
-		// something goes here?? like
-		// parsing commands and executing them
 		}
 	}
 	
 	public void stop(){
 		this.running = false;
-	}
-	
-	public void ParseTask() {
-		// need to implement message passing between client and server
 	}
 }

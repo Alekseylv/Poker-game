@@ -1,8 +1,9 @@
 package client;
 
+import java.util.List;
 import java.util.Observable;
-
 import poker.arturka.Card;
+import poker.arturka.Player;
 
 public class ClientModel extends Observable {
 
@@ -10,15 +11,25 @@ public class ClientModel extends Observable {
 	private Card fieldcards[];
 	private State state;
 	private int cash;
-	
-	
-	
+	private List<Player> players;	
+	private int id;
 	
 	public ClientModel() {
 		this.mycards = new Card[2];
 		this.fieldcards = new Card[5];
 		this.state = State.READY;
 		this.cash = 0;
+	}
+	
+	public int getID() {
+		return id;
+	}
+	
+	public void setID(int id) {
+		this.id = id;
+		
+		setChanged();
+        notifyObservers(this.id);
 	}
 	
 	public void setCash(int newCash) {

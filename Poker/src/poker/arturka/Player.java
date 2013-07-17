@@ -1,12 +1,14 @@
 package poker.arturka;
 
+import java.util.Observable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mordavolt
  * Date: 7/16/13
  * Time: 1:33 PM
  */
-public class Player {
+public class Player extends Observable {
     private int id;
     private int cash;
     private Card[] hand;
