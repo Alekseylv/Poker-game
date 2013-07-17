@@ -6,7 +6,6 @@ import commands.FlopCommand;
 import commands.TurnRiverCommand;
 import message.data.ClientResponse;
 import poker.server.Room;
-import message.data.ClientTurn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +39,19 @@ public class Game implements Runnable {
 
     private void endGame(){
         if (players.playersLeft().size()>1){
+            Player bestPlayer = players.getBestPlayer();
+            if(bestPlayer.getBet()==maxBet){
+                bestPlayer.giveCash(players.getPot());
+            }else{
 
+            }
         }else{
             players.playersLeft().get(0).giveCash(players.getPot());
+        }
+        for(Player currentPlayer: players.getPlayersList()){
+            if(currentPlayer.isInGame()&&currentPlayer.getCash()==0){
+                currentPlayer.toggleInGame();
+            }
         }
     }
 
@@ -71,12 +80,10 @@ public class Game implements Runnable {
         }
         raiseBet(nextPlayer.getBet());
         deck.shuffleDeck();
-        Player currentPlayer=players.getNextPlayer(players.getDealer());
-        do{
+        for(Player currentPlayer: players.getPlayersList()){
             currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
-        }while(players.getDealer()!=currentPlayer);
+        }
         Player firstBetter=players.getNextPlayer(nextPlayer);
-        //todo abstractions, rewrite to actual methods
         Player better=firstBetter;
         ClientResponse move;
         while(state<4){
@@ -110,7 +117,7 @@ public class Game implements Runnable {
                     }
                 }
                 better=players.getNextPlayer(better);
-            }while (better==firstBetter);
+            }while (better!=firstBetter);
             switch (state){
                 case 0:
                     table.add(deck.getTopCard());
