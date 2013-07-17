@@ -1,44 +1,63 @@
 package client;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import poker.arturka.Card;
 
 public class ClientModel extends Observable {
 
-	private Card mycards[];
 	private Card fieldcards[];
 	private State state;
-	private int cash;
-	
+	private List<ClientSidePlayer> players;	
+	private int id;
 	
 	public ClientModel() {
-		this.mycards = new Card[2];
 		this.fieldcards = new Card[5];
 		this.state = State.READY;
+		this.players = new ArrayList<ClientSidePlayer>();
 	}
 	
-	public void setCash(int newCash) {
-		this.cash = newCash;
+	public void setPlayerList(List<ClientSidePlayer> players) {
+		this.players = players;
+	}
+	
+	public int getID() {
+		return id;
+	}
+	
+	public void setID(int id) {
+		this.id = id;
 		
 		setChanged();
-        notifyObservers(mycards);
+        notifyObservers(this.id);
 	}
 	
-	public int getCash() {
-		return this.cash; 
+	public void setCards(int id, Card card1, Card card2) {
+		for(ClientSidePlayer i: players) {
+			if(i.getId() == id) {
+				i.giveCards(card1, card2);
+			}
+		}
+	}
+	
+	public Card[] getCards(int idt) {
+		for(ClientSidePlayer i: players) {
+			if(i.getId() == idt) {
+				return i.getHand();
+			}
+		}
+		
+		return null;
 	}
 	
 	public Card[] getMyCards() {
-		return mycards.clone();
+		return this.getCards(this.id);
 	}
 	
 	public void setMyField(Card card1, Card card2) {
-		mycards[1] = card1;
-		mycards[2] = card2;
-		
-		setChanged();
-        notifyObservers(mycards);
+		this.setCards(id, card1, card2);
 	}
 	
 	public Card[] getFieldCards() {

@@ -4,7 +4,9 @@ import commands.FRCallCommand;
 import commands.FRCheckCommand;
 import commands.FlopCommand;
 import commands.TurnRiverCommand;
-import server.Room;
+import message.data.ClientResponse;
+import poker.server.Room;
+import message.data.ClientTurn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ public class Game implements Runnable {
     private List<Card> table;
     private int maxBet;
     private int state;
+    private Room room;
 
     public Game(Room room){
         deck=new Deck();
@@ -25,6 +28,7 @@ public class Game implements Runnable {
         maxBet=0;
         table=new ArrayList<Card>();
         state=0;
+        this.room=room;
         for(int id: room.getUsers()){
             players.addPlayer(id);
         }
@@ -32,6 +36,14 @@ public class Game implements Runnable {
 
     private void splitPot(){
 
+    }
+
+    private void endGame(){
+        if (players.playersLeft().size()>1){
+
+        }else{
+            players.playersLeft().get(0).giveCash(players.getPot());
+        }
     }
 
     private boolean raiseBet(int playerPot){
@@ -64,54 +76,65 @@ public class Game implements Runnable {
             currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
         }while(players.getDealer()!=currentPlayer);
         Player firstBetter=players.getNextPlayer(nextPlayer);
-        //abstractions, rewrite to actual methods
+        //todo abstractions, rewrite to actual methods
         Player better=firstBetter;
-        do{
-            if(!better.hasFolded()){
-                if(better.getBet()==maxBet){
-                    String Move = Room.sendToUser(better.getId(),new FRCheckCommand());
-                }else{
-                    String Move = Room.sendToUser(better.getId(),new FRCallCommand());
+        ClientResponse move;
+        while(state<4){
+            do{
+                if(!better.hasFolded()&&better.getCash()>0){
+                    if(better.getBet()==maxBet){
+                        move = room.sendToUser(better.getId(),new FRCheckCommand());
+                    }else{
+                        move = room.sendToUser(better.getId(),new FRCallCommand());
+                    }
+                    switch(move.turn){
+                        case FOLD:
+                            better.toggleFold();
+                            continue;
+                        case CHECK:
+                            continue;
+                        case CALL:
+                            better.bet(maxBet-better.getBet());
+                            continue;
+                        case RAISE:
+                            better.bet(move.getBet());
+                            raiseBet(better.getBet());
+                            firstBetter=better;
+                            continue;
+                        case EXIT:
+                            better.toggleFold();
+                            players.removePlayer(better.getId());
+                    }
+                    if(players.playersLeft().size()<2){
+                        endGame();
+                    }
                 }
-                switch(moveEnum){
-                    case FOLD:
-                        better.toggleFold();
-                        continue;
-                    case CHECK:
-                        continue;
-                    case CALL:
-                        better.bet(maxBet-better.getBet());
-                        continue;
-                    case RAISE:
-                        better.bet(moveInt);
-                        raiseBet(better.getBet());
-                        firstBetter=better;
-                        continue;
-                    case EXIT:
-                        better.toggleFold();
-                        players.removePlayer(better.getId());
-                }
-                if(players.playersLeft()<2){
-                    splitPot();
-                }
+                better=players.getNextPlayer(better);
+            }while (better==firstBetter);
+            switch (state){
+                case 0:
+                    table.add(deck.getTopCard());
+                    table.add(deck.getTopCard());
+                    table.add(deck.getTopCard());
+                    room.Broadcast(new FlopCommand(table.get(0),table.get(1),table.get(2)));
+                    state++;
+                    break;
+                case 1:
+                    deck.getTopCard();
+                    table.add(deck.getTopCard());
+                    room.Broadcast(new TurnRiverCommand(table.get(3), TurnRiverCommand.RorT.TURN));
+                    state++;
+                    break;
+                case 2:
+                    deck.getTopCard();
+                    table.add(deck.getTopCard());
+                    room.Broadcast(new TurnRiverCommand(table.get(4), TurnRiverCommand.RorT.RIVER));
+                    state++;
+                    break;
+                default:
+                    state++;
             }
-            better=players.getNextPlayer(better);
-        }while (better==firstBetter);
-        switch (state){
-            case 0:
-                table.add(deck.getTopCard());
-                table.add(deck.getTopCard());
-                table.add(deck.getTopCard());
-                Room.Broadcast(new FlopCommand(table.get(0),table.get(1),table.get(2)));
-                break;
-            case 1:
-                deck.getTopCard();
-                table.add(deck.getTopCard());
-                Room.Broadcast(new TurnRiverCommand(table.get(3),TurnRiverCommand.RorT.Turn));
-            case 2:
-                deck.getTopCard();
-                table.add(deck.getTopCard());
-                Room.Broadcast(new TurnRiverCommand(table.get(4),TurnRiverCommand.RorT.River));
         }
+        endGame();
     }
 }

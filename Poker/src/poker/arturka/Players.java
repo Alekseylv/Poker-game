@@ -1,8 +1,6 @@
 package poker.arturka;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,13 +55,33 @@ public class Players {
         }
     }
 
-    public int playersLeft(){
-        int j=0;
+    public int getPot(){
+        int pot=0;
+        for(int i=0;i<playerList.size();i++){
+            pot+=playerList.get(i).getBet();
+            playerList.get(i).setCash(0);
+        }
+        return pot;
+    }
+
+    public List<Player> playersLeft(){
+        List<Player> tempList=new ArrayList<Player>();
         for(int i=0;i<playerList.size();i++){
             if(!playerList.get(i).hasFolded()){
-                j++;
+                tempList.add(playerList.get(i));
             }
         }
-        return j;
+        return tempList;
     }
+
+    public List<Player> allInPlayers(){
+        List<Player> tempList=new ArrayList<Player>();
+        for(int i=0;i<playerList.size();i++){
+            if(!playerList.get(i).hasFolded()&&playerList.get(i).getCash()==0){
+                tempList.add(playerList.get(i));
+            }
+        }
+        return tempList;
+    }
+
 }

@@ -28,8 +28,7 @@ public class Client {
 			
 			listenerThread.start();
 			gameThread.start();
-			
-			
+						
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

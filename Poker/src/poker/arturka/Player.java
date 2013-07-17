@@ -1,12 +1,14 @@
 package poker.arturka;
 
+import java.util.Observable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mordavolt
  * Date: 7/16/13
  * Time: 1:33 PM
  */
-public class Player {
+public class Player extends Observable {
     private int id;
     private int cash;
     private Card[] hand;
@@ -36,6 +38,9 @@ public class Player {
     public int getCash() {
         return cash;
     }
+    public void setCash(int cash) {
+        this.cash=cash;
+    }
 
     public int getBet(){
         return bet;
@@ -60,7 +65,18 @@ public class Player {
     public void toggleDealer() {
         dealer=!dealer;
     }
+    
     public void toggleFold() {
         fold=!fold;
     }
+    
+    public Card[] getHand() {
+    	Card[] tempHand = new Card[hand.length];
+    	for (int i = 0; i < tempHand.length; i++) {
+    		tempHand[i] = hand[i];
+    	}
+    	return tempHand;
+    }
+    
+    
 }

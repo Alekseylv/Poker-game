@@ -1,7 +1,8 @@
 package client;
 
-import commands.Command;
+import java.util.Observer;
 
+import commands.Command;
 import poker.GUI.ClientView;
 
 public class ClientGame implements Runnable {
@@ -23,6 +24,7 @@ public class ClientGame implements Runnable {
 		this.view = new ClientView(model);
 		this.controller = new ClientController(model, view);
 		
+		model.addObserver(this.controller);
 		view.setVisible(true);
 		
 	}
@@ -43,17 +45,10 @@ public class ClientGame implements Runnable {
 		
 		Command task = taskList.getNextTask();
 		task.execute(model);
-			
-		// something goes here?? like
-		// parsing commands and executing them
 		}
 	}
 	
 	public void stop(){
 		this.running = false;
-	}
-	
-	public void ParseTask() {
-		// need to implement message passing between client and server
 	}
 }

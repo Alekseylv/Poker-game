@@ -32,8 +32,6 @@ public class Server {
 					playersInRoom++;
 					if (playersInRoom == 2) {
 						startGameCountdown();
-					} else if (playersInRoom > 2) {
-						restartGameCountdown();
 					}
 				}
 				playersInRoom = 0;
@@ -46,10 +44,6 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private static void restartGameCountdown() {
-		//Timer needs to be restarted
 	}
 
 	public static void setWaitingTimeExceeded(boolean state) {
