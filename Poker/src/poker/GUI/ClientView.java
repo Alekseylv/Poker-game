@@ -11,6 +11,8 @@ import client.ClientModel;
  * Time: 11:57 AM
  * To change this template use File | Settings | File Templates.
  */
+
+@SuppressWarnings("serial")
 public class ClientView extends JFrame {
 	private ClientModel model;
 	
