@@ -14,7 +14,7 @@ public class SendWinnerListCommand implements Command {
 		this.winnerList = list;
 	}
 	
-	public class Tuple {
+	public static class Tuple {
 		public final int id;
 		public final int cash;
 		
