@@ -4,14 +4,24 @@ import poker.arturka.Card;
 import client.ClientController;
 import client.ClientModel;
 
+/**
+ * Command to open the first three cards on the table
+ * @author Aleksey
+ *
+ */
 @SuppressWarnings("serial")
 public class FlopCommand implements Command {
 
 	private Card card1;
 	private Card card2;
 	private Card card3;
-
 	
+	/**
+	 * Creates the flop command
+	 * @param card1 
+	 * @param card2
+	 * @param card3
+	 */
 	
 	public FlopCommand(Card card1, Card card2, Card card3) {
 		this.card1 = card1;

@@ -7,12 +7,22 @@ import poker.arturka.Player;
 import client.ClientController;
 import client.ClientModel;
 import client.ClientSidePlayer;
+import client.State;
+
+/**
+ * Sends list of all players to a Client
+ * @author Aleksey
+ *
+ */
 
 @SuppressWarnings("serial")
 public class SendPlayerListCommand implements Command {
 
 	private List<Player> list;
-	
+	/**
+	 *  Creates the command
+	 * @param list - player list
+	 */
 	public SendPlayerListCommand(List <Player>list) {
 		this.list = list;
 	}
@@ -27,6 +37,7 @@ public class SendPlayerListCommand implements Command {
 		}
 		
 		model.setPlayerList(playList);	
+		model.changeState(State.PLAYING);
 	}
 
 }
