@@ -71,6 +71,7 @@ public class ClientGame implements Runnable {
 		
 		Command task = taskList.getNextTask();
 		task.execute(model, controller);
+		System.out.println("here");
 		}
 	}
 	
