@@ -113,6 +113,10 @@ public class Players {
     }
 
 	public Player getBestPlayer() {
+		HandEvaluator evaluator = new HandEvaluator(playersLeft());
+		List<Player> playerHandRanking =  evaluator.getPlayerHandEvaluation();
+		if (!playerHandRanking.isEmpty())
+			return playerHandRanking.get(0);
 		return null;
 	}
 
