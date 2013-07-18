@@ -9,12 +9,12 @@ public class HandEvaluatorTest {
 		Card first = new Card(Suit.CLUBS, Rank.ACE);
 		Card second = new Card(Suit.CLUBS, Rank.KING);
 		Card third = new Card(Suit.CLUBS, Rank.QUEEN);
-		Card fourth = new Card(Suit.CLUBS, Rank.FIVE);
-		Card fifth = new Card(Suit.SPADES, Rank.FIVE);
-		Card sixth = new Card(Suit.HEARTS, Rank.TWO);
-		Card seventh = new Card(Suit.DIAMONDS, Rank.TWO);
+		Card fourth = new Card(Suit.SPADES, Rank.TEN);
+		Card fifth = new Card(Suit.SPADES, Rank.TEN);
+		Card sixth = new Card(Suit.CLUBS, Rank.TEN);
+		Card seventh = new Card(Suit.CLUBS, Rank.TWO);
 		Card[] hand = {first, second, third, fourth, fifth, sixth, seventh};
-		System.out.println(HandEvaluator.handIsTwoPair(hand));
+		System.out.println(HandEvaluator.handIsFullHouse(hand, false));
 
 	}
 

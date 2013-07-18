@@ -69,7 +69,7 @@ public class HandEvaluator {
 			return Hand.HIGH_HAND;
 	}
 	
-	static boolean handIsTwoPair(Card[] sortedHand) {
+	private boolean handIsTwoPair(Card[] sortedHand) {
 		int failCount = 0;
 		int tempID = 0;
 		int onePairFound = 0;
@@ -121,9 +121,8 @@ public class HandEvaluator {
 
 	private boolean handIsStraight(Card[] sortedHand) {
 		int failCount = 0;
-		for (int i = 0; i < sortedHand.length; i++) {
-			if (!(i > 0
-					&& sortedHand[i - 1].getRank().ordinal() == sortedHand[i]
+		for (int i = 0; i < sortedHand.length - 1; i++) {
+			if (!(sortedHand[i].getRank().ordinal() == sortedHand[i + 1]
 							.getRank().ordinal() + 1))
 				failCount++;
 			if (failCount > 2)
@@ -133,19 +132,35 @@ public class HandEvaluator {
 	}
 
 	private boolean handIsFlush(Card[] sortedHand) {
-		int failCount = 0;
+		int spadesCount = 0;
+		int diamondsCount = 0;
+		int heartsCount = 0;
+		int clubsCount = 0;
 		for (int i = 0; i < sortedHand.length; i++) {
-			if (!(i > 0
-					&& sortedHand[i - 1].getSuit().equals(
-							sortedHand[i].getSuit())))
-				failCount++;
-			if (failCount > 2)
-				return false;
+			switch (sortedHand[i].getSuit()) {
+			case CLUBS:
+				clubsCount++;
+				break;
+			case HEARTS:
+				heartsCount++;
+				break;
+			case SPADES:
+				spadesCount++;
+				break;
+			case DIAMONDS:
+				diamondsCount++;
+				break;
+			default:
+				break;
+			}
 		}
-		return true;
+		if (spadesCount > 4 || heartsCount > 4 || diamondsCount > 4 || clubsCount > 4)
+			return true;
+		else
+			return false;
 	}
 
-	private boolean handIsFullHouse(Card[] sortedHand, boolean pairFirst) {
+	static boolean handIsFullHouse(Card[] sortedHand, boolean pairFirst) {
 		int failCount = 0;
 		int tempID = 0;
 		int onePairFound = 0;
