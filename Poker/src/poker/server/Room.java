@@ -36,7 +36,8 @@ public class Room implements Runnable {
 			try {
 				out = new ObjectOutputStream(connections.get(id).getClient()
 						.getOutputStream());
-				out.writeObject(new SetIDCommand(id));
+                System.out.println(id);
+                out.writeObject(new SetIDCommand(id));
 				out.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
