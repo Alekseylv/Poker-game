@@ -2,8 +2,12 @@ package poker.GUI;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -16,13 +20,17 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
     JButton foldButton = new JButton();
     JButton raiseButton = new JButton();
     JButton checkButton = new JButton();
+    JButton potSizeSlider = new JButton();
+    JButton TwoxSizeSlider = new JButton();
+    JButton ThreexSizeSlider = new JButton();
     JSlider CashSlider = new JSlider();
     JLabel displayCashSlider = new JLabel();
     FlowLayout layout = new FlowLayout();
     JLabel[][] arrayPlayersCards = new JLabel[8][2];
     JLabel[] arrayPlayersNickCash = new JLabel[8];
+    JLabel[] showFlop = new JLabel[3];
 
-    int Cash = 10000;
+    int Cash = 1000;
     int CashCurrent = 30;
 
     public TableGUI(){
@@ -53,8 +61,12 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
         arrayPlayersNickCash[6] = clientNameCash("Player6", 300, 760, 420);
         arrayPlayersNickCash[7] = clientNameCash("Player7", 300, 570, 510);
 
+        showFlop[0] = showFlop("queen_of_hearts", 265, 180);
+        showFlop[1] = showFlop("ace_of_clubs", 340, 180);
+        showFlop[2] = showFlop("jack_of_hearts", 415, 180);
+
         this.setLayout(layout);
-        this.setContentPane(new JLabel(new ImageIcon(getClass().getResource("poker/GUI/img/pokerTable.jpg"))));
+        this.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/poker/GUI/img/pokerTableNew.jpg"))));
         this.setTitle("Poker Client");
         this.getContentPane().setLayout(null);
         this.setSize(900, 600);
@@ -65,6 +77,9 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
         this.add(raiseButton(), null);
         this.add(CashSlider(), null);
         this.add(displayCashSlider(), null);
+        this.add(potSizeSlider(), null);
+        this.add(TwoxSizeSlider(), null);
+        this.add(ThreexSizeSlider(), null);
         this.add(userCard1(), null);
         this.add(userCard2(), null);
 
@@ -95,6 +110,14 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
             this.add(arrayPlayersNickCash[i], null);
         }
 
+        for(int i = 0; i < 3; i++){
+            this.add(showFlop[i], null);
+        }
+
+        this.add(showTurn("3_of_diamonds"), null);
+        this.add(showRiver("7_of_clubs"), null);
+
+        this.add(Dealer(450, 330), null);
 //        this.add(arrayPlayersNickCash[0], null);
 //        this.add(arrayPlayersNickCash[1], null);
 //        this.add(arrayPlayersNickCash[2], null);
@@ -106,33 +129,42 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
     }
 
     public JLabel displayNick(){
-        displayNick.setBounds(400, 515, 100, 20);
+        displayNick.setBounds(403, 515, 100, 20);
         displayNick.setForeground(Color.WHITE);
         displayNick.setHorizontalAlignment( SwingConstants.CENTER );
         return displayNick;
     }
     public JLabel displayCash(){
-        displayCash.setBounds(425, 530, 50, 25);
+        displayCash.setBounds(428, 530, 50, 25);
         displayCash.setForeground(Color.WHITE);
         displayCash.setHorizontalAlignment( SwingConstants.CENTER );
-        displayCash.setText("$" + String.valueOf(Cash));
+        displayCash.setText("(" + String.valueOf(Cash) + ")");
         return displayCash;
     }
 
     public JButton foldButton(){
-        foldButton.setBounds(15, 555, 85, 30);
+        foldButton.setBounds(15, 562, 85, 30);
         foldButton.setText("FOLD");
+        foldButton.setForeground(Color.WHITE);
+        foldButton.setOpaque(false);
+        foldButton.setContentAreaFilled(false);
         return foldButton;
     }
     public JButton checkButton(){
-        checkButton.setBounds(105, 555, 85, 30);
+        checkButton.setBounds(105, 562, 85, 30);
         checkButton.setText("CHECK");
+        checkButton.setForeground(Color.WHITE);
+        checkButton.setOpaque(false);
+        checkButton.setContentAreaFilled(false);
         return checkButton;
     }
     public JButton raiseButton(){
-        raiseButton.setBounds(195, 555, 85, 30);
+        raiseButton.setBounds(195, 562, 85, 30);
         raiseButton.setText("RAISE");
-        raiseButton.setEnabled(false);
+        raiseButton.setForeground(Color.WHITE);
+        raiseButton.setEnabled(true);
+        raiseButton.setOpaque(false);
+        raiseButton.setContentAreaFilled(false);
         raiseButton.addActionListener(this);
         return raiseButton;
     }
@@ -140,7 +172,7 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
     public JSlider CashSlider(){
         int tick = (Cash - 30) / 2;
 
-        CashSlider.setBounds(675, 540, 210, 50);
+        CashSlider.setBounds(675, 550, 210, 50);
         CashSlider.setMaximum(Cash);
         CashSlider.setMinimum(30);
         CashSlider.setValue(30);
@@ -151,33 +183,65 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
         CashSlider.setPaintLabels(true);
         CashSlider.setBackground(Color.GRAY);
         CashSlider.setForeground(Color.WHITE);
-        CashSlider.setSnapToTicks(true);
+        CashSlider.setSnapToTicks(false);
+        CashSlider.setOpaque(false);
+
+
         return CashSlider;
     }
     public JLabel displayCashSlider(){
-        displayCashSlider.setBounds(840, 520, 45, 25);
-        displayCashSlider.setHorizontalAlignment( SwingConstants.RIGHT );
+
+        displayCashSlider.setBounds(820, 525, 50, 25);
         displayCashSlider.setForeground(Color.WHITE);
-        displayCashSlider.setText("$" + CashSlider.getValue());
+        displayCashSlider.setHorizontalAlignment( SwingConstants.RIGHT );
+
+        displayCashSlider.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        displayCashSlider.setText("" + CashSlider.getValue());
         return displayCashSlider;
+    }
+    public JButton potSizeSlider(){
+        potSizeSlider.setBounds(705, 525, 40, 25);
+        potSizeSlider.setText("POT");
+        potSizeSlider.setForeground(Color.WHITE);
+        potSizeSlider.setOpaque(false);
+        potSizeSlider.setContentAreaFilled(false);
+        potSizeSlider.setMargin(new Insets(0,0,0,0));
+        return potSizeSlider;
+    }
+    public JButton TwoxSizeSlider(){
+        TwoxSizeSlider.setBounds(750, 525, 25, 25);
+        TwoxSizeSlider.setText("2X");
+        TwoxSizeSlider.setForeground(Color.WHITE);
+        TwoxSizeSlider.setOpaque(false);
+        TwoxSizeSlider.setContentAreaFilled(false);
+        TwoxSizeSlider.setMargin(new Insets(0,0,0,0));
+        return TwoxSizeSlider;
+    }
+    public JButton ThreexSizeSlider(){
+        ThreexSizeSlider.setBounds(780, 525, 25, 25);
+        ThreexSizeSlider.setText("3X");
+        ThreexSizeSlider.setForeground(Color.WHITE);
+        ThreexSizeSlider.setOpaque(false);
+        ThreexSizeSlider.setContentAreaFilled(false);
+        ThreexSizeSlider.setMargin(new Insets(0,0,0,0));
+        return ThreexSizeSlider;
     }
 
     public JLabel userCard1(){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("poker/GUI/img/cards/3_of_clubs.png"));
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/3_of_clubs.png"));
         JLabel userCard1 = new JLabel(cardImg1);
         userCard1.setBounds(425,415,70,100);
         return userCard1;
     }
     public JLabel userCard2(){
-        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("poker/GUI/img/cards/king_of_hearts.png"));
+        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/king_of_hearts.png"));
         JLabel userCard2 = new JLabel(cardImg2);
         userCard2.setBounds(411,408,70,100);
         return userCard2;
     }
-
     public JLabel backCard(int x, int y){
 
-        ImageIcon back = new ImageIcon(getClass().getResource("poker/GUI/img/cards/back.png"));
+        ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/back.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,50,70);
 
@@ -192,9 +256,32 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
         clientNameCash.setText("<html><body align='center'>" + ClientName + "<br />(" + ClientCash +")</body></html>");
         return clientNameCash;
     }
+    public JLabel Dealer(int x, int y){
 
-    public void showFlop(){
+        ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/Dealer.png"));
+        JLabel backCard = new JLabel(back);
+        backCard.setBounds(x,y,25,20);
 
+        return backCard;
+    }
+
+    public JLabel showFlop(String card, int x, int y){
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
+        JLabel flopCard = new JLabel(cardImg1);
+        flopCard.setBounds(x,y,70,100);
+        return flopCard;
+    }
+    public JLabel showTurn(String card){
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
+        JLabel turnCard = new JLabel(cardImg1);
+        turnCard.setBounds(490, 180, 70, 100);
+        return turnCard;
+    }
+    public JLabel showRiver(String card){
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
+        JLabel riverCard = new JLabel(cardImg1);
+        riverCard.setBounds(565, 180, 70, 100);
+        return riverCard;
     }
 
     public void stateChanged(ChangeEvent e) {
@@ -203,10 +290,11 @@ public class TableGUI extends JFrame implements ChangeListener, ActionListener{
         if(CashCurrent > Cash){
             CashCurrent = Cash;
         }
-        displayCashSlider.setText(String.valueOf("$" + CashCurrent));
+        displayCashSlider.setText(String.valueOf("" + CashCurrent));
     }
     public void actionPerformed(ActionEvent raiseButton) {
         Cash-= CashCurrent;
         displayCash.setText("$" + String.valueOf(Cash));
+
     }
 }
