@@ -6,6 +6,8 @@ import client.ClientModel;
 @SuppressWarnings("serial")
 public class ChangeCashCommand implements Command {
 
+	
+	
 	private int id;
 	private int newCash;
 	

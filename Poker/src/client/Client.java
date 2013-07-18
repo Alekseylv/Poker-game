@@ -8,7 +8,22 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 
+/**
+ * Client Class used as a main entry point for the program and for
+ * initializing parameters.
+ * 
+ * @author Aleksey
+ * 
+ * 
+ */
+
 public class Client {
+	
+	/**
+	 * Main entry point in the client side program
+	 * 
+	 * @param args (is ignored)
+	 */
 	
 	public static void main(String args[]) {
 		
