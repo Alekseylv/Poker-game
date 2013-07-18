@@ -59,11 +59,12 @@ public class ServerListener implements Runnable {
 				// que.addTask(token)
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+                e.printStackTrace();
+                break;
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Failed to load the right Class");
-				e.printStackTrace();
+                e.printStackTrace();
+                break;
 			}
 		}
 	}
