@@ -66,14 +66,14 @@ public class ClientModel extends Observable {
 	 */
 	
 	public ClientSidePlayer getPlayer(int id) {
-		for(ClientSidePlayer i: players) {
-			if(i.getId() == id) {
-				return i;
-			}
-		}
-		
-		return null;
-	}
+        for(ClientSidePlayer i: players) {
+            if(i.getId() == id) {
+                return i;
+            }
+        }
+
+        return null;
+    }
 	
 	/**
 	 * Get's the id of this client
