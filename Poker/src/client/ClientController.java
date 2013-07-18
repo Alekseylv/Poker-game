@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import commands.SendWinnerListCommand.Tuple;
+
 import poker.GUI.ClientView;
 import poker.arturka.Card;
 
@@ -32,6 +34,20 @@ public class ClientController implements Observer {
 		this.model = model;
 		this.view = view;
 	}
+	
+	
+	/**
+	 * Sends the view information about cash won by players
+	 * 
+	 * @param list
+	 * The list of player id's and cash they have won
+	 */
+			
+	
+	public void sendViewWinners(List<Tuple> list) {
+		
+	}
+	
 	/**
 	 * ClientModel change handler
 	 * 

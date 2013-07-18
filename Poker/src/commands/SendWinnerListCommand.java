@@ -25,8 +25,7 @@ public class SendWinnerListCommand implements Command {
 	}
 
 	
-	public void execute(ClientModel model, ClientController controller) {
-		
-		// Add implementation
+	public void execute(ClientModel model, ClientController controller) {	
+		controller.sendViewWinners(winnerList);
 	}
 }
