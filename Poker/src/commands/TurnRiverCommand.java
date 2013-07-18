@@ -4,6 +4,7 @@ import client.ClientController;
 import client.ClientModel;
 import poker.arturka.Card;
 
+@SuppressWarnings("serial")
 public class TurnRiverCommand implements Command {
 
 	private Card card4;

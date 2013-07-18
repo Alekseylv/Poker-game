@@ -9,7 +9,7 @@ import java.util.Observer;
 import poker.GUI.ClientView;
 import poker.arturka.Card;
 
-public class ClientController implements Observer, ActionListener {
+public class ClientController implements Observer {
 
 	private ClientModel model;
 	private ClientView view;
@@ -50,10 +50,5 @@ public class ClientController implements Observer, ActionListener {
 		} else {
 			System.out.println("Not a valid object" + obj);
 		}
-	}
-
-	
-	public void actionPerformed(ActionEvent arg0) {
-		
 	}
 }
