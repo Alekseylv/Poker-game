@@ -20,7 +20,7 @@ public class ClientGame implements Runnable {
 		this.taskList = queue;
 		this.running = true;
 		this.conn = conn;
-		this.model = new ClientModel();
+		this.model = new ClientModel(this.conn);
 		this.view = new ClientView(model);
 		this.controller = new ClientController(model, view);
 		

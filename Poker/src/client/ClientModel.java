@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import message.data.ClientResponse;
+import message.data.ClientTurn;
 import poker.arturka.Card;
 
 public class ClientModel extends Observable {
 
+	private final Conn conn;
 	private Card fieldcards[];
 	private State state;
 	private List<ClientSidePlayer> players;	
 	private int id;
 	
-	public ClientModel() {
+	public ClientModel(Conn conn) {
+		this.conn = conn;
 		this.fieldcards = new Card[5];
 		this.state = State.READY;
 		this.players = new ArrayList<ClientSidePlayer>();
@@ -97,4 +101,20 @@ public class ClientModel extends Observable {
 	}
 	
 	
+
+	public void pressedCall(int cash) {
+		conn.sendResponse(new ClientResponse(ClientTurn.CALL, cash));
+	}
+	
+	public void pressedRaise(int cash) {
+		conn.sendResponse(new ClientResponse(ClientTurn.RAISE, cash));
+	}
+	
+	public void pressedFold() {
+		conn.sendResponse(new ClientResponse(ClientTurn.FOLD));
+	}
+	
+	public void pressedCheck() {
+		conn.sendResponse(new ClientResponse(ClientTurn.CHECK));
+	}
 }
