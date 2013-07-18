@@ -45,7 +45,7 @@ public class ClientController implements Observer {
 			
 	
 	public void sendViewWinners(List<Tuple> list) {
-		
+		// add implementation
 	}
 	
 	/**
