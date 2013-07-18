@@ -101,20 +101,29 @@ public class ClientModel extends Observable {
 	}
 	
 	
+	private void pressedButton(ClientTurn turn, int cash) {
+		if(State.INPUTCALL == this.getState() ||
+			State.INPUTCHECK == this.getState()) 
+		{
+			conn.sendResponse(new ClientResponse(turn, cash));
+			this.changeState(State.PLAYING);
+		}
+	}
 
 	public void pressedCall(int cash) {
-		conn.sendResponse(new ClientResponse(ClientTurn.CALL, cash));
+		this.pressedButton(ClientTurn.CALL, cash);
 	}
 	
 	public void pressedRaise(int cash) {
-		conn.sendResponse(new ClientResponse(ClientTurn.RAISE, cash));
+		this.pressedButton(ClientTurn.RAISE, cash);
 	}
 	
 	public void pressedFold() {
-		conn.sendResponse(new ClientResponse(ClientTurn.FOLD));
+		this.pressedButton(ClientTurn.FOLD, -1);
 	}
 	
 	public void pressedCheck() {
-		conn.sendResponse(new ClientResponse(ClientTurn.CHECK));
+		this.pressedButton(ClientTurn.CHECK, -1);
+
 	}
 }
