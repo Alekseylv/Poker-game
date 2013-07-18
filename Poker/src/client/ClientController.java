@@ -21,7 +21,9 @@ public class ClientController implements Observer {
 		if(arg instanceof Card[] ) {
 			// rewrite Deck cards
 		} else if(arg instanceof State) {
-			// do some changes because of state
+			if(model.getState() == State.READY){
+
+            }
 		} else if(arg instanceof Integer) {
 			// we just got an id
 		} else if(arg instanceof List) {
