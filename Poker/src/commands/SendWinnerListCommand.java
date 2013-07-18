@@ -8,7 +8,7 @@ import client.ClientModel;
 @SuppressWarnings("serial")
 public class SendWinnerListCommand implements Command {
 
-	public final List<Tuple> winnerList;
+	private final List<Tuple> winnerList;
 	
 	public SendWinnerListCommand(List<Tuple> list) {
 		this.winnerList = list;
