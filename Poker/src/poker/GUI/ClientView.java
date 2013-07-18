@@ -207,8 +207,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         ThreexSizeSlider.setEnabled(false);       
     }
     public void stateEnded(){
-           // label + id + cash + [combination]
-    }
+
+    }  // label + id + cash + [combination]
 
 //    TableWindow.add(displayNick(), null);
 //    TableWindow.add(displayCash(), null);
@@ -288,10 +288,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
         return output;
     }
-
-
-    
-
 
     // Methods for CONTROLLER ENDs
 
