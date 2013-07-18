@@ -57,13 +57,16 @@ public class Players {
         return null;
     }
 
-    public void nextDealer(){
-        if (getDealer()!=null){
-            getDealer().toggleDealer();
-            getNextPlayer(getDealer()).toggleDealer();
+    public Player nextDealer(){
+        Player oldDealer;
+        oldDealer=getDealer();
+        if (oldDealer!=null){
+            oldDealer.toggleDealer();
+            getNextPlayer(oldDealer).toggleDealer();
         }else{
             getRandomPlayer().toggleDealer();
         }
+        return oldDealer;
     }
 
     public int getPot(){

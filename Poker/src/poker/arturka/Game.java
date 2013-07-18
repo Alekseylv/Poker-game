@@ -33,6 +33,7 @@ public class Game implements Runnable {
     }
 
     private void endGame(){
+        List<SendWinnerListCommand.Tuple> winners =new ArrayList<SendWinnerListCommand.Tuple>();
         if (players.playersLeft().size()>1){
             List<Player> bestPlayers=players.getBestPlayers();
             int i=0;
@@ -41,14 +42,18 @@ public class Game implements Runnable {
                 currentWinner=bestPlayers.get(i++);
                 int betsForWinner=players.fetchBets(currentWinner.getBet());
                 currentWinner.giveCash(betsForWinner);
+                winners.add(new SendWinnerListCommand.Tuple(currentWinner.getId(),betsForWinner));
             }
         }else{
             players.playersLeft().get(0).giveCash(players.getPot());
+            winners.add(new SendWinnerListCommand.Tuple(players.playersLeft().get(0).getId(), players.getPot()));
         }
+        room.Broadcast(new SendWinnerListCommand(winners));
         for(Player currentPlayer: players.getPlayersList()){
             if(currentPlayer.isInGame()&&currentPlayer.getCash()==0){
                 currentPlayer.toggleInGame();
             }
+            room.Broadcast(new ChangeCashCommand(currentPlayer.getId(),currentPlayer.getCash()));
         }
     }
 
@@ -65,13 +70,14 @@ public class Game implements Runnable {
 //        for(int id: Room.getUsers()){
 //            players.addPlayer(id);
 //        }
+        players.getDealer();
         for(Player player:players.getPlayersList()){
             room.sendToUser(player.getId(), new SetIDCommand(player.getId()));
             room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
         }
         while(players.playersLeft().size()>1){
-            players.nextDealer();
-            //todo send next dealer
+            Player oldDealer=players.nextDealer();
+            room.Broadcast(new ChangeDealersCommand(oldDealer.getId(),players.getDealer().getId()));
             Player nextPlayer=players.getNextPlayer(players.getDealer());
             if (!nextPlayer.bet(blind/2)){
                 nextPlayer.bet(nextPlayer.getCash());
@@ -88,6 +94,7 @@ public class Game implements Runnable {
             for(Player currentPlayer: players.getPlayersList()){
                 currentPlayer.unFold();
                 currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
+                room.sendToUser(currentPlayer.getId(),new SendCardsCommand(currentPlayer.getId(),currentPlayer.getHand()[0],currentPlayer.getHand()[1]));
             }
             Player firstBetter=players.getNextPlayer(nextPlayer);
             Player better=firstBetter;
