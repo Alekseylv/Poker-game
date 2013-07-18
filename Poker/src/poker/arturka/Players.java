@@ -121,4 +121,17 @@ public class Players {
 		return null;
 	}
 
+    public int fetchBets(int bet) {
+        int cash=0;
+        for(Player player:getPlayersList()){
+            if (player.getBet()<bet){
+                cash+=player.getBet();
+                player.setBet(0);
+            }else{
+                cash+=bet;
+                player.reduceBet(bet);
+            }
+        }
+        return cash;
+    }
 }

@@ -54,6 +54,10 @@ public class Player extends Observable {
         return bet;
     }
 
+    public void reduceBet(int ammount){
+        bet-=ammount;
+    }
+
     public boolean hasFolded(){
         return fold;
     }
