@@ -6,11 +6,30 @@ import java.io.ObjectInputStream;
 
 import commands.Command;
 
+
+/**
+ * Used to listen for server messages,
+ * part of the non-blocking input scheme
+ * @author Aleksey
+ *
+ */
 public class ServerListener implements Runnable {
 
+	/**
+	 * in: the inputstream
+	 * que: the object used for communication with the ClientGame
+	 */
 	private ObjectInputStream in;
 	private TaskQueue que;
 	
+	/**
+	 * Constructs the ServerListener from intputstream and communication
+	 * object
+	 * @param in
+	 *  Inputstream
+	 * @param que
+	 *  taskqueue of the {@link ClientGame}
+	 */
 	public ServerListener(InputStream in, TaskQueue que) {
 		try {
 			this.in =  new ObjectInputStream(in);
@@ -21,6 +40,11 @@ public class ServerListener implements Runnable {
 		this.que = que;
 	}
 	
+	
+	/**
+	 * Start of execution, reads in objects sent from the server
+	 * and passes them to {@link ClientGame}
+	 */
 	
 	public void run() {
 		
