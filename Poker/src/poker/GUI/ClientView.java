@@ -11,6 +11,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private ClientModel model;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
+    // Methods' variables START
+
+    String userCardOne;
+    String userCardTwo;
+
+    // Methods' variables END
+
     // LoginWindow variables
     JFrame LoginWindow = new JFrame();
     String PlayerName;
@@ -156,6 +163,23 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 //        this.add(arrayPlayersNickCash[7], null);
     }
 
+    // Methods for CONTROLLER
+
+//    /**
+//     * Get's the hand held cards of this client
+//     * @return card array or null on error
+//     */
+//
+//    public Card[] getMyCards() {
+//        return this.getCards(this.id);
+//    }
+
+
+
+
+    // Methods for CONTROLLER ENDs
+
+
     // TableWindow variables description STARTs
 
     public JLabel displayNick(){
@@ -266,13 +290,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     public JLabel userCard1(){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/img/cards/3_of_clubs.png"));
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/img/cards/" + userCardOne + ".png"));
         JLabel userCard1 = new JLabel(cardImg1);
         userCard1.setBounds(425,415,70,100);
         return userCard1;
     }
     public JLabel userCard2(){
-        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/img/cards/king_of_hearts.png"));
+        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/img/cards/" + userCardTwo + ".png"));
         JLabel userCard2 = new JLabel(cardImg2);
         userCard2.setBounds(411,408,70,100);
         return userCard2;
