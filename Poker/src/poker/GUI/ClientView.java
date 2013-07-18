@@ -2,9 +2,11 @@ package poker.GUI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.*;
 import client.ClientModel;
+import poker.arturka.Card;
 
 @SuppressWarnings("serial")
 public class ClientView extends JFrame implements ChangeListener, ActionListener{
@@ -173,6 +175,69 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 //    public Card[] getMyCards() {
 //        return this.getCards(this.id);
 //    }
+    public ArrayList<String> fromCardToString(Card[] cards ){
+        ArrayList<String> output=new ArrayList<String>();
+        String fileName="";
+        for(Card card:cards){
+            switch (card.getRank()){
+                case TWO:
+                    fileName+="2_of_";
+                    break;
+                case THREE:
+                    fileName+="3_of_";
+                    break;
+                case FOUR:
+                    fileName+="4_of_";
+                    break;
+                case FIVE:
+                    fileName+="5_of_";
+                    break;
+                case SIX:
+                    fileName+="6_of_";
+                    break;
+                case SEVEN:
+                    fileName+="7_of_";
+                    break;
+                case EIGHT:
+                    fileName+="8_of_";
+                    break;
+                case NINE:
+                    fileName+="9_of_";
+                    break;
+                case TEN:
+                    fileName+="10_of_";
+                    break;
+                case JACK:
+                    fileName+="jack_of_";
+                    break;
+                case QUEEN:
+                    fileName+="queen_of_";
+                    break;
+                case KING:
+                    fileName+="king_of_";
+                    break;
+                case ACE:
+                    fileName+="ace_of_";
+                    break;
+            }
+            switch (card.getSuit()){
+                case DIAMONDS:
+                    fileName+="diamonds.png";
+                    break;
+                case HEARTS:
+                    fileName+="hearts.png";
+                    break;
+                case CLUBS:
+                    fileName+="clubs.png";
+                    break;
+                case SPADES:
+                    fileName+="spades.png";
+                    break;
+            }
+            output.add(fileName);
+        }
+        return output;
+    }
 
 
 
