@@ -62,9 +62,9 @@ public class Players {
      * @return Current dealer.
      */
     public Player getDealer(){
-        for(int i=0;i<playerList.size();i++){
-            if(playerList.get(i).isDealer()){
-                return playerList.get(i);
+        for(Player player:getPlayersList()){
+            if(player.isDealer()){
+                return player;
             }
         }
         return null;
