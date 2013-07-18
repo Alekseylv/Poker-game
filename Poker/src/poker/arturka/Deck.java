@@ -14,10 +14,10 @@ public class Deck {
     private Random random;
 
     public Deck(){
+        currentCard=0;
+        random = new Random();
         for(int i=0;i<52;i++){
-            deck[i]=new Card(Card.Suit.values()[i % 13], Card.Rank.values()[i % 4]);
-            currentCard=0;
-            random = new Random();
+            deck[i]=new Card(Card.Suit.values()[i % 4],Card.Rank.values()[i % 13]);
         }
     }
 
