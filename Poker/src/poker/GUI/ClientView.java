@@ -70,7 +70,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
 
         // TableWindow appearance
-        TableWindow.setSize(900, 600);
+        TableWindow.setSize(900, 630);
         TableWindow.setLocation(((screenSize.width / 2) - (TableWindow.getSize().width / 2)), screenSize.height / 2 - TableWindow.getSize().height / 2);
         TableWindow.setResizable(false);
         TableWindow.setVisible(false);

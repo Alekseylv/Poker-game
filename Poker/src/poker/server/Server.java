@@ -10,7 +10,7 @@ public class Server {
 
 	private static final int PORT = 9999;
 	private static final int CONNECTION_LIMIT = 20;
-	private static final int MAX_PLAYERS_IN_ROOM = 10;
+	private static final int MAX_PLAYERS_IN_ROOM = 2;
 	private static final int WAITING_TIMEOUT = 2000;
 
 	private static int roomID = 1;
@@ -31,7 +31,7 @@ public class Server {
 					gameRoom.addUser(client);
 					playersInRoom++;
 					if (playersInRoom == 2) {
-						startGameCountdown();
+						//startGameCountdown();
 					}
 				}
 				playersInRoom = 0;
