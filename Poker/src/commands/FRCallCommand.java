@@ -4,6 +4,7 @@ import client.ClientController;
 import client.ClientModel;
 import client.State;
 
+@SuppressWarnings("serial")
 public class FRCallCommand implements Command {
 
 	public FRCallCommand() {

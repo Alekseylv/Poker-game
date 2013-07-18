@@ -5,6 +5,7 @@ import client.ClientController;
 import client.ClientModel;
 import client.ClientSidePlayer;
 
+@SuppressWarnings("serial")
 public class PlayerMoveCommand implements Command {
 
 	private PlayerMove move;

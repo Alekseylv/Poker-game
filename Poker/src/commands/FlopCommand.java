@@ -4,6 +4,7 @@ import poker.arturka.Card;
 import client.ClientController;
 import client.ClientModel;
 
+@SuppressWarnings("serial")
 public class FlopCommand implements Command {
 
 	private Card card1;
