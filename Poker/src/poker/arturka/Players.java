@@ -57,29 +57,31 @@ public class Players {
         return null;
     }
 
-    public void nextDealer(){
-        if (getDealer()!=null){
-            getDealer().toggleDealer();
-            getNextPlayer(getDealer()).toggleDealer();
+    public Player nextDealer(){
+        Player oldDealer;
+        oldDealer=getDealer();
+        if (oldDealer!=null){
+            oldDealer.toggleDealer();
+            getNextPlayer(oldDealer).toggleDealer();
         }else{
             getRandomPlayer().toggleDealer();
         }
+        return oldDealer;
     }
 
     public int getPot(){
         int pot=0;
         for(int i=0;i<playerList.size();i++){
             pot+=playerList.get(i).getBet();
-            playerList.get(i).setBet(0);
         }
         return pot;
     }
 
     public List<Player> playersLeft(){
         List<Player> tempList=new ArrayList<Player>();
-        for(int i=0;i<playerList.size();i++){
-            if(!playerList.get(i).hasFolded()&&playerList.get(i).isInGame()){
-                tempList.add(playerList.get(i));
+        for(Player player:getPlayersList()){
+            if(!player.hasFolded()&&player.isInGame()){
+                tempList.add(player);
             }
         }
         return tempList;
@@ -87,9 +89,9 @@ public class Players {
 
     public List<Player> allInPlayers(){
         List<Player> tempList=new ArrayList<Player>();
-        for(int i=0;i<playerList.size();i++){
-            if(!playerList.get(i).hasFolded()&&playerList.get(i).getCash()==0&&playerList.get(i).isInGame()){
-                tempList.add(playerList.get(i));
+        for(Player player:getPlayersList()){
+            if(!player.hasFolded()&&player.getCash()==0&&player.isInGame()){
+                tempList.add(player);
             }
         }
         return tempList;
@@ -101,19 +103,38 @@ public class Players {
         return tempList;
     }
 
-    public List<Player> getSafeList(){
+    public List<Player> getSafeList(Player safePlayer){
         List<Player> tempList=new ArrayList<Player>();
         Player tempPlayer;
         for(Player player:getPlayersList()){
             tempPlayer=new Player(player);
-            tempPlayer.giveCards(null,null);
+            if(!tempPlayer.equals(safePlayer)){
+                tempPlayer.giveCards(null,null);
+            }
             tempList.add(tempPlayer);
         }
         return tempList;
     }
 
-	public Player getBestPlayer() {
+	public List<Player> getBestPlayers() {
+		HandEvaluator evaluator = new HandEvaluator(playersLeft());
+		List<Player> playerHandRanking =  evaluator.getPlayerHandEvaluation();
+		if (!playerHandRanking.isEmpty())
+			return playerHandRanking;
 		return null;
 	}
 
+    public int fetchBets(int bet) {
+        int cash=0;
+        for(Player player:getPlayersList()){
+            if (player.getBet()<bet){
+                cash+=player.getBet();
+                player.setBet(0);
+            }else{
+                cash+=bet;
+                player.reduceBet(bet);
+            }
+        }
+        return cash;
+    }
 }

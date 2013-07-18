@@ -54,11 +54,15 @@ public class ClientSidePlayer extends Player {
         notifyObs(true);
     }
 
-    public void toggleFold() {
-       super.toggleFold();
-       
-       notifyObs(true);
-    }
+	public void Fold() {
+		super.Fold();
+	    notifyObs(true);
+	}
+	
+	public void unFold() {
+		super.unFold();
+	    notifyObs(true);
+	}
 
     public void setBet(int bet){
         super.setBet(bet);

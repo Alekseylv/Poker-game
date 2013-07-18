@@ -4,16 +4,20 @@ import client.ClientController;
 import client.ClientModel;
 
 @SuppressWarnings("serial")
-public class SetIDCommand implements Command {
+public class ChangeCashCommand implements Command {
 
-	private int id;
 	
-	public SetIDCommand(int id) {
+	
+	private int id;
+	private int newCash;
+	
+	public ChangeCashCommand(int id, int newCash) {
 		this.id = id;
+		this.newCash = newCash;
 	}
 	
 	public void execute(ClientModel model, ClientController controller) {
-		model.setID(this.id);
+		model.getPlayer(id).setCash(newCash);
 	}
 
 }
