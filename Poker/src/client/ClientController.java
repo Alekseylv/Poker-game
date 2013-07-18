@@ -62,7 +62,19 @@ public class ClientController implements Observer {
 			// rewrite Deck cards
 		} else if(arg instanceof State) {
 			if(model.getState() == State.READY){
-
+                view.stateReady();
+            }
+            if(model.getState() == State.INPUTCHECK){
+                view.stateInputCheck();
+            }
+            if(model.getState() == State.INPUTCALL){
+                view.stateInputCall();
+            }
+            if(model.getState() == State.PLAYING){
+                view.statePlaying();
+            }
+            if(model.getState() == State.ENDED){
+                view.stateEnded();
             }
 		} else if(arg instanceof Integer) {
 			// we just got an id
