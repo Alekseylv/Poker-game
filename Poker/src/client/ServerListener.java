@@ -52,7 +52,9 @@ public class ServerListener implements Runnable {
 			try {
 				Object token = in.readObject();
 				que.addTask((Command)token);
-				que.notify();
+				synchronized (que) {
+					que.notify();
+				}
 				// String token = in.next();
 				// que.addTask(token)
 			} catch (IOException e) {
