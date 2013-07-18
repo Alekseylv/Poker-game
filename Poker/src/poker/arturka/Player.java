@@ -74,8 +74,12 @@ public class Player extends Observable {
         dealer=!dealer;
     }
 
-    public void toggleFold() {
-        fold=!fold;
+    public void Fold() {
+        fold=true;
+    }
+
+    public void unFold(){
+        fold=false;
     }
 
     public void setBet(int bet){

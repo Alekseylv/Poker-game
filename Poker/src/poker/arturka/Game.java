@@ -2,6 +2,8 @@ package poker.arturka;
 
 import commands.*;
 import message.data.ClientResponse;
+import message.data.ClientTurn;
+import message.data.PlayerMove;
 import poker.server.Room;
 
 import java.util.ArrayList;
@@ -69,23 +71,27 @@ public class Game implements Runnable {
 //            players.addPlayer(id);
 //        }
         for(Player player:players.getPlayersList()){
-//           todo room.sendToUser(player.getId(), SetIDCommand(player.getId()))
-//            room.sendToUser(player.getId(),)
+            room.sendToUser(player.getId(), new SetIDCommand(player.getId()));
+            room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
         }
         while(players.playersLeft().size()>1){
             players.nextDealer();
+            //todo send next dealer
             Player nextPlayer=players.getNextPlayer(players.getDealer());
             if (!nextPlayer.bet(blind/2)){
                 nextPlayer.bet(nextPlayer.getCash());
             }
             raiseBet(nextPlayer.getBet());
+            room.Broadcast(new PlayerMoveCommand(new PlayerMove(nextPlayer.getId(),ClientTurn.BLIND,nextPlayer.getBet(),nextPlayer.getCash())));
             nextPlayer=players.getNextPlayer(nextPlayer);
             if (!nextPlayer.bet(blind)){
                 nextPlayer.bet(nextPlayer.getCash());
             }
             raiseBet(nextPlayer.getBet());
+            room.Broadcast(new PlayerMoveCommand(new PlayerMove(nextPlayer.getId(),ClientTurn.BLIND,nextPlayer.getBet(),nextPlayer.getCash())));
             deck.shuffleDeck();
             for(Player currentPlayer: players.getPlayersList()){
+                currentPlayer.unFold();
                 currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
             }
             Player firstBetter=players.getNextPlayer(nextPlayer);
@@ -101,20 +107,25 @@ public class Game implements Runnable {
                         }
                         switch(move.turn){
                             case FOLD:
-                                better.toggleFold();
+                                better.Fold();
+                                room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.FOLD,better.getBet(),better.getCash())));
                                 continue;
                             case CHECK:
+                                room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.CHECK,better.getBet(),better.getCash())));
                                 continue;
                             case CALL:
                                 better.bet(maxBet-better.getBet());
+                                room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.CALL,better.getBet(),better.getCash())));
                                 continue;
                             case RAISE:
                                 better.bet(move.getBet());
                                 raiseBet(better.getBet());
                                 firstBetter=better;
+                                room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.RAISE,better.getBet(),better.getCash())));
                                 continue;
                             case EXIT:
-                                better.toggleFold();
+                                better.Fold();
+                                room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.EXIT,better.getBet(),better.getCash())));
                                 players.removePlayer(better.getId());
                         }
                         if(players.playersLeft().size()<2){

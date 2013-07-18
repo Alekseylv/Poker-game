@@ -101,12 +101,14 @@ public class Players {
         return tempList;
     }
 
-    public List<Player> getSafeList(){
+    public List<Player> getSafeList(Player safePlayer){
         List<Player> tempList=new ArrayList<Player>();
         Player tempPlayer;
         for(Player player:getPlayersList()){
             tempPlayer=new Player(player);
-            tempPlayer.giveCards(null,null);
+            if(!tempPlayer.equals(safePlayer)){
+                tempPlayer.giveCards(null,null);
+            }
             tempList.add(tempPlayer);
         }
         return tempList;
