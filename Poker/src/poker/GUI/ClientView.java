@@ -35,6 +35,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JButton foldButton = new JButton();
     JButton raiseButton = new JButton();
     JButton checkButton = new JButton();
+    JButton callButton = new JButton();
     JButton potSizeSlider = new JButton();
     JButton TwoxSizeSlider = new JButton();
     JButton ThreexSizeSlider = new JButton();
@@ -111,6 +112,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(displayCash(), null);
         TableWindow.add(foldButton(), null);
         TableWindow.add(checkButton(), null);
+        TableWindow.add(callButton(), null);
         TableWindow.add(raiseButton(), null);
         TableWindow.add(CashSlider(), null);
         TableWindow.add(displayCashSlider(), null);
@@ -167,13 +169,61 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     // Methods for CONTROLLER
 
-//    /**
-//     * Get's the hand held cards of this client
-//     * @return card array or null on error
-//     */
+    public void stateReady(){
+         displayNick.setEnabled(true);
+    }    // to write
+    public void stateInputCheck(){
+        checkButton.setVisible(true);
+        callButton.setVisible(false);
+        foldButton.setEnabled(true);
+        checkButton.setEnabled(true);
+        callButton.setEnabled(true);
+        raiseButton.setEnabled(true);
+        CashSlider.setEnabled(true);
+        potSizeSlider.setEnabled(true);
+        TwoxSizeSlider.setEnabled(true);
+        ThreexSizeSlider.setEnabled(true);
+    }
+    public void stateInputCall(){
+        callButton.setVisible(true);
+        checkButton.setVisible(false);
+        foldButton.setEnabled(true);
+        checkButton.setEnabled(true);
+        callButton.setEnabled(true);
+        raiseButton.setEnabled(true);
+        CashSlider.setEnabled(true);
+        potSizeSlider.setEnabled(true);
+        TwoxSizeSlider.setEnabled(true);
+        ThreexSizeSlider.setEnabled(true);
+    }
+    public void statePlaying(){
+        foldButton.setEnabled(false);
+        checkButton.setEnabled(false);
+        callButton.setEnabled(false);
+        raiseButton.setEnabled(false);
+        CashSlider.setEnabled(false);
+        potSizeSlider.setEnabled(false);
+        TwoxSizeSlider.setEnabled(false);
+        ThreexSizeSlider.setEnabled(false);       
+    }
+    public void stateEnded(){
+           // label + id + cash + [combination]
+    }
+
+//    TableWindow.add(displayNick(), null);
+//    TableWindow.add(displayCash(), null);
+//    TableWindow.add(foldButton(), null);
+//    TableWindow.add(checkButton(), null);
+//    TableWindow.add(callButton(), null);
+//    TableWindow.add(raiseButton(), null);
+//    TableWindow.add(CashSlider(), null);
+//    TableWindow.add(displayCashSlider(), null);
+//    TableWindow.add(potSizeSlider(), null);
+//    TableWindow.add(TwoxSizeSlider(), null);
+//    TableWindow.add(ThreexSizeSlider(), null);
+//    TableWindow.add(userCard1(), null);
+//    TableWindow.add(userCard2(), null);
 //
-//    public Card[] getMyCards() {
-//        return this.getCards(this.id);
 //    }
     public ArrayList<String> fromCardToString(Card[] cards ){
         ArrayList<String> output=new ArrayList<String>();
@@ -240,6 +290,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
 
+    
 
 
     // Methods for CONTROLLER ENDs
@@ -280,6 +331,16 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         checkButton.setContentAreaFilled(false);
         checkButton.addActionListener(this);
         return checkButton;
+    }
+    public JButton callButton(){
+        callButton.setActionCommand("call");
+        callButton.setBounds(105, 562, 85, 30);
+        callButton.setText("CALL");
+        callButton.setForeground(Color.WHITE);
+        callButton.setOpaque(false);
+        callButton.setContentAreaFilled(false);
+        callButton.addActionListener(this);
+        return callButton;
     }
     public JButton raiseButton(){
         raiseButton.setActionCommand("raise");
