@@ -8,6 +8,7 @@ import java.util.Observer;
 import message.data.ClientTurn;
 import commands.SendWinnerListCommand;
 import commands.SendWinnerListCommand.Tuple;
+
 import poker.GUI.ClientView;
 import poker.arturka.Card;
 
@@ -102,10 +103,24 @@ public class ClientController implements Observer {
 	 */
 	
 	public void update(ClientSidePlayer player, Object arg) {
-		if(arg instanceof Card[]) {
-			
-		} else if(arg instanceof ClientTurn) {
-			
+		if(arg instanceof ClientTurn) {
+            switch(player.getLastTurn()){
+                case CALL:
+                    view.BroadCast("|PLAYER| has called a bet ($|BET|)");
+                    break;
+                case CHECK:
+                    view.BroadCast("|PLAYER| has checked");
+                    break;
+                case EXIT:
+                    view.BroadCast("|PLAYER| has gone offline");
+                    break;
+                case FOLD:
+                    view.BroadCast("|PLAYER| has folded");
+                    break;
+                case RAISE:
+                    view.BroadCast("|PLAYER| has raised for $|RAISE|");
+                    break;
+                }
 		}
 	}
 	
