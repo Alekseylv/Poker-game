@@ -74,7 +74,7 @@ public class Game implements Runnable {
         players.getDealer();
         System.out.println("we know dealer");
         for(Player player:players.getPlayersList()){
-            room.sendToUser(player.getId(), new SetIDCommand(player.getId()));
+            //room.sendToUser(player.getId(), new SetIDCommand(player.getId()));
             System.out.println("id sent");
 
             room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
