@@ -11,7 +11,7 @@ import poker.arturka.Card;
 
 @SuppressWarnings("serial")
 public class ClientView extends JFrame implements ChangeListener, ActionListener{
-    // private ClientModel model;
+    private ClientModel model;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     // Methods' variables START
@@ -53,7 +53,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     public ClientView(/*ClientModel model*/) {
 
-        // this.model = model;
+        this.model = model;
 
         // LoginWindow appearance
         LoginWindow.setLayout(new FlowLayout());
@@ -517,11 +517,15 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     public void actionPerformed(ActionEvent e) {
         if("raise".equals(e.getActionCommand())){
-            Cash-= CashCurrent;
-            displayCash.setText("$" + String.valueOf(Cash));
-
+           model.pressedRaise(CashSlider.getValue());
         } else if("check".equals(e.getActionCommand())){
-            // check
+            model.pressedCheck();
+
+        } else if("call".equals(e.getActionCommand())){
+            // model.pressedCall
+
+        } else if("fold".equals(e.getActionCommand())){
+            model.pressedFold();
 
         } else if("connect".equals(e.getActionCommand())){
             if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
