@@ -92,6 +92,13 @@ public class Game implements Runnable {
             System.out.println("ulist sent");
         }
         while(players.playersLeft().size()>1){
+            deck.shuffleDeck();
+            for(Player currentPlayer: players.getPlayersList()){
+                currentPlayer.unFold();
+                currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
+                room.sendToUser(currentPlayer.getId(),new SendCardsCommand(currentPlayer.getId(),currentPlayer.getHand()[0],currentPlayer.getHand()[1]));
+                System.out.println("Send to: "+currentPlayer.getId()+" HAND");
+            }
             Player oldDealer=players.nextDealer();
             room.Broadcast(new ChangeDealersCommand(oldDealer.getId(),players.getDealer().getId()));
             System.out.println("BROADCAST NEW DEALER");
