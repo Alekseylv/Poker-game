@@ -50,8 +50,15 @@ public class ServerListener implements Runnable {
 		
 		Object token = null;
 		while(true) {
-			try {
-				token = in.readObject();
+			
+				try {
+					token = in.readObject();
+				} catch (IOException e) {
+					e.printStackTrace();
+					break;
+				} catch (ClassNotFoundException e) {
+					continue;
+				}
 				System.out.println("Received token");
 				System.out.println(token);
 				if(token == null) {
@@ -64,10 +71,7 @@ public class ServerListener implements Runnable {
 				}
 				// String token = in.next();
 				// que.addTask(token)
-			} catch (Exception e) {
-				System.out.println("Closed");
-				break;
-			}
+			
 		}
 	}
 }
