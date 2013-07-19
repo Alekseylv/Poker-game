@@ -69,7 +69,7 @@ public class ClientGame implements Runnable {
 					task = taskList.getNextTask();
 					if(task != null) {
 						task.execute(this.model, this.controller);
-						System.out.println("here");
+						System.out.println("Executed command");
 					} else {
 						System.out.println("Task is null, discarding it");
 					}
