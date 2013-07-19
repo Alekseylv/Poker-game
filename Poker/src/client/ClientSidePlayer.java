@@ -24,6 +24,14 @@ public class ClientSidePlayer extends Player {
 	 */
 	public ClientSidePlayer(Player player) {
 		super(player.getId());
+		super.setBet(player.getBet());
+		super.setCash(player.getCash());
+		Card[] hand = player.getHand();
+		super.giveCards(hand[0], hand[1]);
+		if(player.isDealer()) super.toggleDealer();
+		if(!player.isInGame()) super.toggleInGame();
+		if(player.hasFolded()) super.Fold();
+		super.setBet(player.getBet());		
 		this.lastTurn = null;
 	}
 	

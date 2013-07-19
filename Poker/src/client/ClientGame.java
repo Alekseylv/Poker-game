@@ -20,9 +20,9 @@ public class ClientGame implements Runnable {
 	 * running: switch to turn off the thread
 	 * taskList: a queue for server commands
 	 */
-	private ClientModel model;
-	private ClientView view;
-	private ClientController controller;
+	public final ClientModel model;
+	public final ClientView view;
+	public final ClientController controller;
 	private volatile boolean running;
 	private TaskQueue taskList;
 	
