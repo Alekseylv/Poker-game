@@ -45,13 +45,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JLabel[][] arrayPlayersCards = new JLabel[8][2];
     JLabel[] arrayPlayersNickCash = new JLabel[9];
     JLabel[] showTable = new JLabel[5];
-    JLabel winner = new JLabel();
+    JLabel Broadcast = new JLabel();
 
     int Cash = 1000;
     int CashCurrent = 30;
     // TableWindow variables end
 
-    public ClientView(/*ClientModel model*/) {
+    public ClientView(ClientModel model) {
 
         this.model = model;
 
@@ -77,7 +77,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.setResizable(false);
         TableWindow.setVisible(false);
         TableWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        TableWindow.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/img/pokerTableNew.jpg"))));
+        TableWindow.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/poker/GUI/img/pokerTableNew.jpg"))));
         TableWindow.setTitle("Poker Client");
 
         arrayPlayersCards[0][0] = backCard(260,435);
@@ -110,7 +110,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(ThreexSizeSlider(), null);
         TableWindow.add(userCard1(), null);
         TableWindow.add(userCard2(), null);
-        TableWindow.add(displayWinner(), null);
+        TableWindow.add(displayBroadcast(), null);
 
         for(int i = 0; i < 8; i++){
             for(int k = 0; k < 2; k++){
@@ -140,6 +140,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     // Methods for CONTROLLER
 
     public void stateReady(){
+        Broadcast.setText("Waiting for players!");
+        Broadcast.setVisible(true);
         foldButton.setEnabled(false);
         raiseButton.setEnabled(false);
         checkButton.setEnabled(false);
@@ -184,7 +186,9 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         ThreexSizeSlider.setEnabled(false);
     }
     public void stateEnded(){
-        winner.setVisible(true);
+        Broadcast.setText("|PLAYER| has won |CASH||");
+        Broadcast.setVisible(true);
+
     }
 
     public void tableCards(Card[] cards){
@@ -247,6 +251,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                 }
             }
         }
+    }
+
+    public void BroadCast(String toChange){
+
     }
 
     public ArrayList<String> fromCardToString(Card[] cards ){
@@ -332,13 +340,14 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 //        displayCash.setText("(" + String.valueOf(Cash) + ")");
 //        return displayCash;
 //    }
-    public JLabel displayWinner(){
-        JLabel winner = new JLabel("Player has won cash.");
-        winner.setBounds(350, 565, 200, 20);
-        winner.setForeground(Color.WHITE);
-        winner.setHorizontalAlignment( SwingConstants.CENTER );
-        winner.setVisible(false);
-        return winner;
+    public JLabel displayBroadcast(){
+        JLabel Broadcast = new JLabel();
+        Broadcast.setText("");
+        Broadcast.setBounds(350, 565, 200, 20);
+        Broadcast.setForeground(Color.WHITE);
+        Broadcast.setHorizontalAlignment( SwingConstants.CENTER );
+        Broadcast.setVisible(false);
+        return Broadcast;
     }
     public JButton foldButton(){
         foldButton.setActionCommand("fold");
@@ -443,20 +452,20 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     public JLabel userCard1(){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/img/cards/3_of_spades.png"));
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/3_of_spades.png"));
         JLabel userCard1 = new JLabel(cardImg1);
         userCard1.setBounds(425,415,70,100);
         return userCard1;
     }
     public JLabel userCard2(){
-        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/img/cards/6_of_clubs.png"));
+        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/6_of_clubs.png"));
         JLabel userCard2 = new JLabel(cardImg2);
         userCard2.setBounds(411,408,70,100);
         return userCard2;
     }
     public JLabel backCard(int x, int y){
 
-        ImageIcon back = new ImageIcon(getClass().getResource("/img/cards/back.png"));
+        ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/back.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,50,70);
 
@@ -472,14 +481,14 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return clientNameCash;
     }
     public JLabel Dealer(int x, int y){
-        ImageIcon back = new ImageIcon(getClass().getResource("/img/Dealer.png"));
+        ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/Dealer.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,25,20);
         return backCard;
     }
 
     public JLabel showTable(String card, int x, int y){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/img/cards/" + card + ".png"));
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
         JLabel showTable = new JLabel(cardImg1);
         showTable.setBounds(x,y,70,100);
         showTable.setVisible(true);
@@ -522,17 +531,19 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             model.pressedCheck();
 
         } else if("call".equals(e.getActionCommand())){
-            // model.pressedCall
+            // model.pressedCall( INT HERE);
 
         } else if("fold".equals(e.getActionCommand())){
             model.pressedFold();
 
         } else if("connect".equals(e.getActionCommand())){
             if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
+                // SERVER CONNECTION IMPLEMENTATION
                 PlayerName = textName.getText();
                 displayNick.setText(PlayerName);
                 TableWindow.setVisible(true);
                 LoginWindow.dispose();
+                
             } else {
                 LoginWindow.setSize(240, 150);
                 warning.setBounds(5, 85, 220, 30);
