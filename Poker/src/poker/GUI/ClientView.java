@@ -99,11 +99,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(userCard2(), null);
         TableWindow.add(displayBroadcast(), null);
 
-        for(int i = 0; i < 8; i++){
-            for(int k = 0; k < 2; k++){
-                TableWindow.add(arrayPlayersCards[i][k], null);
-            }
-        }
+
 
 //        this.add(arrayPlayersCards[7][1], null);
 
@@ -129,7 +125,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         arrayPlayersCards[6][1] = backCard(780,340);
         arrayPlayersCards[7][0] = backCard(600,435);
         arrayPlayersCards[7][1] = backCard(590,430);
-
+        for(int i = 0; i < 8; i++){
+            for(int k = 0; k < 2; k++){
+                TableWindow.add(arrayPlayersCards[i][k], null);
+            }
+        }
         TableWindow.add(Dealer(450, 330), null);
 //        this.add(arrayPlayersNickCash[7], null);
 
