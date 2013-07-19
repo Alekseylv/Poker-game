@@ -51,19 +51,20 @@ public class ServerListener implements Runnable {
 		while(true) {
 			try {
 				Object token = in.readObject();
+				assert(token != null);
 				que.addTask((Command)token);
 				synchronized (que) {
 					que.notify();
 				}
 				// String token = in.next();
 				// que.addTask(token)
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Failed to load the right Class");
-				e.printStackTrace();
+			} catch (Exception e) {
+				
+				try {
+					in.close();
+				} catch (IOException e1) {
+				}
+				break;
 			}
 		}
 	}
