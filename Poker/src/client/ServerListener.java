@@ -51,6 +51,7 @@ public class ServerListener implements Runnable {
 		while(true) {
 			try {
 				Object token = in.readObject();
+				assert(token != null);
 				que.addTask((Command)token);
 				synchronized (que) {
 					que.notify();
