@@ -13,8 +13,9 @@ public class Connection implements Runnable {
 	private static final int READ_TIMEOUT = 4500;
 
 	/* Creates a new instance of 'Connection' class for each client. */
-	public Connection(Socket client) {
+	public Connection(Socket client) throws IOException {
 		this.client = client;
+		new ObjectInputStream(client.getInputStream());
 	}
 
 	public void run() {
@@ -29,7 +30,6 @@ public class Connection implements Runnable {
 	public ClientResponse getMove() {
 		try {
 			client.setSoTimeout(READ_TIMEOUT);
-			in = new ObjectInputStream(client.getInputStream());
 			ClientResponse move = null;
 			try {
 				move = (ClientResponse) in.readObject();

@@ -9,12 +9,14 @@ import java.util.List;
 
 import message.data.ClientResponse;
 import commands.Command;
+import commands.FRCallCommand;
 import commands.SetIDCommand;
 import poker.arturka.Game;
 
 public class Room implements Runnable {
 
 	private int clientSessionID = 1;
+	private HashMap<Integer, ObjectOutputStream> clientStreams = new HashMap<Integer, ObjectOutputStream>();
 
 	public Room(int roomID) {
 		connections = new HashMap<Integer, Connection>();
@@ -34,8 +36,7 @@ public class Room implements Runnable {
 	private void assignClientID() {
 		for (Integer id : connections.keySet()) {
 			try {
-				out = new ObjectOutputStream(connections.get(id).getClient()
-						.getOutputStream());
+				out = clientStreams.get(id);
                 System.out.println(id);
                 out.writeObject(new SetIDCommand(id));
 				out.flush();
@@ -45,8 +46,10 @@ public class Room implements Runnable {
 		}
 	}
 
-	public void addUser(Socket client) {
+	public void addUser(Socket client) throws IOException {
 		clientConnection = new Connection(client);
+		clientStreams.put(clientSessionID, new ObjectOutputStream(client
+						.getOutputStream()));
 		connections.put(clientSessionID++, clientConnection);
 		Thread t = new Thread(clientConnection);
 		t.start();
@@ -80,11 +83,11 @@ public class Room implements Runnable {
 	public ClientResponse sendToUser(int id, Command command) {
 		if (connections.containsKey(id)) {
 			try {
-				out = new ObjectOutputStream(connections.get(id).getClient()
-						.getOutputStream());
+				out = clientStreams.get(id);
 				out.writeObject(command);
 				out.flush();
-				return (ClientResponse) getClientMove(id);
+				if (command.getClass() == FRCallCommand.class || command.getClass() == FRCallCommand.class)
+					return (ClientResponse) getClientMove(id);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -93,10 +96,8 @@ public class Room implements Runnable {
 	}
 
 	public void Broadcast(Command command) {
-		for (Connection clientConnection : connections.values()) {
+		for (ObjectOutputStream out : clientStreams.values()) {
 			try {
-				out = new ObjectOutputStream(clientConnection.getClient()
-						.getOutputStream());
 				out.writeObject(command);
 				out.flush();
 			} catch (IOException e) {
