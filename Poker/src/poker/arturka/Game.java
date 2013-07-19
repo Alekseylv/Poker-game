@@ -73,7 +73,7 @@ public class Game implements Runnable {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         System.out.println("we are online");
 //        for(int id: Room.getUsers()){
