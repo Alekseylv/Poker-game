@@ -134,9 +134,7 @@ public class Players {
      * @return List of all players.
      */
     public List<Player> getPlayersList(){
-        List<Player> tempList=new ArrayList<Player>();
-        tempList.addAll(tempList);
-        return tempList;
+        return new ArrayList<Player>(playerList.values());
     }
 
     /**

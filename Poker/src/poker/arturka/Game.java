@@ -67,13 +67,18 @@ public class Game implements Runnable {
     }
 
     public void run() {
+        System.out.println("we are online");
 //        for(int id: Room.getUsers()){
 //            players.addPlayer(id);
 //        }
         players.getDealer();
+        System.out.println("we know dealer");
         for(Player player:players.getPlayersList()){
             room.sendToUser(player.getId(), new SetIDCommand(player.getId()));
+            System.out.println("id sent");
+
             room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
+            System.out.println("ulist sent");
         }
         while(players.playersLeft().size()>1){
             Player oldDealer=players.nextDealer();
