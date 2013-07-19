@@ -226,18 +226,18 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     public void placePlayers(ArrayList<ClientSidePlayer> list){
         int ListSize = list.size();
-        int id = -1;
-        ArrayList<String> myCards = fromCardToString(model.getMyCards());
+        int id = 0;
+        ArrayList<String> myCards;
+
             for(ClientSidePlayer player : list){
                 if(player != null){
 
                     id = player.getId() - 1;
 
                     switch (id){
-                        case 1:
-
+                        case 0:
+                            myCards = fromCardToString(model.getMyCards());
                               if(model.getID() - 1 == id){
-
                                     arrayPlayersCards[id][0] = userCard1(260,435, myCards.get(0));
                                     arrayPlayersCards[id][1] = userCard1(250,430, myCards.get(1));
                                 } else {
@@ -248,9 +248,9 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                             TableWindow.add(arrayPlayersNickCash[id]);
                             TableWindow.add(arrayPlayersCards[id][0]);
                             TableWindow.add(arrayPlayersCards[id][1]);
-
                             break;
-                        case 2:
+                        case 1:
+                            myCards = fromCardToString(model.getMyCards());
                             if(model.getID() - 1 == id){
 
                                 arrayPlayersCards[id][0] = userCard1(60,345, myCards.get(0));
@@ -264,59 +264,115 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                             TableWindow.add(arrayPlayersCards[id][0]);
                             TableWindow.add(arrayPlayersCards[id][1]);
                             break;
-                        case 3:
+                        case 2:
+                            myCards = fromCardToString(model.getMyCards());
+                            if(model.getID() - 1 == id){
+
+                                arrayPlayersCards[id][0] = userCard1(60,155, myCards.get(0));
+                                arrayPlayersCards[id][1] = userCard1(50,150, myCards.get(1));
+                            } else {
+                                arrayPlayersCards[id][0] = backCard(60,155);
+                                arrayPlayersCards[id][1] = backCard(50,150);
+                            }
                             arrayPlayersNickCash[id] = clientNameCash("Player2", player.getCash(), 30, 110);
-                            arrayPlayersCards[id][0] = backCard(60,155);
-                            arrayPlayersCards[id][1] = backCard(50,150);
+
+                            TableWindow.add(arrayPlayersNickCash[id]);
+                            TableWindow.add(arrayPlayersCards[id][0]);
+                            TableWindow.add(arrayPlayersCards[id][1]);
+                            break;
+                        case 3:
+                            myCards = fromCardToString(model.getMyCards());
+                            if(model.getID() - 1 == id){
+
+                                arrayPlayersCards[id][0] = userCard1(280,65, myCards.get(0));
+                                arrayPlayersCards[id][1] = userCard1(270,60, myCards.get(1));
+                            } else {
+                                arrayPlayersCards[id][0] = backCard(280,65);
+                                arrayPlayersCards[id][1] = backCard(270,60);
+                            }
+                            arrayPlayersNickCash[id] = clientNameCash("Player3", player.getCash(), 250, 20);
+
                             TableWindow.add(arrayPlayersNickCash[id]);
                             TableWindow.add(arrayPlayersCards[id][0]);
                             TableWindow.add(arrayPlayersCards[id][1]);
                             break;
                         case 4:
-                            arrayPlayersNickCash[id] = clientNameCash("Player3", player.getCash(), 250, 20);
-                            arrayPlayersCards[id][0] = backCard(280,65);
-                            arrayPlayersCards[id][1] = backCard(270,60);
+                            myCards = fromCardToString(model.getMyCards());
+                            if(model.getID() - 1 == id){
+
+                                arrayPlayersCards[id][0] = userCard1(570,65, myCards.get(0));
+                                arrayPlayersCards[id][1] = userCard1(560,60, myCards.get(1));
+                            } else {
+                                arrayPlayersCards[id][0] = backCard(570,65);
+                                arrayPlayersCards[id][1] = backCard(560,60);
+                            }
+                            arrayPlayersNickCash[id] = clientNameCash("Player4", player.getCash(), 540, 20);
+
                             TableWindow.add(arrayPlayersNickCash[id]);
                             TableWindow.add(arrayPlayersCards[id][0]);
                             TableWindow.add(arrayPlayersCards[id][1]);
                             break;
                         case 5:
-                            arrayPlayersNickCash[id] = clientNameCash("Player4", player.getCash(), 540, 20);
-                            arrayPlayersCards[id][0] = backCard(570,65);
-                            arrayPlayersCards[id][1] = backCard(560,60);
+                            myCards = fromCardToString(model.getCards(id));
+                            if(model.getID() - 1 == id){
+
+                                arrayPlayersCards[id][0] = userCard1(60,155, myCards.get(0));
+                                arrayPlayersCards[id][1] = userCard1(50,150, myCards.get(1));
+                            } else {
+                                arrayPlayersCards[id][0] = backCard(60,155);
+                                arrayPlayersCards[id][1] = backCard(50,150);
+                            }
+                            arrayPlayersNickCash[id] = clientNameCash("Player5", player.getCash(), 760, 110);
+
                             TableWindow.add(arrayPlayersNickCash[id]);
                             TableWindow.add(arrayPlayersCards[id][0]);
                             TableWindow.add(arrayPlayersCards[id][1]);
                             break;
                         case 6:
-                            arrayPlayersNickCash[id] = clientNameCash("Player5", player.getCash(), 760, 110);
-                            arrayPlayersCards[id][0] = backCard(790,155);
-                            arrayPlayersCards[id][1] = backCard(780,150);
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 7:
+                            myCards = fromCardToString(model.getCards(id));
+                            if(model.getID() - 1 == id){
+
+                                arrayPlayersCards[id][0] = userCard1(790,345, myCards.get(0));
+                                arrayPlayersCards[id][1] = userCard1(780,340, myCards.get(1));
+                            } else {
+                                arrayPlayersCards[id][0] = backCard(790,345);
+                                arrayPlayersCards[id][1] = backCard(780,340);
+                            }
                             arrayPlayersNickCash[id] = clientNameCash("Player6", player.getCash(), 760, 420);
-                            arrayPlayersCards[id][0] = backCard(790,345);
-                            arrayPlayersCards[id][1] = backCard(780,340);
+
                             TableWindow.add(arrayPlayersNickCash[id]);
                             TableWindow.add(arrayPlayersCards[id][0]);
                             TableWindow.add(arrayPlayersCards[id][1]);
 
                             break;
-                        case 8:
+                        case 7:
+                            myCards = fromCardToString(model.getCards(id));
+                            if(model.getID() - 1 == id){
+
+                                arrayPlayersCards[id][0] = userCard1(600,435, myCards.get(0));
+                                arrayPlayersCards[id][1] = userCard1(590,430, myCards.get(1));
+                            } else {
+                                arrayPlayersCards[id][0] = backCard(600,435);
+                                arrayPlayersCards[id][1] = backCard(590,430);
+                            }
                             arrayPlayersNickCash[id] = clientNameCash("Player7", player.getCash(), 570, 510);
-                            arrayPlayersCards[id][0] = backCard(600,435);
-                            arrayPlayersCards[id][1] = backCard(590,430);
+
                             TableWindow.add(arrayPlayersNickCash[id]);
                             TableWindow.add(arrayPlayersCards[id][0]);
                             TableWindow.add(arrayPlayersCards[id][1]);
                             break;
-                        case 9:
+                        case 8:
+                            myCards = fromCardToString(model.getCards(id));
+                            if(model.getID() - 1 == id){
+
+                                arrayPlayersCards[id][0] = userCard1(433,440, myCards.get(0));
+                                arrayPlayersCards[id][1] = userCard1(423,435, myCards.get(1));
+                            } else {
+                                arrayPlayersCards[id][0] = backCard(433,440);
+                                arrayPlayersCards[id][1] = backCard(423,435);
+                            }
                             arrayPlayersNickCash[id] = clientNameCash("Player8", player.getCash(), 403, 515);
-                            arrayPlayersCards[id][0] = backCard(600,435);
-                            arrayPlayersCards[id][1] = backCard(590,430);
+
                             TableWindow.add(arrayPlayersNickCash[id]);
                             TableWindow.add(arrayPlayersCards[id][0]);
                             TableWindow.add(arrayPlayersCards[id][1]);
