@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import message.data.ClientTurn;
 import commands.SendWinnerListCommand;
 import commands.SendWinnerListCommand.Tuple;
-
 import poker.GUI.ClientView;
 import poker.arturka.Card;
 
@@ -91,31 +91,35 @@ public class ClientController implements Observer {
 		private List<ClientSidePlayer> players;	
 		private int id;
 	*/
-    }
-    /**
-     * Player change handler
-     *
-     * @param player
-     * 	The changed Player
-     * @param arg
-     * 	The argument that changed
-     */
-
-    public void update(ClientSidePlayer player, Object arg) {
-        // rewrite concrete player on screen
-    }
-
-
-    /**
-     * Dispatches changes to appropriate handlers
-     */
-    public void update(Observable obj, Object arg) {
-        if(obj instanceof ClientSidePlayer) {
-            this.update((ClientSidePlayer) obj, arg);
-        } else if(obj instanceof ClientModel) {
-            this.update((ClientModel) obj, arg);
-        } else {
-            System.out.println("Not a valid object" + obj);
-        }
-    }
+	}
+	/**
+	 * Player change handler
+	 * 
+	 * @param player 
+	 * 	The changed Player
+	 * @param arg 
+	 * 	The argument that changed
+	 */
+	
+	public void update(ClientSidePlayer player, Object arg) {
+		if(arg instanceof Card[]) {
+			
+		} else if(arg instanceof ClientTurn) {
+			
+		}
+	}
+	
+	
+	/**
+	 * Dispatches changes to appropriate handlers
+	 */
+	public void update(Observable obj, Object arg) {
+		if(obj instanceof ClientSidePlayer) {
+			this.update((ClientSidePlayer) obj, arg);
+		} else if(obj instanceof ClientModel) {
+			this.update((ClientModel) obj, arg);
+		} else {
+			System.out.println("Not a valid object" + obj);
+		}
+	}
 }
