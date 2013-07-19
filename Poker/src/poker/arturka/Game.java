@@ -44,9 +44,12 @@ public class Game implements Runnable {
                 currentWinner.giveCash(betsForWinner);
                 winners.add(new SendWinnerListCommand.Tuple(currentWinner.getId(),betsForWinner));
             }
-        }else{
+        }else if(players.playersLeft().size()>0){
             players.playersLeft().get(0).giveCash(players.getPot());
             winners.add(new SendWinnerListCommand.Tuple(players.playersLeft().get(0).getId(), players.getPot()));
+        }else{
+            Thread.currentThread().interrupt();
+            return;
         }
         room.Broadcast(new SendWinnerListCommand(winners));
         for(Player currentPlayer: players.getPlayersList()){
