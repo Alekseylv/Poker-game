@@ -65,7 +65,7 @@ public class ServerListener implements Runnable {
 				// String token = in.next();
 				// que.addTask(token)
 			} catch (Exception e) {
-				
+				System.out.println();
 				try {
 					in.close();
 				} catch (IOException e1) {
