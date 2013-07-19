@@ -9,21 +9,14 @@ import client.ClientModel;
 import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
 import poker.arturka.Card;
-import poker.arturka.Player;
+
 
 @SuppressWarnings("serial")
 public class ClientView extends JFrame implements ChangeListener, ActionListener{
 
     private ClientModel model;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-    // Methods' variables START
-
-    String userCardOne;
-    String userCardTwo;
-
-    // Methods' variables END
-
+    
     // LoginWindow variables
     JFrame LoginWindow = new JFrame();
     String PlayerName;
@@ -41,8 +34,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JButton checkButton = new JButton();
     JButton callButton = new JButton();
     JButton potSizeSlider = new JButton();
-    JButton TwoxSizeSlider = new JButton();
+    JButton OneThirdSizeSlider = new JButton();
     JButton ThreexSizeSlider = new JButton();
+    JButton AllInSizeSlider = new JButton();
+    JButton PlusSizeSlider = new JButton();
+    JButton MinusSizeSlider = new JButton();
     JSlider CashSlider = new JSlider();
     JLabel displayCashSlider = new JLabel();
     JLabel[][] arrayPlayersCards = new JLabel[8][2];
@@ -50,8 +46,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JLabel[] showTable = new JLabel[5];
     JLabel Broadcast = new JLabel();
 
-    int Cash = 1000;
+    int Cash = 3000;
     int CashCurrent = 30;
+    int pot = 550;
+    int bigBlind = 50;
+    String userCardOne;
+    String userCardTwo;
     // TableWindow variables end
 
     public ClientView(ClientModel model) {
@@ -94,9 +94,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(CashSlider(), null);
         TableWindow.add(displayCashSlider(), null);
         TableWindow.add(potSizeSlider(), null);
-        TableWindow.add(TwoxSizeSlider(), null);
+        TableWindow.add(OneThirdSizeSlider(), null);
         TableWindow.add(ThreexSizeSlider(), null);
-
+        TableWindow.add(AllInSizeSlider(), null);
+        TableWindow.add(PlusSizeSlider(), null);
+        TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(displayBroadcast(), null);
 
         TableWindow.add(Dealer(450, 330), null);
@@ -114,9 +116,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         checkButton.setEnabled(false);
         callButton.setEnabled(false);
         potSizeSlider.setEnabled(false);
-        TwoxSizeSlider.setEnabled(false);
+        OneThirdSizeSlider.setEnabled(false);
         ThreexSizeSlider.setEnabled(false);
         CashSlider.setEnabled(false);
+        AllInSizeSlider.setEnabled(false);
+        PlusSizeSlider.setEnabled(false);
+        MinusSizeSlider.setEnabled(false);
+        displayCashSlider.setVisible(false);
     }
     public void stateInputCheck(){
         checkButton.setVisible(true);
@@ -127,8 +133,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         raiseButton.setEnabled(true);
         CashSlider.setEnabled(true);
         potSizeSlider.setEnabled(true);
-        TwoxSizeSlider.setEnabled(true);
+        OneThirdSizeSlider.setEnabled(true);
         ThreexSizeSlider.setEnabled(true);
+        AllInSizeSlider.setEnabled(true);
+        PlusSizeSlider.setEnabled(true);
+        MinusSizeSlider.setEnabled(true);
+        displayCashSlider.setVisible(true);
     }
     public void stateInputCall(){
         callButton.setVisible(true);
@@ -139,8 +149,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         raiseButton.setEnabled(true);
         CashSlider.setEnabled(true);
         potSizeSlider.setEnabled(true);
-        TwoxSizeSlider.setEnabled(true);
+        OneThirdSizeSlider.setEnabled(true);
         ThreexSizeSlider.setEnabled(true);
+        AllInSizeSlider.setEnabled(true);
+        PlusSizeSlider.setEnabled(true);
+        MinusSizeSlider.setEnabled(true);
+        displayCashSlider.setVisible(true);
     }
     public void statePlaying(){
         foldButton.setEnabled(false);
@@ -149,8 +163,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         raiseButton.setEnabled(false);
         CashSlider.setEnabled(false);
         potSizeSlider.setEnabled(false);
-        TwoxSizeSlider.setEnabled(false);
+        OneThirdSizeSlider.setEnabled(false);
         ThreexSizeSlider.setEnabled(false);
+        AllInSizeSlider.setEnabled(false);
+        PlusSizeSlider.setEnabled(false);
+        MinusSizeSlider.setEnabled(false);
+        callButton.setVisible(false);
+        displayCashSlider.setVisible(false);
     }
     public void stateEnded(){
         Broadcast.setVisible(true);
@@ -225,7 +244,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     public void placePlayers(ArrayList<ClientSidePlayer> list){
-        int ListSize = list.size();
         int id = 0;
         ArrayList<String> myCards;
 
@@ -250,7 +268,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                             TableWindow.add(arrayPlayersCards[id][1]);
                             break;
                         case 1:
-                            myCards = fromCardToString(model.getMyCards());
+                            myCards = fromCardToString(model.getFieldCards());
                             if(model.getID() - 1 == id){
 
                                 arrayPlayersCards[id][0] = userCard1(60,345, myCards.get(0));
@@ -265,7 +283,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                             TableWindow.add(arrayPlayersCards[id][1]);
                             break;
                         case 2:
-                            myCards = fromCardToString(model.getMyCards());
+                            myCards = fromCardToString(model.getFieldCards());
                             if(model.getID() - 1 == id){
 
                                 arrayPlayersCards[id][0] = userCard1(60,155, myCards.get(0));
@@ -523,6 +541,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         callButton.setOpaque(false);
         callButton.setContentAreaFilled(false);
         callButton.addActionListener(this);
+        callButton.setVisible(false);
         return callButton;
     }
     public JButton raiseButton(){
@@ -538,17 +557,17 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     public JSlider CashSlider(){
-        int tick = (Cash - 30) / 2;
+    	int pot = 550;
 
-        CashSlider.setBounds(675, 550, 210, 50);
+        CashSlider.setBounds(720, 550, 155, 50);
         CashSlider.setMaximum(Cash);
-        CashSlider.setMinimum(30);
-        CashSlider.setValue(30);
+        CashSlider.setMinimum(bigBlind);
+        CashSlider.setValue(bigBlind);
         CashSlider.addChangeListener(this);
-        CashSlider.setMajorTickSpacing(tick);
-        CashSlider.setMinorTickSpacing((int)(Math.round((Cash / 20)/ 10.0) * 10)); // FORMULA
+        CashSlider.setMajorTickSpacing(pot);
+//		CashSlider.setMinorTickSpacing((int)(Math.round((Cash / 20)/ 10.0) * 10)); // FORMULA
         CashSlider.setPaintTicks(true);
-        CashSlider.setPaintLabels(true);
+        
         CashSlider.setBackground(Color.GRAY);
         CashSlider.setForeground(Color.WHITE);
         CashSlider.setSnapToTicks(false);
@@ -559,7 +578,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public JLabel displayCashSlider(){
 
-        displayCashSlider.setBounds(820, 525, 50, 25);
+        displayCashSlider.setBounds(650, 555, 50, 25);
         displayCashSlider.setForeground(Color.WHITE);
         displayCashSlider.setHorizontalAlignment( SwingConstants.RIGHT );
 
@@ -569,35 +588,76 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public JButton potSizeSlider(){
         potSizeSlider.setActionCommand("pot");
-        potSizeSlider.setBounds(705, 525, 40, 25);
+        potSizeSlider.setBounds(750, 525, 40, 25);
         potSizeSlider.setText("POT");
         potSizeSlider.setForeground(Color.WHITE);
         potSizeSlider.setOpaque(false);
         potSizeSlider.setContentAreaFilled(false);
         potSizeSlider.setMargin(new Insets(0,0,0,0));
+        potSizeSlider.addActionListener(this);
         return potSizeSlider;
     }
-    public JButton TwoxSizeSlider(){
-        TwoxSizeSlider.setActionCommand("2X");
-        TwoxSizeSlider.setBounds(750, 525, 25, 25);
-        TwoxSizeSlider.setText("2X");
-        TwoxSizeSlider.setForeground(Color.WHITE);
-        TwoxSizeSlider.setOpaque(false);
-        TwoxSizeSlider.setContentAreaFilled(false);
-        TwoxSizeSlider.setMargin(new Insets(0,0,0,0));
-        return TwoxSizeSlider;
+    public JButton OneThirdSizeSlider(){
+        OneThirdSizeSlider.setActionCommand("1/3x");
+        OneThirdSizeSlider.setBounds(705, 525, 40, 25);
+        OneThirdSizeSlider.setText("1/3X");
+        OneThirdSizeSlider.setForeground(Color.WHITE);
+        OneThirdSizeSlider.setOpaque(false);
+        OneThirdSizeSlider.setContentAreaFilled(false);
+        OneThirdSizeSlider.setMargin(new Insets(0,0,0,0));
+        OneThirdSizeSlider.addActionListener(this);
+        return OneThirdSizeSlider;
     }
     public JButton ThreexSizeSlider(){
-        ThreexSizeSlider.setActionCommand("3X");
-        ThreexSizeSlider.setBounds(780, 525, 25, 25);
+        ThreexSizeSlider.setActionCommand("3x");
+        ThreexSizeSlider.setBounds(795, 525, 40, 25);
         ThreexSizeSlider.setText("3X");
         ThreexSizeSlider.setForeground(Color.WHITE);
         ThreexSizeSlider.setOpaque(false);
         ThreexSizeSlider.setContentAreaFilled(false);
         ThreexSizeSlider.setMargin(new Insets(0,0,0,0));
+        ThreexSizeSlider.addActionListener(this);
         return ThreexSizeSlider;
     }
-
+    public JButton AllInSizeSlider(){
+        AllInSizeSlider.setActionCommand("AllIn");
+        AllInSizeSlider.setBounds(840, 525, 50, 25);
+        AllInSizeSlider.setText("ALL-IN");
+        AllInSizeSlider.setForeground(Color.WHITE);
+        AllInSizeSlider.setOpaque(false);
+        AllInSizeSlider.setContentAreaFilled(false);
+        AllInSizeSlider.setMargin(new Insets(0,0,0,0));
+        AllInSizeSlider.addActionListener(this);
+        return AllInSizeSlider;
+    }
+    
+    public JButton PlusSizeSlider(){
+    	PlusSizeSlider.setActionCommand("PlusSlider");
+        PlusSizeSlider.setBounds(875, 560, 15, 15);
+        PlusSizeSlider.setText("+");
+        PlusSizeSlider.setForeground(Color.WHITE);
+        PlusSizeSlider.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        PlusSizeSlider.setBorderPainted(false);
+        PlusSizeSlider.setOpaque(false);
+        PlusSizeSlider.setContentAreaFilled(false);
+        PlusSizeSlider.setMargin(new Insets(0,0,0,0));
+        PlusSizeSlider.addActionListener(this);
+        return PlusSizeSlider;	
+    }
+    public JButton MinusSizeSlider(){
+    	MinusSizeSlider.setActionCommand("MinusSlider");
+        MinusSizeSlider.setBounds(705, 560, 15, 15);
+        MinusSizeSlider.setText("-");
+        MinusSizeSlider.setForeground(Color.WHITE);
+        MinusSizeSlider.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        MinusSizeSlider.setBorderPainted(false);
+        MinusSizeSlider.setOpaque(false);
+        MinusSizeSlider.setContentAreaFilled(false);
+        MinusSizeSlider.setMargin(new Insets(0,0,0,0));
+        MinusSizeSlider.addActionListener(this);
+        return MinusSizeSlider;	
+    }
+    
     public JLabel userCard1(int x, int y, String userCardOne){
         ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + userCardOne + ".png"));
         JLabel userCard1 = new JLabel(cardImg1);
@@ -683,7 +743,18 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         } else if("fold".equals(e.getActionCommand())){
             model.pressedFold();
-
+        } else if("1/3x".equals(e.getActionCommand())){
+        	CashSlider.setValue(pot / 3);
+        } else if("3x".equals(e.getActionCommand())){
+        	CashSlider.setValue(pot * 3);
+        } else if("pot".equals(e.getActionCommand())){
+        	CashSlider.setValue(pot);
+        } else if("AllIn".equals(e.getActionCommand())){
+        	CashSlider.setValue(Cash);
+        } else if("PlusSlider".equals(e.getActionCommand())){
+        	CashSlider.setValue(CashSlider.getValue() + bigBlind);
+        } else if("MinusSlider".equals(e.getActionCommand())){
+        	CashSlider.setValue(CashSlider.getValue() - bigBlind);
         } else if("connect".equals(e.getActionCommand())){
             if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
                 // SERVER CONNECTION IMPLEMENTATION
@@ -698,17 +769,16 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                 warning.setVisible(true);
             }
         }
-
     }
     @Override
     public void stateChanged(ChangeEvent e) {
         JSlider CashSlider = (JSlider) e.getSource();
-        CashCurrent = (int)(Math.round(CashSlider.getValue() / 10.0) * 10); // FORMULA
+        CashCurrent = (int)(Math.round(CashSlider.getValue() / (double) bigBlind) * bigBlind); // FORMULA
         if(CashCurrent > Cash){
             CashCurrent = Cash;
         }
         displayCashSlider.setText(String.valueOf("" + CashCurrent));
-
+        
     }
 
 
