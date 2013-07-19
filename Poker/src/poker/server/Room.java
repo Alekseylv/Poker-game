@@ -83,7 +83,9 @@ public class Room implements Runnable {
 	public ClientResponse sendToUser(int id, Command command) {
 		if (connections.containsKey(id)) {
 			try {
+				
 				out = clientStreams.get(id);
+				out.flush();
 				out.writeObject(command);
 				out.flush();
 				if (command.getClass() == FRCallCommand.class || command.getClass() == FRCallCommand.class)
