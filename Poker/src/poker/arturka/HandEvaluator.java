@@ -45,7 +45,7 @@ public class HandEvaluator {
 		return getHand(player.getHand());
 	}
 
-	private Hand getHand(Card[] hand) {
+	public Hand getHand(Card[] hand) {
 		Card[] sortedHand = sortHand(hand);
 		if (handIsRoyalFlush(sortedHand))
 			return Hand.ROYAL_FLUSH;
@@ -154,7 +154,7 @@ public class HandEvaluator {
 			return false;
 	}
 
-	static boolean handIsFullHouse(Card[] sortedHand, boolean pairFirst) {
+	private boolean handIsFullHouse(Card[] sortedHand, boolean pairFirst) {
 		int failCount = 0;
 		int tempID = 0;
 		int onePairFound = 0;
@@ -175,6 +175,7 @@ public class HandEvaluator {
 					temp[tempID++] = sortedHand[2];
 				else if (i + 1 == sortedHand.length - 1)
 					temp[tempID++] = sortedHand[i + 1];
+				
 			}
 			else {
 				if (i==0) {
@@ -188,8 +189,9 @@ public class HandEvaluator {
 				}
 				onePairFound++;
 			}
-			if (failCount > count)
+			if (failCount > count - 1)
 				return false;
+			//System.out.println(temp[i].getRank() + " of " + temp[i].getSuit());
 		}
 		//
 		System.out.println(temp[0].getRank() + " "
@@ -210,29 +212,34 @@ public class HandEvaluator {
 	}
 
 	private boolean handHasSimilarRanks(Card[] sortedHand, int count) {
-		int failCount = 0;
-		for (int i = 1; i < sortedHand.length; i++) {
-			if (!(sortedHand[i-1].getRank().equals(sortedHand[i].getRank())))
-				failCount++;
-			if (failCount > sortedHand.length - count)
-				return false;
+		int successCount = 0;
+		for (int i = 0; i < sortedHand.length - 1; i++) {
+			if (sortedHand[i].getRank().equals(sortedHand[i + 1].getRank()))
+				successCount++;
+			else if (successCount > 0)
+				successCount--;
+			if (successCount >= sortedHand.length - count)
+				return true;
 		}
-		return true;
+		return false;
 	}
 
 	private boolean handIsStraightFlush(Card[] sortedHand) {
-		int failCount = 0;
-		for (int i = 0; i < sortedHand.length; i++) {
-			if (!(i > 0
-					&& sortedHand[i - 1].getSuit().equals(
-							sortedHand[i].getSuit())
-					&& sortedHand[i - 1].getRank().ordinal() == sortedHand[i]
-							.getRank().ordinal() + 1))
-				failCount++;
-			if (failCount > 2)
-				return false;
+		int successCount = 0;
+		for (int i = 0; i < sortedHand.length - 1; i++) {
+			if (sortedHand[i].getSuit().equals(
+							sortedHand[i + 1].getSuit())
+					&& sortedHand[i].getRank().ordinal() == sortedHand[i + 1]
+							.getRank().ordinal() + 1)
+				successCount++;
+			else {
+				if (successCount == 2)
+					return false;
+			}
 		}
-		return true;
+		if (successCount > 3)
+			return true;
+		return false;
 	}
 
 	private boolean handIsRoyalFlush(Card[] sortedHand) {
@@ -251,15 +258,15 @@ public class HandEvaluator {
 	}
 
 	private Card[] sortHand(Card[] hand) {
-		for (int i = 0; i < hand.length; i++) {
-			if (hand[i-1].getRank().ordinal() < hand[i].getRank().ordinal() && i > 0) {
+		for (int i = 1; i < hand.length; i++) {
+			if (hand[i-1].getRank().ordinal() < hand[i].getRank().ordinal()) {
 				Card prev = hand[i-1];
 				hand[i-1] = hand[i];
 				hand[i] = prev;
 				i--;
 			}
 		}
-		return null;
+		return hand;
 	}
 
 	private List<Player> playersToEvaluate;
