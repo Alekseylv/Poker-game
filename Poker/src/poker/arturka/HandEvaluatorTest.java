@@ -14,7 +14,7 @@ public class HandEvaluatorTest {
 		Card c1 = new Card(Suit.HEARTS, Rank.KING);
 		Card c2 = new Card(Suit.SPADES, Rank.KING);
 		Card c3 = new Card(Suit.DIAMONDS, Rank.KING);
-		Card c4 = new Card(Suit.CLUBS, Rank.KING);
+		Card c4 = new Card(Suit.CLUBS, Rank.QUEEN);
 		Card c5 = new Card(Suit.HEARTS, Rank.QUEEN);
 		Card c6 = new Card(Suit.SPADES, Rank.SIX);
 		Card c7 = new Card(Suit.SPADES, Rank.SIX);
