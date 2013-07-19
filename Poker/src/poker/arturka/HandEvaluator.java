@@ -107,10 +107,10 @@ public class HandEvaluator {
 		boolean twoOfAKind = false;
 		boolean lineCleared = false;
 		for (int i = 0; i < Rank.values().length; i++) {
-			for (int j = 0; j < Suit.values().length - 1; j++) {
-				if(combination2[j][i] != null && combination2[j+1][i] != null)
+			for (int j = 0; j < Suit.values().length; j++) {
+				if(combination2[j][i] != null)
 					tokCount++;
-				if (tokCount == 2 && !lineCleared) {
+				if (tokCount == 3 && !lineCleared) {
 					for (int j2 = 0; j2 < Suit.values().length; j2++) {
 						combination2[j2][i] = null;
 					}
@@ -131,10 +131,10 @@ public class HandEvaluator {
 	private boolean handIsSameKind(Boolean[][] combination2, int count) {
 		int skCount = 0;
 		for (int i = Rank.values().length - 1; i > - 1; i--) {
-			for (int j = 0; j < Suit.values().length - 1; j++) {
-				if(combination2[j][i] != null && combination2[j+1][i] != null)
+			for (int j = 0; j < Suit.values().length; j++) {
+				if(combination2[j][i] != null)
 					skCount++;
-				if (skCount == count - 1)
+				if (skCount == count)
 					return true;
 			}
 			skCount = 0;
