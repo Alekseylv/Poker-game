@@ -23,6 +23,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JLabel labelName = new JLabel();
     JLabel warning = new JLabel();
     JTextField textName = new JTextField();
+    JButton buttonConnect = new JButton();
     // LoginWindow variables end
 
     // TableWindow variables
@@ -719,10 +720,18 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     private JTextField textName(){
         textName.setBounds(100, 15, 120, 25);
+        
+        textName.addKeyListener(new KeyAdapter() {public void keyPressed(KeyEvent e) {
+        		       if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        		          buttonConnect.doClick();
+        		       }
+        		     }
+        }
+    );
         return textName;
     }
     private JButton buttonConnect(){
-        JButton buttonConnect = new JButton();
+        buttonConnect = new JButton();
         buttonConnect.setActionCommand("connect");
         buttonConnect.setBounds(70, 50, 100, 25);
         buttonConnect.setText("Connect");
