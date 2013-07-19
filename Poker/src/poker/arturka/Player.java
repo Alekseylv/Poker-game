@@ -1,5 +1,6 @@
 package poker.arturka;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Observable;
  * Date: 7/16/13
  * Time: 1:33 PM
  */
-public class Player extends Observable {
+public class Player extends Observable implements Serializable {
     private int id;
     private int cash;
     private Card[] hand;

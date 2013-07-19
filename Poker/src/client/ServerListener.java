@@ -55,6 +55,7 @@ public class ServerListener implements Runnable {
 					token = in.readObject();
 				} catch (IOException e) {
 					e.printStackTrace();
+					System.out.println("Connection closed");
 					break;
 				} catch (ClassNotFoundException e) {
 					continue;
