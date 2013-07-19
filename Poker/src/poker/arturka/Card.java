@@ -1,5 +1,7 @@
 package poker.arturka;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mordavolt
@@ -7,7 +9,7 @@ package poker.arturka;
  * Time: 10:51 AM
  */
 
-public class Card {
+public class Card implements Serializable{
     public enum Suit{
         CLUBS,
         DIAMONDS,

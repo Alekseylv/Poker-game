@@ -1,5 +1,7 @@
 package message.data;
 
+import java.io.Serializable;
+
 /**
  * Used as part of a command to update player state on client side,
  * represents changes in other player to a client
@@ -7,7 +9,7 @@ package message.data;
  *
  */
 
-public class PlayerMove {
+public class PlayerMove implements Serializable{
 	
 	
 	public final int id;

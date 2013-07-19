@@ -9,20 +9,20 @@ import java.util.*;
  * Time: 1:48 PM
  */
 public class Players {
-    private Map<Integer,Player> playerList;
+    private Map<Integer,Player> playerMap;
     public Players(){
-        playerList=new HashMap<Integer, Player>();
+        playerMap =new HashMap<Integer, Player>();
     }
 
     public void addPlayer(int id){
         Player tempPlayer = new Player(id);
         tempPlayer.toggleInGame();
-        playerList.put(id,tempPlayer);
+        playerMap.put(id, tempPlayer);
     }
 
     public void removePlayer(int id){
-        playerList.get(id).toggleInGame();
-        playerList.remove(id);
+        playerMap.get(id).toggleInGame();
+        playerMap.remove(id);
     }
 
     /**
@@ -31,7 +31,7 @@ public class Players {
      */
     public Player getRandomPlayer(){
         Random random=new Random();
-        return getPlayersList().get(random.nextInt(playerList.size()-1));
+        return getPlayersList().get(random.nextInt(playerMap.size() - 1));
     }
 
     /**
@@ -40,15 +40,16 @@ public class Players {
      * @return Next player to player param.
      */
     public Player getNextPlayer(Player player){
-        for(int i=0;i<playerList.size();i++){
+        List<Player> playerList=getPlayersList();
+        for(int i=0;i< playerList.size();i++){
             if(playerList.get(i).equals(player)){
                 int j=i+1;
-                if (j>=playerList.size()){
-                    j-=playerList.size();
+                if (j>= playerList.size()){
+                    j-= playerList.size();
                 }
                 while(!playerList.get(j).isInGame()){
-                    if (++j>=playerList.size()){
-                        j-=playerList.size();
+                    if (++j>= playerList.size()){
+                        j-= playerList.size();
                     }
                 }
                 return playerList.get(j);
@@ -82,7 +83,8 @@ public class Players {
             oldDealer.toggleDealer();
             getNextPlayer(oldDealer).toggleDealer();
         }else{
-            getRandomPlayer().toggleDealer();
+            oldDealer=getRandomPlayer();
+            oldDealer.toggleDealer();
         }
         return oldDealer;
     }
@@ -134,7 +136,7 @@ public class Players {
      * @return List of all players.
      */
     public List<Player> getPlayersList(){
-        return new ArrayList<Player>(playerList.values());
+        return new ArrayList<Player>(playerMap.values());
     }
 
     /**
