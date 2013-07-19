@@ -15,7 +15,7 @@ public class Connection implements Runnable {
 	/* Creates a new instance of 'Connection' class for each client. */
 	public Connection(Socket client) throws IOException {
 		this.client = client;
-		new ObjectInputStream(client.getInputStream());
+		in = new ObjectInputStream(client.getInputStream());
 	}
 
 	public void run() {
