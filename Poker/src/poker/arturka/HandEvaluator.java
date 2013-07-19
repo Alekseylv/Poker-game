@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import poker.arturka.Card.Rank;
+import poker.arturka.Card.Suit;
 
 public class HandEvaluator {
 
@@ -27,6 +28,23 @@ public class HandEvaluator {
 		return playerRanking;
 	}
 
+	private Boolean[][] createHandTable(Card[] hand) {
+		Boolean[][] tempHand = new Boolean[Suit.values().length][Rank.values().length];
+		for (Card card: hand) {
+			tempHand[card.getSuit().ordinal()][card.getRank().ordinal()] = true;
+		}
+		int c= 0;
+		for (Boolean[] val: tempHand) {
+			for (Boolean val2: val) {
+				if (val2 != null) {
+					c++;
+				}
+			}
+		}
+		System.out.println(c);
+		return tempHand;
+	}
+	
 	private void sortEvaluatedPlayers() {
 		Map.Entry<Player, Hand> prev = null;
 		for (Entry<Player, Hand> entry: evaluatedPlayers.entrySet()) {
@@ -46,7 +64,18 @@ public class HandEvaluator {
 	}
 
 	public Hand getHand(Card[] hand) {
-		Card[] sortedHand = sortHand(hand);
+		combination = createHandTable(hand);
+		//Card[] sortedHand = sortHand(hand);
+		//
+		if (handIsRoyalFlush(combination))
+			return Hand.ROYAL_FLUSH;
+		else if (handIsStraightFlush(combination))
+			return Hand.STRAIGHT_FLUSH;
+		else if (handIsSameKind(combination,4))
+			return Hand.FOUR_OF_A_KIND;
+		else if (handIsFullHouse(combination))
+			return Hand.FULL_HOUSE;
+		/*
 		if (handIsRoyalFlush(sortedHand))
 			return Hand.ROYAL_FLUSH;
 		else if (handIsStraightFlush(sortedHand))
@@ -67,8 +96,83 @@ public class HandEvaluator {
 			return Hand.ONE_PAIR;
 		else
 			return Hand.HIGH_HAND;
+			*/
+		
+		return null;
 	}
 	
+	private boolean handIsFullHouse(Boolean[][] combination2) {
+		int tokCount = 0;
+		boolean threeOfAKind = false;
+		boolean twoOfAKind = false;
+		boolean lineCleared = false;
+		for (int i = 0; i < Rank.values().length; i++) {
+			for (int j = 0; j < Suit.values().length; j++) {
+				if(combination2[j][i] != null)
+					tokCount++;
+				if (tokCount == 3 && !lineCleared) {
+					for (int j2 = 0; j2 < Suit.values().length; j2++) {
+						combination2[j2][i] = null;
+					}
+					lineCleared = true;
+					threeOfAKind = true;
+				}
+			}
+			tokCount = 0;
+		}
+		if (handIsSameKind(combination2, 2))
+			twoOfAKind = true;
+		if (twoOfAKind && threeOfAKind)
+			return true;
+		System.out.println(twoOfAKind +" "+ threeOfAKind);
+		return false;
+	}
+
+	private boolean handIsSameKind(Boolean[][] combination2, int count) {
+		int skCount = 0;
+		for (int i = Rank.values().length - 1; i > - 1; i--) {
+			for (int j = 0; j < Suit.values().length; j++) {
+				if(combination2[j][i] != null)
+					skCount++;
+				if (skCount == count)
+					return true;
+			}
+			skCount = 0;
+		}
+		return false;
+	}
+
+	private boolean handIsStraightFlush(Boolean[][] combination2) {
+		int sfCount = 0;
+		for (int i = 0; i < Suit.values().length; i++) {
+			for (int j = 0; j < Rank.values().length - 1; j++) {
+				if (combination2[i][Rank.values().length - j - 1] != null &&
+						combination2[i][Rank.values().length - (j+1) - 1] != null) {
+					sfCount++;
+				}
+				if (sfCount == 4)
+					return true;
+			}
+			sfCount = 0;
+		}
+		return false;
+	}
+
+	private boolean handIsRoyalFlush(Boolean[][] combination2) {
+		int rfCount = 0;
+		for (int i = 0; i < Suit.values().length; i++) {
+			for (int j = 0; j < CARDS_TO_EVALUATE; j++) {
+				if (combination2[i][Rank.values().length - j - 1] != null) {
+					rfCount++;
+				}
+				if (rfCount == 5)
+					return true;
+			}
+			rfCount = 0;
+		}
+		return false;
+	}
+
 	private boolean handIsTwoPair(Card[] sortedHand) {
 		int failCount = 0;
 		int tempID = 0;
@@ -191,7 +295,8 @@ public class HandEvaluator {
 			}
 			if (failCount > count - 1)
 				return false;
-			//System.out.println(temp[i].getRank() + " of " + temp[i].getSuit());
+			if(temp[i] != null)
+				System.out.println(temp[i].getRank() + " of " + temp[i].getSuit());
 		}
 		//
 		System.out.println(temp[0].getRank() + " "
@@ -271,4 +376,5 @@ public class HandEvaluator {
 
 	private List<Player> playersToEvaluate;
 	private HashMap<Player, Hand> evaluatedPlayers;
+	private Boolean[][] combination;
 }

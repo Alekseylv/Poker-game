@@ -121,7 +121,9 @@ public class ClientController implements Observer {
                     view.BroadCast("|PLAYER| has raised for $|RAISE|");
                     break;
                 }
-		}
+		}  else if(arg instanceof Card[]) {
+            view.placePlayers(model.getPlayerList());
+        }
 	}
 	
 	
