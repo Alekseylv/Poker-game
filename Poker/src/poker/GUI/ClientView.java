@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.*;
 import client.ClientModel;
+import commands.SendWinnerListCommand;
 import poker.arturka.Card;
 
 @SuppressWarnings("serial")
 public class ClientView extends JFrame implements ChangeListener, ActionListener{
-    private ClientModel model;
+    // private ClientModel model;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     // Methods' variables START
@@ -42,16 +43,17 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JSlider CashSlider = new JSlider();
     JLabel displayCashSlider = new JLabel();
     JLabel[][] arrayPlayersCards = new JLabel[8][2];
-    JLabel[] arrayPlayersNickCash = new JLabel[8];
-    JLabel[] showFlop = new JLabel[3];
+    JLabel[] arrayPlayersNickCash = new JLabel[9];
+    JLabel[] showTable = new JLabel[5];
+    JLabel winner = new JLabel();
 
     int Cash = 1000;
     int CashCurrent = 30;
     // TableWindow variables end
 
-    public ClientView(ClientModel model) {
+    public ClientView(/*ClientModel model*/) {
 
-        this.model = model;
+        // this.model = model;
 
         // LoginWindow appearance
         LoginWindow.setLayout(new FlowLayout());
@@ -75,7 +77,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.setResizable(false);
         TableWindow.setVisible(false);
         TableWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        TableWindow.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/poker/GUI/img/pokerTableNew.jpg"))));
+        TableWindow.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/img/pokerTableNew.jpg"))));
         TableWindow.setTitle("Poker Client");
 
         arrayPlayersCards[0][0] = backCard(260,435);
@@ -95,21 +97,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         arrayPlayersCards[7][0] = backCard(600,435);
         arrayPlayersCards[7][1] = backCard(590,430);
 
-        arrayPlayersNickCash[0] = clientNameCash("Player0", 300, 230, 510);
-        arrayPlayersNickCash[1] = clientNameCash("Player1", 300, 30, 420);
-        arrayPlayersNickCash[2] = clientNameCash("Player2", 300, 30, 110);
-        arrayPlayersNickCash[3] = clientNameCash("Player3", 300, 250, 20);
-        arrayPlayersNickCash[4] = clientNameCash("Player4", 300, 540, 20);
-        arrayPlayersNickCash[5] = clientNameCash("Player5", 300, 760, 110);
-        arrayPlayersNickCash[6] = clientNameCash("Player6", 300, 760, 420);
-        arrayPlayersNickCash[7] = clientNameCash("Player7", 300, 570, 510);
-
-        showFlop[0] = showFlop("queen_of_hearts", 265, 180);
-        showFlop[1] = showFlop("ace_of_clubs", 340, 180);
-        showFlop[2] = showFlop("jack_of_hearts", 415, 180);
-
-        TableWindow.add(displayNick(), null);
-        TableWindow.add(displayCash(), null);
+//        TableWindow.add(displayNick(), null);
+//        TableWindow.add(displayCash(), null);
         TableWindow.add(foldButton(), null);
         TableWindow.add(checkButton(), null);
         TableWindow.add(callButton(), null);
@@ -121,6 +110,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(ThreexSizeSlider(), null);
         TableWindow.add(userCard1(), null);
         TableWindow.add(userCard2(), null);
+        TableWindow.add(displayWinner(), null);
 
         for(int i = 0; i < 8; i++){
             for(int k = 0; k < 2; k++){
@@ -128,50 +118,37 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
 
-//        this.add(arrayPlayersCards[0][0], null);
-//        this.add(arrayPlayersCards[0][1], null);
-//        this.add(arrayPlayersCards[1][0], null);
-//        this.add(arrayPlayersCards[1][1], null);
-//        this.add(arrayPlayersCards[2][0], null);
-//        this.add(arrayPlayersCards[2][1], null);
-//        this.add(arrayPlayersCards[3][0], null);
-//        this.add(arrayPlayersCards[3][1], null);
-//        this.add(arrayPlayersCards[4][0], null);
-//        this.add(arrayPlayersCards[4][1], null);
-//        this.add(arrayPlayersCards[5][0], null);
-//        this.add(arrayPlayersCards[5][1], null);
-//        this.add(arrayPlayersCards[6][0], null);
-//        this.add(arrayPlayersCards[6][1], null);
-//        this.add(arrayPlayersCards[7][0], null);
 //        this.add(arrayPlayersCards[7][1], null);
 
-        for(int i = 0; i < 8; i++){
-            TableWindow.add(arrayPlayersNickCash[i], null);
+        for(int i = 0; i < arrayPlayersNickCash.length; i++){
+            if(arrayPlayersNickCash[i] != null){
+                TableWindow.add(arrayPlayersNickCash[i], null);
+            }
         }
 
-        for(int i = 0; i < 3; i++){
-            TableWindow.add(showFlop[i], null);
+        for(int i = 0; i < showTable.length; i++){
+            if(showTable[i] != null){
+                TableWindow.add(showTable[i], null);
+            }
         }
-
-        TableWindow.add(showTurn("3_of_diamonds"), null);
-        TableWindow.add(showRiver("7_of_clubs"), null);
 
         TableWindow.add(Dealer(450, 330), null);
-//        this.add(arrayPlayersNickCash[0], null);
-//        this.add(arrayPlayersNickCash[1], null);
-//        this.add(arrayPlayersNickCash[2], null);
-//        this.add(arrayPlayersNickCash[3], null);
-//        this.add(arrayPlayersNickCash[4], null);
-//        this.add(arrayPlayersNickCash[5], null);
-//        this.add(arrayPlayersNickCash[6], null);
 //        this.add(arrayPlayersNickCash[7], null);
+
     }
 
     // Methods for CONTROLLER
 
     public void stateReady(){
-         displayNick.setEnabled(true);
-    }    // to write
+        foldButton.setEnabled(false);
+        raiseButton.setEnabled(false);
+        checkButton.setEnabled(false);
+        callButton.setEnabled(false);
+        potSizeSlider.setEnabled(false);
+        TwoxSizeSlider.setEnabled(false);
+        ThreexSizeSlider.setEnabled(false);
+        CashSlider.setEnabled(false);
+    }
     public void stateInputCheck(){
         checkButton.setVisible(true);
         callButton.setVisible(false);
@@ -204,27 +181,74 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         CashSlider.setEnabled(false);
         potSizeSlider.setEnabled(false);
         TwoxSizeSlider.setEnabled(false);
-        ThreexSizeSlider.setEnabled(false);       
+        ThreexSizeSlider.setEnabled(false);
     }
     public void stateEnded(){
+        winner.setVisible(true);
+    }
 
-    }  // label + id + cash + [combination]
+    public void tableCards(Card[] cards){
+        int count = -1;
+        int x = 265;
+        int offSetX = 75;
+        int newOffSetX;
+        ArrayList<String> tableCards = fromCardToString(cards);
+        
+        for(String card : tableCards){
+            if(card != null){
+                count++;
+                newOffSetX = x + (count * offSetX);
+                showTable[count] = showTable(tableCards.get(count), newOffSetX, 180);
 
-//    TableWindow.add(displayNick(), null);
-//    TableWindow.add(displayCash(), null);
-//    TableWindow.add(foldButton(), null);
-//    TableWindow.add(checkButton(), null);
-//    TableWindow.add(callButton(), null);
-//    TableWindow.add(raiseButton(), null);
-//    TableWindow.add(CashSlider(), null);
-//    TableWindow.add(displayCashSlider(), null);
-//    TableWindow.add(potSizeSlider(), null);
-//    TableWindow.add(TwoxSizeSlider(), null);
-//    TableWindow.add(ThreexSizeSlider(), null);
-//    TableWindow.add(userCard1(), null);
-//    TableWindow.add(userCard2(), null);
-//
-//    }
+            }
+        }
+    }
+    public void getWinners(ArrayList<SendWinnerListCommand.Tuple> list){
+        int id;
+        int newCash;
+
+        for(SendWinnerListCommand.Tuple player : list){
+            if(player != null){
+
+                id = player.id;
+                newCash = player.cash;
+
+                switch (id){
+                    case 0:
+                        arrayPlayersNickCash[id] = clientNameCash("Player0", newCash, 230, 510);
+                        //	arrayPlayersNickCash[id].setVisible(true); for players' list
+                        //	TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 1:
+                        arrayPlayersNickCash[id] = clientNameCash("Player1", newCash, 30, 420);
+                        break;
+                    case 2:
+                        arrayPlayersNickCash[id] = clientNameCash("Player2", newCash, 30, 110);
+                        break;
+                    case 3:
+                        arrayPlayersNickCash[id] = clientNameCash("Player3", newCash, 250, 20);
+                        break;
+                    case 4:
+                        arrayPlayersNickCash[id] = clientNameCash("Player4", newCash, 540, 20);
+                        break;
+                    case 5:
+                        arrayPlayersNickCash[id] = clientNameCash("Player5", newCash, 760, 110);
+                        break;
+                    case 6:
+                        arrayPlayersNickCash[id] = clientNameCash("Player6", newCash, 760, 420);
+                        break;
+                    case 7:
+                        arrayPlayersNickCash[id] = clientNameCash("Player7", newCash, 570, 510);
+                        break;
+                    case 8:
+                        arrayPlayersNickCash[id] = clientNameCash("Player8", newCash, 403, 515);
+                        break;
+
+                }
+            }
+        }
+    }
+
     public ArrayList<String> fromCardToString(Card[] cards ){
         ArrayList<String> output=new ArrayList<String>();
         String fileName="";
@@ -272,16 +296,16 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
             switch (card.getSuit()){
                 case DIAMONDS:
-                    fileName+="diamonds.png";
+                    fileName+="diamonds";
                     break;
                 case HEARTS:
-                    fileName+="hearts.png";
+                    fileName+="hearts";
                     break;
                 case CLUBS:
-                    fileName+="clubs.png";
+                    fileName+="clubs";
                     break;
                 case SPADES:
-                    fileName+="spades.png";
+                    fileName+="spades";
                     break;
             }
             output.add(fileName);
@@ -294,21 +318,28 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     // TableWindow variables description STARTs
 
-    public JLabel displayNick(){
-        displayNick.setBounds(403, 515, 100, 20);
-        displayNick.setForeground(Color.WHITE);
-        displayNick.setHorizontalAlignment( SwingConstants.CENTER );
-        displayNick.setText("aaa");
-        return displayNick;
+//    public JLabel displayNick(){
+//        displayNick.setBounds(403, 515, 100, 20);
+//        displayNick.setForeground(Color.WHITE);
+//        displayNick.setHorizontalAlignment( SwingConstants.CENTER );
+//        displayNick.setText("aaa");
+//        return displayNick;
+//    }
+//    public JLabel displayCash(){
+//        displayCash.setBounds(428, 530, 50, 25);
+//        displayCash.setForeground(Color.WHITE);
+//        displayCash.setHorizontalAlignment( SwingConstants.CENTER );
+//        displayCash.setText("(" + String.valueOf(Cash) + ")");
+//        return displayCash;
+//    }
+    public JLabel displayWinner(){
+        JLabel winner = new JLabel("Player has won cash.");
+        winner.setBounds(350, 565, 200, 20);
+        winner.setForeground(Color.WHITE);
+        winner.setHorizontalAlignment( SwingConstants.CENTER );
+        winner.setVisible(false);
+        return winner;
     }
-    public JLabel displayCash(){
-        displayCash.setBounds(428, 530, 50, 25);
-        displayCash.setForeground(Color.WHITE);
-        displayCash.setHorizontalAlignment( SwingConstants.CENTER );
-        displayCash.setText("(" + String.valueOf(Cash) + ")");
-        return displayCash;
-    }
-
     public JButton foldButton(){
         foldButton.setActionCommand("fold");
         foldButton.setBounds(15, 562, 85, 30);
@@ -412,20 +443,20 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     public JLabel userCard1(){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/3_of_spades.png"));
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/img/cards/3_of_spades.png"));
         JLabel userCard1 = new JLabel(cardImg1);
         userCard1.setBounds(425,415,70,100);
         return userCard1;
     }
     public JLabel userCard2(){
-        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/6_of_clubs.png"));
+        ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/img/cards/6_of_clubs.png"));
         JLabel userCard2 = new JLabel(cardImg2);
         userCard2.setBounds(411,408,70,100);
         return userCard2;
     }
     public JLabel backCard(int x, int y){
 
-        ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/back.png"));
+        ImageIcon back = new ImageIcon(getClass().getResource("/img/cards/back.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,50,70);
 
@@ -441,30 +472,20 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return clientNameCash;
     }
     public JLabel Dealer(int x, int y){
-        ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/Dealer.png"));
+        ImageIcon back = new ImageIcon(getClass().getResource("/img/Dealer.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,25,20);
         return backCard;
     }
 
-    public JLabel showFlop(String card, int x, int y){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
-        JLabel flopCard = new JLabel(cardImg1);
-        flopCard.setBounds(x,y,70,100);
-        return flopCard;
+    public JLabel showTable(String card, int x, int y){
+        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/img/cards/" + card + ".png"));
+        JLabel showTable = new JLabel(cardImg1);
+        showTable.setBounds(x,y,70,100);
+        showTable.setVisible(true);
+        return showTable;
     }
-    public JLabel showTurn(String card){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
-        JLabel turnCard = new JLabel(cardImg1);
-        turnCard.setBounds(490, 180, 70, 100);
-        return turnCard;
-    }
-    public JLabel showRiver(String card){
-        ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
-        JLabel riverCard = new JLabel(cardImg1);
-        riverCard.setBounds(565, 180, 70, 100);
-        return riverCard;
-    }
+
     // TableWindow variables description ENDs
 
     // LoginWindow variables description STARTs
@@ -474,14 +495,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         labelName.setText("Your name: ");
         return labelName;
     }
-
     private JLabel warning(){
         warning.setHorizontalAlignment( SwingConstants.CENTER );
         warning.setText("<html><body align='center'>Name must be between 3 and 15 characters long!</body></html>");
         warning.setVisible(false);
         return warning;
     }
-
     private JTextField textName(){
         textName.setBounds(100, 15, 120, 25);
         return textName;
