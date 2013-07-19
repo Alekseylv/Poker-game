@@ -6,6 +6,7 @@ import poker.arturka.Card.Suit;
 public class HandEvaluatorTest {
 
 	public static void main(String[] args) {
+		//test
 		Card first = new Card(Suit.CLUBS, Rank.ACE);
 		Card second = new Card(Suit.CLUBS, Rank.KING);
 		Card third = new Card(Suit.CLUBS, Rank.QUEEN);

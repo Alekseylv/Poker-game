@@ -101,12 +101,6 @@ public class HandEvaluator {
 			if (failCount > 5)
 				return false;
 		}
-		//
-		System.out.println(temp[0].getRank() + " "
-				+ temp[1].getRank() + " "
-				+ temp[2].getRank() + " "
-				+ temp[3].getRank() + " "
-				+ temp[4].getRank());
 		// Finding second pair
 		failCount = 0;
 		for (int i = 0; i < temp.length - 1; i++) {
