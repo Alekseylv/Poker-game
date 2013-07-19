@@ -674,6 +674,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     public void actionPerformed(ActionEvent e) {
         if("raise".equals(e.getActionCommand())){
            model.pressedRaise(CashSlider.getValue());
+
         } else if("check".equals(e.getActionCommand())){
             model.pressedCheck();
 
