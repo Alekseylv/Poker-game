@@ -67,6 +67,11 @@ public class Game implements Runnable {
     }
 
     public void run() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         System.out.println("we are online");
 //        for(int id: Room.getUsers()){
 //            players.addPlayer(id);
@@ -135,8 +140,9 @@ public class Game implements Runnable {
                                 continue;
                             case EXIT:
                                 better.Fold();
+                                better.toggleInGame();
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.EXIT,better.getBet(),better.getCash())));
-                                players.removePlayer(better.getId());
+                                //players.removePlayer(better.getId());
                         }
                         if(players.playersLeft().size()<2){
                             endGame();
