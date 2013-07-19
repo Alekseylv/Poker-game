@@ -140,8 +140,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     // Methods for CONTROLLER
 
     public void stateReady(){
-        Broadcast.setText("Waiting for players!");
         Broadcast.setVisible(true);
+        Broadcast.setText("Waiting for players!");
         foldButton.setEnabled(false);
         raiseButton.setEnabled(false);
         checkButton.setEnabled(false);
@@ -186,9 +186,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         ThreexSizeSlider.setEnabled(false);
     }
     public void stateEnded(){
-        Broadcast.setText("|PLAYER| has won |CASH||");
         Broadcast.setVisible(true);
-
+        Broadcast.setText("|PLAYER| has won |CASH||");
     }
 
     public void tableCards(Card[] cards){
@@ -253,7 +252,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
 
+    public void placePlayers(List list){
+
+    }
+
     public void BroadCast(String toChange){
+        Broadcast.setVisible(true);
+        Broadcast.setText(toChange);
 
     }
 

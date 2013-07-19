@@ -56,6 +56,10 @@ public class ClientModel extends Observable {
 		setChanged();
         notifyObservers(this.players);
 	}
+
+    public List<ClientSidePlayer> getPlayerList() {
+        return players;
+    }
 	
 	/**
 	 * Get's the player from the player list by it's id
