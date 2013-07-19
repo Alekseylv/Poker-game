@@ -68,7 +68,9 @@ public class Players {
                 return player;
             }
         }
-        return null;
+        Player newDealer=getRandomPlayer();
+        newDealer.toggleDealer();
+        return newDealer;
     }
 
     /**
@@ -79,13 +81,8 @@ public class Players {
     public Player nextDealer(){
         Player oldDealer;
         oldDealer=getDealer();
-        if (oldDealer!=null){
-            oldDealer.toggleDealer();
-            getNextPlayer(oldDealer).toggleDealer();
-        }else{
-            oldDealer=getRandomPlayer();
-            oldDealer.toggleDealer();
-        }
+        oldDealer.toggleDealer();
+        getNextPlayer(oldDealer).toggleDealer();
         return oldDealer;
     }
 
