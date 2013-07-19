@@ -50,6 +50,14 @@ public class ClientModel extends Observable {
 	 *  A list of players participating in the game
 	 */
 	
+	public int getDealer() {
+		for(ClientSidePlayer i: players) {
+			if(i.isDealer()) return i.getId();
+		}
+		
+		return -1;
+	}
+	
 	public void setPlayerList(List<ClientSidePlayer> players) {
 		this.players = players;
 		
