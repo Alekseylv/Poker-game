@@ -57,8 +57,8 @@ public class ClientModel extends Observable {
         notifyObservers(this.players);
 	}
 
-    public List<ClientSidePlayer> getPlayerList() {
-        return players;
+    public ArrayList<ClientSidePlayer> getPlayerList() {
+        return (ArrayList) players;
     }
 	
 	/**

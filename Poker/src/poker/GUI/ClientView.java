@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.*;
 import client.ClientModel;
+import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
 import poker.arturka.Card;
 
 @SuppressWarnings("serial")
 public class ClientView extends JFrame implements ChangeListener, ActionListener{
+
     private ClientModel model;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -80,22 +82,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/poker/GUI/img/pokerTableNew.jpg"))));
         TableWindow.setTitle("Poker Client");
 
-        arrayPlayersCards[0][0] = backCard(260,435);
-        arrayPlayersCards[0][1] = backCard(250,430);
-        arrayPlayersCards[1][0] = backCard(60,345);
-        arrayPlayersCards[1][1] = backCard(50,340);
-        arrayPlayersCards[2][0] = backCard(60,155);
-        arrayPlayersCards[2][1] = backCard(50,150);
-        arrayPlayersCards[3][0] = backCard(280,65);
-        arrayPlayersCards[3][1] = backCard(270,60);
-        arrayPlayersCards[4][0] = backCard(570,65);
-        arrayPlayersCards[4][1] = backCard(560,60);
-        arrayPlayersCards[5][0] = backCard(790,155);
-        arrayPlayersCards[5][1] = backCard(780,150);
-        arrayPlayersCards[6][0] = backCard(790,345);
-        arrayPlayersCards[6][1] = backCard(780,340);
-        arrayPlayersCards[7][0] = backCard(600,435);
-        arrayPlayersCards[7][1] = backCard(590,430);
+
 
 //        TableWindow.add(displayNick(), null);
 //        TableWindow.add(displayCash(), null);
@@ -126,11 +113,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
 
-        for(int i = 0; i < showTable.length; i++){
-            if(showTable[i] != null){
-                TableWindow.add(showTable[i], null);
-            }
-        }
+
 
         TableWindow.add(Dealer(450, 330), null);
 //        this.add(arrayPlayersNickCash[7], null);
@@ -202,6 +185,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                 count++;
                 newOffSetX = x + (count * offSetX);
                 showTable[count] = showTable(tableCards.get(count), newOffSetX, 180);
+                    for(int i = 0; i < showTable.length; i++){
+                        if(showTable[i] != null){
+                            TableWindow.add(showTable[i], null);
+                        }
+                    }
 
             }
         }
@@ -252,8 +240,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
 
-    public void placePlayers(List list){
+    public void placePlayers(ArrayList<ClientSidePlayer> list){
+        int ListSize = list.size();
 
+            for(int i = 0; i < ListSize; i++){
+
+
+            }
     }
 
     public void BroadCast(String toChange){
