@@ -92,11 +92,7 @@ public class Player extends Observable implements Serializable {
     }
 
     public Card[] getHand() {
-    	Card[] tempHand = new Card[hand.length];
-    	for (int i = 0; i < tempHand.length; i++) {
-    		tempHand[i] = hand[i];
-    	}
-    	return tempHand;
+    	return hand;
     }
 
 

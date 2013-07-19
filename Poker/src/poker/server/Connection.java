@@ -10,7 +10,7 @@ public class Connection implements Runnable {
 
 	/* Private constants. */
 	// Time limit for user to respond, otherwise client 'Socket' will be timed out.
-	private static final int READ_TIMEOUT = 4500;
+	private static final int READ_TIMEOUT = 0;
 
 	/* Creates a new instance of 'Connection' class for each client. */
 	public Connection(Socket client) throws IOException {
