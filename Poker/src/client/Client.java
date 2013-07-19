@@ -27,7 +27,6 @@ public class Client {
 	
 	public static void main(String args[]) {
 		
-		
 		try {
 			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);
 						

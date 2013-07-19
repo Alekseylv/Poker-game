@@ -1,5 +1,6 @@
 package commands;
 
+import java.io.Serializable;
 import java.util.List;
 
 import client.ClientController;
@@ -27,7 +28,7 @@ public class SendWinnerListCommand implements Command {
 	 *
 	 */
 	
-	public static class Tuple {
+	public static class Tuple implements Serializable{
 		public final int id;
 		public final int cash;
 		

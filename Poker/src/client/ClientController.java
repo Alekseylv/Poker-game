@@ -83,7 +83,7 @@ public class ClientController implements Observer {
         } else if(arg instanceof Integer) {
             // we just got an id
         } else if(arg instanceof List) {
-            // we just got player list
+            view.placePlayers(model.getPlayerList());
         }
 			
 			
