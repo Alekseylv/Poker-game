@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import message.data.ClientTurn;
 import commands.SendWinnerListCommand.Tuple;
-
 import poker.GUI.ClientView;
 import poker.arturka.Card;
 
@@ -99,7 +99,11 @@ public class ClientController implements Observer {
 	 */
 	
 	public void update(ClientSidePlayer player, Object arg) {
-		// rewrite concrete player on screen
+		if(arg instanceof Card[]) {
+			
+		} else if(arg instanceof ClientTurn) {
+			
+		}
 	}
 	
 	

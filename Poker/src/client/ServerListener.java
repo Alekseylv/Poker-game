@@ -48,11 +48,17 @@ public class ServerListener implements Runnable {
 	
 	public void run() {
 		
+		Object token = null;
 		while(true) {
 			try {
-				Object token = in.readObject();
-				assert(token != null);
-				que.addTask((Command)token);
+				token = in.readObject();
+				System.out.println("Received token");
+				System.out.println(token);
+				if(token == null) {
+					System.out.println("token is null, discarding it");
+					continue;
+				}
+				que.addTask((Command) token);
 				synchronized (que) {
 					que.notify();
 				}

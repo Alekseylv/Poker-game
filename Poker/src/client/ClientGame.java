@@ -43,8 +43,8 @@ public class ClientGame implements Runnable {
 		this.taskList = queue;
 		this.running = true;
 		this.model = new ClientModel(conn);
-		this.view = new ClientView(model);
-		this.controller = new ClientController(model, view);
+		this.view = new ClientView(this.model);
+		this.controller = new ClientController(this.model, this.view);
 		
 		model.addObserver(this.controller);
 	}
@@ -55,6 +55,7 @@ public class ClientGame implements Runnable {
 	
 	public void run() {
 		
+		Command task = null;
 		while(running) {
 			synchronized (this.taskList) {
 				if (this.taskList.isEmpty()) {
@@ -64,13 +65,18 @@ public class ClientGame implements Runnable {
 
 						e.printStackTrace();
 					}
+				} else {
+					task = taskList.getNextTask();
+					if(task != null) {
+						task.execute(this.model, this.controller);
+						System.out.println("here");
+					} else {
+						System.out.println("Task is null, discarding it");
+					}
 				}
 			}
 		
-		Command task = taskList.getNextTask();
-		assert(task != null);
-		task.execute(model, controller);
-		System.out.println("here");
+			
 		}
 	}
 	
