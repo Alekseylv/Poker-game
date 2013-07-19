@@ -113,7 +113,22 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
 
-
+        arrayPlayersCards[0][0] = backCard(260,435);
+        arrayPlayersCards[0][1] = backCard(250,430);
+        arrayPlayersCards[1][0] = backCard(60,345);
+        arrayPlayersCards[1][1] = backCard(50,340);
+        arrayPlayersCards[2][0] = backCard(60,155);
+        arrayPlayersCards[2][1] = backCard(50,150);
+        arrayPlayersCards[3][0] = backCard(280,65);
+        arrayPlayersCards[3][1] = backCard(270,60);
+        arrayPlayersCards[4][0] = backCard(570,65);
+        arrayPlayersCards[4][1] = backCard(560,60);
+        arrayPlayersCards[5][0] = backCard(790,155);
+        arrayPlayersCards[5][1] = backCard(780,150);
+        arrayPlayersCards[6][0] = backCard(790,345);
+        arrayPlayersCards[6][1] = backCard(780,340);
+        arrayPlayersCards[7][0] = backCard(600,435);
+        arrayPlayersCards[7][1] = backCard(590,430);
 
         TableWindow.add(Dealer(450, 330), null);
 //        this.add(arrayPlayersNickCash[7], null);
@@ -242,10 +257,45 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     public void placePlayers(ArrayList<ClientSidePlayer> list){
         int ListSize = list.size();
+        int id = -1;
+            for(ClientSidePlayer player : list){
+                if(player != null){
 
-            for(int i = 0; i < ListSize; i++){
+                    id = player.getId();
 
+                    switch (id){
+                        case 0:
+                            arrayPlayersNickCash[id] = clientNameCash("Player0", player.getCash(), 230, 510);
+                            //	arrayPlayersNickCash[id].setVisible(true); for players' list
+                            //	TableWindow.add(arrayPlayersNickCash[id]);
+                            break;
+                        case 1:
+                            arrayPlayersNickCash[id] = clientNameCash("Player1", player.getCash(), 30, 420);
+                            break;
+                        case 2:
+                            arrayPlayersNickCash[id] = clientNameCash("Player2", player.getCash(), 30, 110);
+                            break;
+                        case 3:
+                            arrayPlayersNickCash[id] = clientNameCash("Player3", player.getCash(), 250, 20);
+                            break;
+                        case 4:
+                            arrayPlayersNickCash[id] = clientNameCash("Player4", player.getCash(), 540, 20);
+                            break;
+                        case 5:
+                            arrayPlayersNickCash[id] = clientNameCash("Player5", player.getCash(), 760, 110);
+                            break;
+                        case 6:
+                            arrayPlayersNickCash[id] = clientNameCash("Player6", player.getCash(), 760, 420);
+                            break;
+                        case 7:
+                            arrayPlayersNickCash[id] = clientNameCash("Player7", player.getCash(), 570, 510);
+                            break;
+                        case 8:
+                            arrayPlayersNickCash[id] = clientNameCash("Player8", player.getCash(), 403, 515);
+                            break;
 
+                    }
+                }
             }
     }
 
