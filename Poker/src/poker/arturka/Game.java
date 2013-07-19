@@ -112,6 +112,9 @@ public class Game implements Runnable {
                         }else{
                             move = room.sendToUser(better.getId(),new FRCallCommand());
                         }
+                        if (move==null){
+                            move=new ClientResponse(ClientTurn.EXIT,1);
+                        }
                         switch(move.turn){
                             case FOLD:
                                 better.Fold();
