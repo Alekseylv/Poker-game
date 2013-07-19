@@ -31,7 +31,7 @@ public class Players {
      */
     public Player getRandomPlayer(){
         Random random=new Random();
-        return playerList.get(random.nextInt(playerList.size()));
+        return getPlayersList().get(random.nextInt(playerList.size()-1));
     }
 
     /**
