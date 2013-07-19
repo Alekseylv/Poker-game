@@ -382,7 +382,17 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                 }
             }
     }
-
+//    public void showMyCards(){
+//        ClientSidePlayer player = new ClientSidePlayer();
+//        fromCardToString(model.getMyCards());
+//        if(player.getId() - 1 == id){
+//            arrayPlayersCards[id][0] = userCard1(260,435, myCards.get(0));
+//            arrayPlayersCards[id][1] = userCard1(250,430, myCards.get(1));
+//        } else {
+//            arrayPlayersCards[id][0] = backCard(260,435);
+//            arrayPlayersCards[id][1] = backCard(250,430);
+//        }
+//    }
     public void BroadCast(String toChange){
         Broadcast.setVisible(true);
         Broadcast.setText(toChange);
