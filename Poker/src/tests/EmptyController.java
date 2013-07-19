@@ -14,19 +14,11 @@ public class EmptyController extends ClientController {
 		// TODO Auto-generated constructor stub
 	}
 	
-
-	
 		/**
 		 * Dispatches changes to appropriate handlers
 		 */
 		public void update(Observable obj, Object arg) {
-			if(obj instanceof ClientSidePlayer) {
-				this.update((ClientSidePlayer) obj, arg);
-			} else if(obj instanceof ClientModel) {
-				this.update((ClientModel) obj, arg);
-			} else {
-				System.out.println("Not a valid object" + obj);
-			}
+			
 		}
 	
 

@@ -24,7 +24,7 @@ import commands.SetIDCommand;
 import commands.SendPlayerListCommand;
 import client.TaskQueue;
 
-public class ClientTests {
+public class OfflineClientTests {
 
 	private TaskQueue que;
 	private TestClientGame game;
@@ -37,23 +37,13 @@ public class ClientTests {
 		
 		Thread gameThread = new Thread(game);
 		gameThread.start();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		this.game.stop();
-	}
-
-	@Test
-	public void offlineClientTest() {
+		
 		List <Player>someList = new ArrayList<Player>();
 		Player player = new Player(1);
 		player.toggleDealer();
 		
 		someList.add(player);
 		someList.add(new Player(2));
-		
-		
 		
 		this.que.addTask(new SetIDCommand(1));
 		this.que.addTask(new SendPlayerListCommand(someList));
@@ -70,6 +60,16 @@ public class ClientTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		this.game.stop();
+	}
+
+	@Test
+	public void offlineClientTest() {
+		
 		// checking if commands work right on client side
 		
 		assertEquals("ID must be 1", 1, game.model.getID());
