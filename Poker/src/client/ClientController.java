@@ -1,10 +1,12 @@
 package client;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import message.data.ClientTurn;
+import commands.SendWinnerListCommand;
 import commands.SendWinnerListCommand.Tuple;
 import poker.GUI.ClientView;
 import poker.arturka.Card;
@@ -18,50 +20,51 @@ import poker.arturka.Card;
 
 public class ClientController implements Observer {
 
-	/**Associated ClientModel and ClientView to send and receive messages */
-	private ClientModel model;
-	private ClientView view;
-	
-	/**
-	 * Constructs a Controller
-	 * 
-	 * @param model 
-	 * The associated ClientModel
-	 * @param view
-	 * The associated ClientView
-	 */
-	public ClientController(ClientModel model, ClientView view) {
-		this.model = model;
-		this.view = view;
-	}
-	
-	
-	/**
-	 * Sends the view information about cash won by players
-	 * 
-	 * @param list
-	 * The list of player id's and cash they have won
-	 */
-			
-	
-	public void sendViewWinners(List<Tuple> list) {
-		// add implementation
-	}
-	
-	/**
-	 * ClientModel change handler
-	 * 
-	 * @param model 
-	 * 	The model that changed
-	 * @param arg
-	 * 	The argument that changed
-	 */
-	
-	public void update(ClientModel model, Object arg) {
-		if(arg instanceof Card[] ) {
-			// rewrite Deck cards
-		} else if(arg instanceof State) {
-			if(model.getState() == State.READY){
+    /**Associated ClientModel and ClientView to send and receive messages */
+    private ClientModel model;
+    private ClientView view;
+
+    /**
+     * Constructs a Controller
+     *
+     * @param model
+     * The associated ClientModel
+     * @param view
+     * The associated ClientView
+     */
+    public ClientController(ClientModel model, ClientView view) {
+        this.model = model;
+        this.view = view;
+    }
+
+
+    /**
+     * Sends the view information about cash won by players
+     *
+     * @param list
+     * The list of player id's and cash they have won
+     */
+
+
+    public void sendViewWinners(List<Tuple> list) {
+        view.getWinners((ArrayList<Tuple>) list);
+    }
+
+    /**
+     * ClientModel change handler
+     *
+     * @param model
+     * 	The model that changed
+     * @param arg
+     * 	The argument that changed
+     */
+
+    public void update(ClientModel model, Object arg) {
+        if(arg instanceof Card[] ) {
+            view.tableCards(model.getFieldCards());
+
+        } else if(arg instanceof State) {
+            if(model.getState() == State.READY){
                 view.stateReady();
             }
             if(model.getState() == State.INPUTCHECK){
@@ -76,11 +79,11 @@ public class ClientController implements Observer {
             if(model.getState() == State.ENDED){
                 view.stateEnded();
             }
-		} else if(arg instanceof Integer) {
-			// we just got an id
-		} else if(arg instanceof List) {
-			// we just got player list
-		}
+        } else if(arg instanceof Integer) {
+            // we just got an id
+        } else if(arg instanceof List) {
+            // we just got player list
+        }
 			
 			
 	/*	private Card fieldcards[];
