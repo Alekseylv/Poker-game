@@ -123,6 +123,7 @@ public class Game implements Runnable {
                         if (move==null){
                             move=new ClientResponse(ClientTurn.EXIT,1);
                         }
+                        System.out.println("Player: "+better.getId()+" has made turn "+move.turn);
                         switch(move.turn){
                             case FOLD:
                                 better.Fold();
