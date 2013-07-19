@@ -130,7 +130,7 @@ public class HandEvaluator {
 
 	private boolean handIsSameKind(Boolean[][] combination2, int count) {
 		int skCount = 0;
-		for (int i = Rank.values().length - 1; i < -1; i--) {
+		for (int i = Rank.values().length - 1; i > - 1; i--) {
 			for (int j = 0; j < Suit.values().length - 1; j++) {
 				if(combination2[j][i] != null && combination2[j+1][i] != null)
 					skCount++;
