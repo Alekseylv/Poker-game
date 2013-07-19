@@ -57,14 +57,13 @@ public class ServerListener implements Runnable {
 				}
 				// String token = in.next();
 				// que.addTask(token)
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-                e.printStackTrace();
-                break;
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-                e.printStackTrace();
-                break;
+			} catch (Exception e) {
+				
+				try {
+					in.close();
+				} catch (IOException e1) {
+				}
+				break;
 			}
 		}
 	}
