@@ -39,7 +39,7 @@ public class ClientModel extends Observable {
 	
 	public ClientModel(Conn conn) {
 		this.conn = conn;
-		this.fieldcards = new Card[5];
+		this.fieldcards = new Card[]{null, null, null, null, null};
 		this.state = State.READY;
 		this.players = new ArrayList<ClientSidePlayer>();
 	}
