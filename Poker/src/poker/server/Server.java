@@ -29,6 +29,7 @@ public class Server {
 	 * gets started. Once game is started a new 'Room' is created and newly connected players
 	 * get added to it.
 	 */
+	
 	public static void main(String[] args) {
 		server = null;
 		client = null;
