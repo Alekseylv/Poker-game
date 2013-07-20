@@ -97,7 +97,6 @@ public class OnlineClientTests {
 		assertTrue("Dealer must be 2nd player", 
 				game.model.getPlayer(2).isDealer() &&
 				(!game.model.getPlayer(1).isDealer()));
-
 		
 	}
 
