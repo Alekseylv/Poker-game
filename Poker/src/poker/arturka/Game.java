@@ -77,19 +77,14 @@ public class Game implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("we are online");
+        System.out.println("Game thread started");
 //        for(int id: Room.getUsers()){
 //            players.addPlayer(id);
 //        }
         players.getDealer();
-        System.out.println("we know dealer");
         for(Player player:players.getPlayersList()){
-            //room.sendToUser(player.getId(), new SetIDCommand(player.getId()));
-            System.out.println("id sent");
-
             room.sendToUser(player.getId(), new SendPlayerListCommand(players.getPlayersList()));
             System.out.println("Send to: "+player.getId()+" SEND PLAYER LIST");
-            System.out.println("ulist sent");
         }
         while(players.playersLeft().size()>1){
             deck.shuffleDeck();
@@ -117,12 +112,6 @@ public class Game implements Runnable {
             room.Broadcast(new PlayerMoveCommand(new PlayerMove(nextPlayer.getId(),ClientTurn.BLIND,nextPlayer.getBet(),nextPlayer.getCash())));
             System.out.println("BROADCAST BIG BLIND");
             deck.shuffleDeck();
-            for(Player currentPlayer: players.getPlayersList()){
-                currentPlayer.unFold();
-                currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
-                room.sendToUser(currentPlayer.getId(),new SendCardsCommand(currentPlayer.getId(),currentPlayer.getHand()[0],currentPlayer.getHand()[1]));
-                System.out.println("Send to: "+currentPlayer.getId()+" HAND");
-            }
             Player firstBetter=players.getNextPlayer(nextPlayer);
             Player better=firstBetter;
             ClientResponse move;
