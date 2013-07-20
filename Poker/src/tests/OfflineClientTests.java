@@ -77,9 +77,9 @@ public class OfflineClientTests {
 				2, game.model.getPlayerList().size());
 		assertEquals("Cash must be 1200", 1200, game.model.getPlayer(2).getCash());
 		assertEquals("Card1 suit must be CLUBS", Suit.CLUBS,  
-				game.model.getPlayer(1).getHand()[0].getSuit());
+				game.model.getMyCards()[0].getSuit());
 		assertEquals("Card1 rank must be ACE", Rank.ACE,  
-				game.model.getPlayer(1).getHand()[0].getRank());
+				game.model.getMyCards()[0].getRank());
 		assertEquals("Last turn of 1st player must be FOLD", ClientTurn.FOLD,
 				game.model.getPlayer(1).getLastTurn());
 		assertEquals("Cash must be 970 after move", 970,

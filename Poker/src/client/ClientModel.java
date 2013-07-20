@@ -155,7 +155,7 @@ public class ClientModel extends Observable {
 	}
 	
 	/**
-	 * Set's the hand held cards of this client player and notfies
+	 * Set's the hand held cards of this client player and notifies
 	 * any observers
 	 * @param card1
 	 * 	The first card

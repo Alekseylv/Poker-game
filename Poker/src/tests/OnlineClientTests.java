@@ -82,7 +82,8 @@ public class OnlineClientTests {
 		assertEquals("ID must be 1", 1, game.model.getID());
 		assertEquals("Player list must have 2 memebers", 
 				2, game.model.getPlayerList().size());
-		assertEquals("Cash must be 1200", 1200, game.model.getPlayer(2).getCash());
+		assertEquals("Cash must be 1200 after GiveCashCommand",
+				1200, game.model.getPlayer(2).getCash());
 		assertEquals("Card1 suit must be CLUBS", Suit.CLUBS,  
 				game.model.getPlayer(1).getHand()[0].getSuit());
 		assertEquals("Card1 rank must be ACE", Rank.ACE,  
@@ -96,7 +97,6 @@ public class OnlineClientTests {
 		assertTrue("Dealer must be 2nd player", 
 				game.model.getPlayer(2).isDealer() &&
 				(!game.model.getPlayer(1).isDealer()));
-
 		
 	}
 
