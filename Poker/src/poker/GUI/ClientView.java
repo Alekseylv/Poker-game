@@ -8,6 +8,7 @@ import javax.swing.event.*;
 import client.ClientModel;
 import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
+import poker.GUI.Coordinates;
 import poker.arturka.Card;
 
 
@@ -211,8 +212,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                 switch (id){
                     case 0:
                         arrayPlayersNickCash[id] = clientNameCash("Player0", newCash, 230, 510);
-                        //	arrayPlayersNickCash[id].setVisible(true); for players' list
-                        //	TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 1:
                         arrayPlayersNickCash[id] = clientNameCash("Player1", newCash, 30, 420);
@@ -243,161 +242,228 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
     }
+    
+    	
+    	
+//    	arrayPlayersCards[id][0] = backCard(260,435);
+//        arrayPlayersCards[id][1] = backCard(250,430);
+//        arrayPlayersNickCash[id] = clientNameCash("Player0", player.getCash(), 230, 510);
+    
+    String Card1 = "CardOne";
+    String Card2 = "CardTwo";
+    String PlayerBar = "PlayerBar";
+    char x = 'x';
+    char y = 'y';
+    
+    public int getLocation(int id, String what, char axis){
+    	
+    	ArrayList<Coordinates> PlayerLocation = new ArrayList<Coordinates>();
+    	ArrayList<Coordinates> CardOneLocation = new ArrayList<Coordinates>();
+    	ArrayList<Coordinates> CardTwoLocation = new ArrayList<Coordinates>();
 
-    public void placePlayers(ArrayList<ClientSidePlayer> list){
+	    	PlayerLocation.add(0, new Coordinates(230, 510));
+			PlayerLocation.add(1, new Coordinates(30, 420));
+			PlayerLocation.add(2, new Coordinates(30, 110));
+			PlayerLocation.add(3, new Coordinates(250, 20));
+			PlayerLocation.add(4, new Coordinates(540, 20));
+			PlayerLocation.add(5, new Coordinates(760, 110));
+			PlayerLocation.add(6, new Coordinates(760, 420));
+			PlayerLocation.add(7, new Coordinates(570, 510));
+			PlayerLocation.add(8, new Coordinates(403, 515));
+			
+			CardOneLocation.add(0, new Coordinates(260,435));
+			CardOneLocation.add(1, new Coordinates(60,345));
+			CardOneLocation.add(2, new Coordinates(60,155));
+			CardOneLocation.add(3, new Coordinates(280,65));
+			CardOneLocation.add(4, new Coordinates(570,65));
+			CardOneLocation.add(5, new Coordinates(790,165));
+			CardOneLocation.add(6, new Coordinates(790,345));
+			CardOneLocation.add(7, new Coordinates(600,435));
+			CardOneLocation.add(8, new Coordinates(433,440));
+			
+			CardTwoLocation.add(0, new Coordinates(250,430));
+			CardTwoLocation.add(1, new Coordinates(50,340));
+			CardTwoLocation.add(2, new Coordinates(50,150));
+			CardTwoLocation.add(3, new Coordinates(270,60));
+			CardTwoLocation.add(4, new Coordinates(560,60));
+			CardTwoLocation.add(5, new Coordinates(780,160));
+			CardTwoLocation.add(6, new Coordinates(780,340));
+			CardTwoLocation.add(7, new Coordinates(590,430));
+			CardTwoLocation.add(8, new Coordinates(423,435));
+			
+		if(what == PlayerBar){
+			if(axis == x){
+			return PlayerLocation.get(id).axisX;
+			} else if (axis == y){
+			return PlayerLocation.get(id).axisY;	
+			}
+    	} else if(what == Card1){
+    		if(axis == x){
+    			return CardOneLocation.get(id).axisX;
+    			} else if (axis == y){
+    			return CardOneLocation.get(id).axisY;	
+    			}
+    	} else if(what == Card2){
+    		if(axis == x){
+    			return CardTwoLocation.get(id).axisX;
+    			} else if (axis == y){
+    			return CardTwoLocation.get(id).axisY;	
+    			}
+    	}
+		return 0;
+	
+    }
+  
+
+	public void placePlayers(ArrayList<ClientSidePlayer> list){
         int id = 0;
+        int offSet = 0;
         ArrayList<String> myCards;
 
             for(ClientSidePlayer player : list){
                 if(player != null){
-
-                    id = player.getId() - 1;
-
+                	offSet = 9 - model.getID();
+                    id = player.getId() - 1;                    
                     switch (id){
-                        case 0:
-                            myCards = fromCardToString(model.getMyCards());
-                              if(model.getID() - 1 == id){
-                                    arrayPlayersCards[id][0] = userCard1(260,435, myCards.get(0));
-                                    arrayPlayersCards[id][1] = userCard1(250,430, myCards.get(1));
-                                } else {
-                                    arrayPlayersCards[id][0] = backCard(260,435);
-                                    arrayPlayersCards[id][1] = backCard(250,430);
-                                }
-                            arrayPlayersNickCash[id] = clientNameCash("Player0", player.getCash(), 230, 510);
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 1:
-                            myCards = fromCardToString(model.getFieldCards());
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(60,345, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(50,340, myCards.get(1));
+                    case 0:
+                    	
+                        myCards = fromCardToString(model.getFieldCards());
+                          if(model.getID() - 1 == id){
+                                arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                                arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
                             } else {
-                                arrayPlayersCards[id][0] = backCard(60,345);
-                                arrayPlayersCards[id][1] = backCard(50,340);
+                                arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                                arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                                
                             }
-                            arrayPlayersNickCash[id] = clientNameCash("Player1", player.getCash(), 30, 420);
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 2:
-                            myCards = fromCardToString(model.getFieldCards());
-                            if(model.getID() - 1 == id){
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 1:
+                        myCards = fromCardToString(model.getFieldCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 2:
+                        myCards = fromCardToString(model.getFieldCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 3:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 4:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 5:
+                        myCards = fromCardToString(model.getCards(id));
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 6:
+                        myCards = fromCardToString(model.getCards(id));
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
 
-                                arrayPlayersCards[id][0] = userCard1(60,155, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(50,150, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(60,155);
-                                arrayPlayersCards[id][1] = backCard(50,150);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player2", player.getCash(), 30, 110);
+                        break;
+                    case 7:
+                        myCards = fromCardToString(model.getCards(id));
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 8:
+                        myCards = fromCardToString(model.getCards(id));
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
 
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 3:
-                            myCards = fromCardToString(model.getMyCards());
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(280,65, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(270,60, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(280,65);
-                                arrayPlayersCards[id][1] = backCard(270,60);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player3", player.getCash(), 250, 20);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 4:
-                            myCards = fromCardToString(model.getMyCards());
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(570,65, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(560,60, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(570,65);
-                                arrayPlayersCards[id][1] = backCard(560,60);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player4", player.getCash(), 540, 20);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 5:
-                            myCards = fromCardToString(model.getCards(id));
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(60,155, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(50,150, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(60,155);
-                                arrayPlayersCards[id][1] = backCard(50,150);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player5", player.getCash(), 760, 110);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 6:
-                            myCards = fromCardToString(model.getCards(id));
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(790,345, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(780,340, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(790,345);
-                                arrayPlayersCards[id][1] = backCard(780,340);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player6", player.getCash(), 760, 420);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-
-                            break;
-                        case 7:
-                            myCards = fromCardToString(model.getCards(id));
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(600,435, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(590,430, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(600,435);
-                                arrayPlayersCards[id][1] = backCard(590,430);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player7", player.getCash(), 570, 510);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 8:
-                            myCards = fromCardToString(model.getCards(id));
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(433,440, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(423,435, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(433,440);
-                                arrayPlayersCards[id][1] = backCard(423,435);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player8", player.getCash(), 403, 515);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-
-                    }
+                }
                 }
             }
     }
@@ -562,8 +628,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         CashSlider.setBounds(720, 550, 155, 50);
         CashSlider.setMaximum(Cash);
-        CashSlider.setMinimum(bigBlind);
-        CashSlider.setValue(bigBlind);
+        CashSlider.setMinimum(bigBlind * 2);
+        CashSlider.setValue(bigBlind * 2);
         CashSlider.addChangeListener(this);
         CashSlider.setMajorTickSpacing(pot);
 //		CashSlider.setMinorTickSpacing((int)(Math.round((Cash / 20)/ 10.0) * 10)); // FORMULA
@@ -676,7 +742,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/back.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,50,70);
-
         return backCard;
     }
 
@@ -719,13 +784,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return warning;
     }
     private JTextField textName(){
-        textName.setBounds(100, 15, 120, 25);
-        
-        textName.addKeyListener(new KeyAdapter() {public void keyPressed(KeyEvent e) {
-        		       if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-        		          buttonConnect.doClick();
-        		       }
-        		     }
+        textName.setBounds(100, 15, 120, 25);       
+		    textName.addKeyListener(new KeyAdapter() {public void keyPressed(KeyEvent e) {
+		       	if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		       		buttonConnect.doClick();
+		       	}
+		    }
         }
     );
         return textName;
