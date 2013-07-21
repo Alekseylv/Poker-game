@@ -134,29 +134,30 @@ public class Game implements Runnable {
                                 better.Fold();
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.FOLD,better.getBet(),better.getCash())));
                                 System.out.println("BROADCAST FOLD");
-                                continue;
+                                break;
                             case CHECK:
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.CHECK,better.getBet(),better.getCash())));
                                 System.out.println("BROADCAST CHECK");
-                                continue;
+                                break;
                             case CALL:
                                 better.bet(maxBet-better.getBet());
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.CALL,better.getBet(),better.getCash())));
                                 System.out.println("BROADCAST CALL");
-                                continue;
+                                break;
                             case RAISE:
                                 better.bet(move.getBet());
                                 raiseBet(better.getBet());
                                 firstBetter=better;
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.RAISE,better.getBet(),better.getCash())));
                                 System.out.println("BROADCAST RAISE");
-                                continue;
+                                break;
                             case EXIT:
                                 better.Fold();
                                 better.toggleInGame();
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.EXIT,better.getBet(),better.getCash())));
                                 System.out.println("BROADCAST FOLD");
-                                //players.removePlayer(better.getId());
+                                room.removeUser(better.getId());
+                                players.removePlayer(better.getId());
                         }
                         if(players.playersLeft().size()<2){
                             endGame();
