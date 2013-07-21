@@ -108,10 +108,9 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     
     public void updateView() {
-    	 SwingUtilities.updateComponentTreeUI(this);
-    	 this.invalidate();
-    	 this.validate();
-    	 this.repaint();
+    	TableWindow.invalidate();
+    	TableWindow.validate();
+    	TableWindow.repaint();
     }
 
     // Methods for CONTROLLER

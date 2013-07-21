@@ -224,8 +224,8 @@ public class ClientModel extends Observable {
 		if(State.INPUTCALL == this.getState() ||
 			State.INPUTCHECK == this.getState()) 
 		{
-			conn.sendResponse(new ClientResponse(turn, cash));
 			this.changeState(State.PLAYING);
+			conn.sendResponse(new ClientResponse(turn, cash));
 		}
 	}
 
