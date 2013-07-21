@@ -31,10 +31,10 @@ public class HandEvaluator {
 		return playerRanking;
 	}
 
-	private Boolean[][] createHandTable(Card[] hand) {
-		Boolean[][] tempHand = new Boolean[Suit.values().length][Rank.values().length];
+	private Card[][] createHandTable(Card[] hand) {
+		Card[][] tempHand = new Card[Suit.values().length][Rank.values().length];
 		for (Card card: hand) {
-			tempHand[card.getSuit().ordinal()][card.getRank().ordinal()] = true;
+			tempHand[card.getSuit().ordinal()][card.getRank().ordinal()] = card;
 		}
 		return tempHand;
 	}
@@ -44,6 +44,9 @@ public class HandEvaluator {
 		for (Entry<Player, Hand> entry: evaluatedPlayers.entrySet()) {
 			if (prev.getValue().ordinal() > entry.getValue().ordinal() && prev != null) {
 				swapEntries(prev, entry);
+			}
+			else if (prev.getValue().ordinal() == entry.getValue().ordinal() && prev != null) {
+				
 			}
 			prev = entry;
 		}
@@ -82,7 +85,7 @@ public class HandEvaluator {
 			return Hand.HIGH_HAND;
 	}
 	
-	private boolean handIsTwoPair(Boolean[][] combination2) {
+	private boolean handIsTwoPair(Card[][] combination2) {
 		int skCount = 0;
 		for (int i = Rank.values().length - 1; i > - 1; i--) {
 			for (int j = 0; j < Suit.values().length; j++) {
@@ -97,7 +100,7 @@ public class HandEvaluator {
 		return false;
 	}
 
-	private boolean handIsStraight(Boolean[][] combination2) {
+	private boolean handIsStraight(Card[][] combination2) {
 		int sCount = 0;
 		boolean continued = false;
 		boolean oneFound = false;
@@ -122,7 +125,7 @@ public class HandEvaluator {
 		return false;
 	}
 
-	private boolean handIsFlush(Boolean[][] combination2) {
+	private boolean handIsFlush(Card[][] combination2) {
 		int fCount = 0;
 		for (int i = 0; i < Suit.values().length; i++) {
 			for (int j = 0; j < Rank.values().length - 1; j++) {
@@ -137,8 +140,8 @@ public class HandEvaluator {
 		return false;
 	}
 
-	private boolean handIsFullHouse(Boolean[][] combination2) {
-		Boolean[][] temp = new Boolean[Suit.values().length][Rank.values().length];
+	private boolean handIsFullHouse(Card[][] combination2) {
+		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		for (int i = 0; i <  Rank.values().length; i++) {
 			for (int j = 0; j < Suit.values().length; j++) {
 				temp[j][i] = combination2[j][i];
@@ -169,7 +172,7 @@ public class HandEvaluator {
 		return false;
 	}
 
-	private boolean handIsSameKind(Boolean[][] combination2, int count) {
+	private boolean handIsSameKind(Card[][] combination2, int count) {
 		int skCount = 0;
 		for (int i = Rank.values().length - 1; i > -1; i--) {
 			for (int j = 0; j < Suit.values().length; j++) {
@@ -184,7 +187,7 @@ public class HandEvaluator {
 		return false;
 	}
 
-	private boolean handIsStraightFlush(Boolean[][] combination2) {
+	private boolean handIsStraightFlush(Card[][] combination2) {
 		int sfCount = 0;
 		for (int i = 0; i < Suit.values().length; i++) {
 			for (int j = 0; j < Rank.values().length - 1; j++) {
@@ -200,7 +203,7 @@ public class HandEvaluator {
 		return false;
 	}
 
-	private boolean handIsRoyalFlush(Boolean[][] combination2) {
+	private boolean handIsRoyalFlush(Card[][] combination2) {
 		int rfCount = 0;
 		for (int i = 0; i < Suit.values().length; i++) {
 			for (int j = 0; j < CARDS_TO_EVALUATE; j++) {
@@ -215,6 +218,7 @@ public class HandEvaluator {
 		return false;
 	}
 	
+	/*
 	private Card[] sortHand(Card[] hand) {
 		for (int i = 1; i < hand.length; i++) {
 			if (hand[i-1].getRank().ordinal() < hand[i].getRank().ordinal()) {
@@ -226,8 +230,9 @@ public class HandEvaluator {
 		}
 		return hand;
 	}
+	*/
 
 	private List<Player> playersToEvaluate;
 	private HashMap<Player, Hand> evaluatedPlayers;
-	private Boolean[][] combination;
+	private Card[][] combination;
 }
