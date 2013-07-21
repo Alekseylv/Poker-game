@@ -6,7 +6,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import message.data.ClientTurn;
-import commands.SendWinnerListCommand;
 import commands.SendWinnerListCommand.Tuple;
 
 import poker.GUI.ClientView;

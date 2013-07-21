@@ -104,7 +104,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(displayBroadcast(), null);
     }
-
+    
+    public void updateView() {
+    	TableWindow.invalidate();
+    	TableWindow.validate();
+    	TableWindow.repaint();
+    }
+    
     // Methods for CONTROLLER
 
     public void stateReady(){
