@@ -12,6 +12,10 @@ import poker.arturka.Card.Suit;
 public class HandEvaluator {
 
 	private static final int CARDS_TO_EVALUATE = 5;
+	private static final int FOUR_OF_A_KIND_COUNT = 4;
+	private static final int THREE_OF_A_KIND_COUNT = 3;
+	private static final int TWO_PAIR_COUNT = 2;
+	private static final int ONE_PAIR_COUNT = 1;
 	
 	public HandEvaluator(List<Player> playersLeft) {
 		playersToEvaluate = playersLeft;
@@ -33,6 +37,7 @@ public class HandEvaluator {
 		for (Card card: hand) {
 			tempHand[card.getSuit().ordinal()][card.getRank().ordinal()] = true;
 		}
+		/* Prints out card count in table
 		int c= 0;
 		for (Boolean[] val: tempHand) {
 			for (Boolean val2: val) {
@@ -42,6 +47,7 @@ public class HandEvaluator {
 			}
 		}
 		System.out.println(c);
+		*/
 		return tempHand;
 	}
 	
@@ -71,36 +77,79 @@ public class HandEvaluator {
 			return Hand.ROYAL_FLUSH;
 		else if (handIsStraightFlush(combination))
 			return Hand.STRAIGHT_FLUSH;
-		else if (handIsSameKind(combination,4))
+		else if (handIsSameKind(combination, FOUR_OF_A_KIND_COUNT))
 			return Hand.FOUR_OF_A_KIND;
 		else if (handIsFullHouse(combination))
 			return Hand.FULL_HOUSE;
-		/*
-		if (handIsRoyalFlush(sortedHand))
-			return Hand.ROYAL_FLUSH;
-		else if (handIsStraightFlush(sortedHand))
-			return Hand.STRAIGHT_FLUSH;
-		else if (handHasSimilarRanks(sortedHand, 4))
-			return Hand.FOUR_OF_A_KIND;
-		else if (handIsFullHouse(sortedHand, true) || handIsFullHouse(sortedHand, false))
-			return Hand.FULL_HOUSE;
-		else if (handIsFlush(sortedHand))
+		else if (handIsFlush(combination))
 			return Hand.FLUSH;
-		else if (handIsStraight(sortedHand))
+		else if (handIsStraight(combination))
 			return Hand.STRAIGHT;
-		else if (handHasSimilarRanks(sortedHand, 3))
+		else if (handIsSameKind(combination, THREE_OF_A_KIND_COUNT))
 			return Hand.THREE_OF_A_KIND;
-		else if (handIsTwoPair(sortedHand))
+		else if (handIsTwoPair(combination))
 			return Hand.TWO_PAIR;
-		else if (handHasSimilarRanks(sortedHand, 2))
+		else if (handIsSameKind(combination, ONE_PAIR_COUNT))
 			return Hand.ONE_PAIR;
 		else
 			return Hand.HIGH_HAND;
-			*/
-		
-		return null;
 	}
 	
+	private boolean handIsTwoPair(Boolean[][] combination2) {
+		int skCount = 0;
+		for (int i = Rank.values().length - 1; i > - 1; i--) {
+			for (int j = 0; j < Suit.values().length; j++) {
+				if(combination2[Suit.values().length - j - 1][i] != null) {
+					skCount++;
+				}
+				if (skCount == TWO_PAIR_COUNT)
+					return true;
+			}
+			skCount = 0;
+		}
+		return false;
+	}
+
+	private boolean handIsStraight(Boolean[][] combination2) {
+		int sCount = 0;
+		boolean continued = false;
+		boolean oneFound = false;
+		for (int i = Rank.values().length - 1; i > 0; i--) {
+			for (int j = 0; j < Suit.values().length; j++) {
+				if (combination2[j][i] != null) {
+					for (int k = 0; k < Suit.values().length; k++) {
+						if (combination2[k][i - 1] != null && !oneFound) {
+							sCount++;
+							continued = true;
+							oneFound = true;
+						}
+					}
+				}
+				if (sCount == 4)
+					return true;
+			}
+			oneFound = false;
+			if (!continued)
+				sCount = 0;
+		}
+		return false;
+	}
+
+	private boolean handIsFlush(Boolean[][] combination2) {
+		int fCount = 0;
+		for (int i = 0; i < Suit.values().length; i++) {
+			for (int j = 0; j < Rank.values().length - 1; j++) {
+				if (combination2[i][Rank.values().length - j - 1] != null) {
+					fCount++;
+				}
+				if (fCount == 4)
+					return true;
+			}
+			fCount = 0;
+		}
+		return false;
+	}
+
 	private boolean handIsFullHouse(Boolean[][] combination2) {
 		int tokCount = 0;
 		boolean threeOfAKind = false;
@@ -124,16 +173,16 @@ public class HandEvaluator {
 			twoOfAKind = true;
 		if (twoOfAKind && threeOfAKind)
 			return true;
-		System.out.println(twoOfAKind +" "+ threeOfAKind);
 		return false;
 	}
 
 	private boolean handIsSameKind(Boolean[][] combination2, int count) {
 		int skCount = 0;
-		for (int i = Rank.values().length - 1; i > - 1; i--) {
+		for (int i = Rank.values().length - 1; i > -1; i--) {
 			for (int j = 0; j < Suit.values().length; j++) {
-				if(combination2[j][i] != null)
+				if(combination2[j][i] != null) {
 					skCount++;
+				}
 				if (skCount == count)
 					return true;
 			}
@@ -147,7 +196,7 @@ public class HandEvaluator {
 		for (int i = 0; i < Suit.values().length; i++) {
 			for (int j = 0; j < Rank.values().length - 1; j++) {
 				if (combination2[i][Rank.values().length - j - 1] != null &&
-						combination2[i][Rank.values().length - (j+1) - 1] != null) {
+						combination2[i][Rank.values().length - j] != null) {
 					sfCount++;
 				}
 				if (sfCount == 4)
@@ -171,207 +220,6 @@ public class HandEvaluator {
 			rfCount = 0;
 		}
 		return false;
-	}
-
-	private boolean handIsTwoPair(Card[] sortedHand) {
-		int failCount = 0;
-		int tempID = 0;
-		int onePairFound = 0;
-		boolean pairAtBeggining = false;
-		Card[] temp = new Card[sortedHand.length - 2];
-		// Finding first pair
-		for (int i = 0; i < sortedHand.length - 1; i++) {
-			if (!(sortedHand[i].getRank().equals(sortedHand[i + 1].getRank()))) {
-				failCount++;
-				if (onePairFound != 1)
-					temp[tempID++] = sortedHand[i];
-				if (pairAtBeggining && i == 2) 
-					temp[tempID++] = sortedHand[2];
-				else if (i + 1 == sortedHand.length - 1)
-					temp[tempID++] = sortedHand[i + 1];
-			}
-			else {
-				if (i==0) {
-					pairAtBeggining = true;
-				}
-				if (onePairFound > 0) {
-					temp[tempID++] = sortedHand[i];
-					if (i + 1 == sortedHand.length - 1) {
-						temp[tempID++] = sortedHand[i + 1];
-					}
-				}
-				onePairFound++;
-			}
-			if (failCount > 5)
-				return false;
-		}
-		// Finding second pair
-		failCount = 0;
-		for (int i = 0; i < temp.length - 1; i++) {
-			if (!(temp[i].getRank().equals(temp[i + 1].getRank()))) {
-				failCount++;
-			}
-			if (failCount > 3)
-				return false;
-		}
-		return true;
-	}
-
-	private boolean handIsStraight(Card[] sortedHand) {
-		int failCount = 0;
-		for (int i = 0; i < sortedHand.length - 1; i++) {
-			if (!(sortedHand[i].getRank().ordinal() == sortedHand[i + 1]
-							.getRank().ordinal() + 1))
-				failCount++;
-			if (failCount > 2)
-				return false;
-		}
-		return true;
-	}
-
-	private boolean handIsFlush(Card[] sortedHand) {
-		int spadesCount = 0;
-		int diamondsCount = 0;
-		int heartsCount = 0;
-		int clubsCount = 0;
-		for (int i = 0; i < sortedHand.length; i++) {
-			switch (sortedHand[i].getSuit()) {
-			case CLUBS:
-				clubsCount++;
-				break;
-			case HEARTS:
-				heartsCount++;
-				break;
-			case SPADES:
-				spadesCount++;
-				break;
-			case DIAMONDS:
-				diamondsCount++;
-				break;
-			default:
-				break;
-			}
-		}
-		if (spadesCount > 4 || heartsCount > 4 || diamondsCount > 4 || clubsCount > 4)
-			return true;
-		else
-			return false;
-	}
-
-	private boolean handIsFullHouse(Card[] sortedHand, boolean pairFirst) {
-		int failCount = 0;
-		int tempID = 0;
-		int onePairFound = 0;
-		int count = 0;
-		if (pairFirst)
-			count = 5;
-		else
-			count = 4;
-		boolean pairAtBeggining = false;
-		Card[] temp = new Card[sortedHand.length - 2];
-		// Finding first pair
-		for (int i = 0; i < sortedHand.length - 1; i++) {
-			if (!(sortedHand[i].getRank().equals(sortedHand[i + 1].getRank()))) {
-				failCount++;
-				if (onePairFound != 1)
-					temp[tempID++] = sortedHand[i];
-				if (pairAtBeggining && i == 2) 
-					temp[tempID++] = sortedHand[2];
-				else if (i + 1 == sortedHand.length - 1)
-					temp[tempID++] = sortedHand[i + 1];
-				
-			}
-			else {
-				if (i==0) {
-					pairAtBeggining = true;
-				}
-				if (onePairFound > 0) {
-					temp[tempID++] = sortedHand[i];
-					if (i + 1 == sortedHand.length - 1) {
-						temp[tempID++] = sortedHand[i + 1];
-					}
-				}
-				onePairFound++;
-			}
-			if (failCount > count - 1)
-				return false;
-			if(temp[i] != null)
-				System.out.println(temp[i].getRank() + " of " + temp[i].getSuit());
-		}
-		//
-		System.out.println(temp[0].getRank() + " "
-				+ temp[1].getRank() + " "
-				+ temp[2].getRank() + " "
-				+ temp[3].getRank() + " "
-				+ temp[4].getRank());
-		// Finding second pair
-		failCount = 0;
-		for (int i = 0; i < temp.length - 1; i++) {
-			if (!(temp[i].getRank().equals(temp[i + 1].getRank()))) {
-				failCount++;
-			}
-			if (failCount > sortedHand.length - count + 2)
-				return false;
-		}
-		return true;
-	}
-
-	private boolean handHasSimilarRanks(Card[] sortedHand, int count) {
-		int successCount = 0;
-		for (int i = 0; i < sortedHand.length - 1; i++) {
-			if (sortedHand[i].getRank().equals(sortedHand[i + 1].getRank()))
-				successCount++;
-			else if (successCount > 0)
-				successCount--;
-			if (successCount >= sortedHand.length - count)
-				return true;
-		}
-		return false;
-	}
-
-	private boolean handIsStraightFlush(Card[] sortedHand) {
-		int successCount = 0;
-		for (int i = 0; i < sortedHand.length - 1; i++) {
-			if (sortedHand[i].getSuit().equals(
-							sortedHand[i + 1].getSuit())
-					&& sortedHand[i].getRank().ordinal() == sortedHand[i + 1]
-							.getRank().ordinal() + 1)
-				successCount++;
-			else {
-				if (successCount == 2)
-					return false;
-			}
-		}
-		if (successCount > 3)
-			return true;
-		return false;
-	}
-
-	private boolean handIsRoyalFlush(Card[] sortedHand) {
-		Card master = sortedHand[0];
-		if (master.getRank() == Rank.ACE) {
-			for (int i = 1; i < CARDS_TO_EVALUATE; i++) {
-				if (sortedHand[i].getSuit() != master.getSuit())
-					return false;
-			}
-		}
-		else
-			return false;
-		if (sortedHand[CARDS_TO_EVALUATE - 1].getRank() != Rank.TEN)
-			return false;
-		return true;
-	}
-
-	private Card[] sortHand(Card[] hand) {
-		for (int i = 1; i < hand.length; i++) {
-			if (hand[i-1].getRank().ordinal() < hand[i].getRank().ordinal()) {
-				Card prev = hand[i-1];
-				hand[i-1] = hand[i];
-				hand[i] = prev;
-				i--;
-			}
-		}
-		return hand;
 	}
 
 	private List<Player> playersToEvaluate;

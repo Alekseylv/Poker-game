@@ -11,13 +11,13 @@ public class HandEvaluatorTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Card c1 = new Card(Suit.HEARTS, Rank.KING);
-		Card c2 = new Card(Suit.SPADES, Rank.KING);
-		Card c3 = new Card(Suit.DIAMONDS, Rank.KING);
-		Card c4 = new Card(Suit.CLUBS, Rank.QUEEN);
-		Card c5 = new Card(Suit.HEARTS, Rank.QUEEN);
-		Card c6 = new Card(Suit.SPADES, Rank.SIX);
-		Card c7 = new Card(Suit.SPADES, Rank.SIX);
+		Card c1 = new Card(Suit.DIAMONDS, Rank.KING);
+		Card c2 = new Card(Suit.SPADES, Rank.QUEEN);
+		Card c3 = new Card(Suit.DIAMONDS, Rank.JACK);
+		Card c4 = new Card(Suit.DIAMONDS, Rank.THREE);
+		Card c5 = new Card(Suit.CLUBS, Rank.KING);
+		Card c6 = new Card(Suit.SPADES, Rank.KING);
+		Card c7 = new Card(Suit.HEARTS, Rank.TWO);
 		Card[] playerHand = {c1, c2, c3, c4, c5, c6, c7};
 		HandEvaluator evaluator = new HandEvaluator(players);
 		Hand hand = evaluator.getHand(playerHand);
