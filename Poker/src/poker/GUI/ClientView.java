@@ -509,43 +509,43 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
             switch (card.getRank()){
                 case TWO:
-                    fileName+="2_of_";
+                    fileName = "2_of_";
                     break;
                 case THREE:
-                    fileName+="3_of_";
+                    fileName = "3_of_";
                     break;
                 case FOUR:
-                    fileName+="4_of_";
+                    fileName = "4_of_";
                     break;
                 case FIVE:
-                    fileName+="5_of_";
+                    fileName = "5_of_";
                     break;
                 case SIX:
-                    fileName+="6_of_";
+                    fileName = "6_of_";
                     break;
                 case SEVEN:
-                    fileName+="7_of_";
+                    fileName = "7_of_";
                     break;
                 case EIGHT:
-                    fileName+="8_of_";
+                    fileName = "8_of_";
                     break;
                 case NINE:
-                    fileName+="9_of_";
+                    fileName = "9_of_";
                     break;
                 case TEN:
-                    fileName+="10_of_";
+                    fileName = "10_of_";
                     break;
                 case JACK:
-                    fileName+="jack_of_";
+                    fileName = "jack_of_";
                     break;
                 case QUEEN:
-                    fileName+="queen_of_";
+                    fileName = "queen_of_";
                     break;
                 case KING:
-                    fileName+="king_of_";
+                    fileName = "king_of_";
                     break;
                 case ACE:
-                    fileName+="ace_of_";
+                    fileName = "ace_of_";
                     break;
             }
             switch (card.getSuit()){
@@ -563,7 +563,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                     break;
             }
             output.add(fileName);
-            fileName = "";
         }
         return output;
     }
