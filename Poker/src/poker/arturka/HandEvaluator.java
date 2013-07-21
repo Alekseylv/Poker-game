@@ -37,17 +37,6 @@ public class HandEvaluator {
 		for (Card card: hand) {
 			tempHand[card.getSuit().ordinal()][card.getRank().ordinal()] = true;
 		}
-		/* Prints out card count in table
-		int c= 0;
-		for (Boolean[] val: tempHand) {
-			for (Boolean val2: val) {
-				if (val2 != null) {
-					c++;
-				}
-			}
-		}
-		System.out.println(c);
-		*/
 		return tempHand;
 	}
 	
@@ -72,7 +61,6 @@ public class HandEvaluator {
 	public Hand getHand(Card[] hand) {
 		combination = createHandTable(hand);
 		//Card[] sortedHand = sortHand(hand);
-		//
 		if (handIsRoyalFlush(combination))
 			return Hand.ROYAL_FLUSH;
 		else if (handIsStraightFlush(combination))
