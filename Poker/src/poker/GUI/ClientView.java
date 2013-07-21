@@ -45,9 +45,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JLabel displayCashSlider = new JLabel();
     JLabel[][] arrayPlayersCards = new JLabel[8][2];
     JLabel[] arrayPlayersNickCash = new JLabel[9];
-    JLabel[] showTable = new JLabel[5];
+    JLabel[] showTableCards = new JLabel[5];
     JLabel Broadcast = new JLabel();
-
+    JLabel Dealer = new JLabel();
+    
     int Cash = 3000;
     int CashCurrent = 30;
     int pot = 550;
@@ -103,7 +104,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(displayBroadcast(), null);
 
-        TableWindow.add(Dealer(450, 330), null);
+
 
 
     }
@@ -178,21 +179,22 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         Broadcast.setText("|PLAYER| has won |CASH||");
     }
 
-    public void tableCards(Card[] cards){
+    public void tableCards(){
         int count = -1;
         int x = 265;
         int offSetX = 75;
         int newOffSetX;
-        ArrayList<String> tableCards = fromCardToString(cards);
+        ArrayList<String> tableCards = fromCardToString(model.getFieldCards());
         
         for(String card : tableCards){
+        
             if(card != null){
                 count++;
                 newOffSetX = x + (count * offSetX);
-                showTable[count] = showTable(tableCards.get(count), newOffSetX, 180);
-                    for(int i = 0; i < showTable.length; i++){
-                        if(showTable[i] != null){
-                            TableWindow.add(showTable[i], null);
+                showTableCards[count] = showTable(tableCards.get(count), newOffSetX, 180);
+                    for(int i = 0; i < showTableCards.length; i++){
+                        if(showTableCards[i] != null){
+                            TableWindow.add(showTableCards[i], null);
                         }
                     }
 
@@ -242,16 +244,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
     }
-    
-    	
-    	
-//    	arrayPlayersCards[id][0] = backCard(260,435);
-//        arrayPlayersCards[id][1] = backCard(250,430);
-//        arrayPlayersNickCash[id] = clientNameCash("Player0", player.getCash(), 230, 510);
-    
+     
     String Card1 = "CardOne";
     String Card2 = "CardTwo";
     String PlayerBar = "PlayerBar";
+    String Deal = "Dealer";
     char x = 'x';
     char y = 'y';
     
@@ -260,7 +257,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     	ArrayList<Coordinates> PlayerLocation = new ArrayList<Coordinates>();
     	ArrayList<Coordinates> CardOneLocation = new ArrayList<Coordinates>();
     	ArrayList<Coordinates> CardTwoLocation = new ArrayList<Coordinates>();
-
+    	ArrayList<Coordinates> DealerLocation = new ArrayList<Coordinates>();
+    	
 	    	PlayerLocation.add(0, new Coordinates(230, 510));
 			PlayerLocation.add(1, new Coordinates(30, 420));
 			PlayerLocation.add(2, new Coordinates(30, 110));
@@ -269,7 +267,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 			PlayerLocation.add(5, new Coordinates(760, 110));
 			PlayerLocation.add(6, new Coordinates(760, 420));
 			PlayerLocation.add(7, new Coordinates(570, 510));
-			PlayerLocation.add(8, new Coordinates(403, 515));
+			PlayerLocation.add(8, new Coordinates(400, 515));
 			
 			CardOneLocation.add(0, new Coordinates(260,435));
 			CardOneLocation.add(1, new Coordinates(60,345));
@@ -279,7 +277,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 			CardOneLocation.add(5, new Coordinates(790,165));
 			CardOneLocation.add(6, new Coordinates(790,345));
 			CardOneLocation.add(7, new Coordinates(600,435));
-			CardOneLocation.add(8, new Coordinates(433,440));
+			CardOneLocation.add(8, new Coordinates(420,410));
 			
 			CardTwoLocation.add(0, new Coordinates(250,430));
 			CardTwoLocation.add(1, new Coordinates(50,340));
@@ -289,7 +287,17 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 			CardTwoLocation.add(5, new Coordinates(780,160));
 			CardTwoLocation.add(6, new Coordinates(780,340));
 			CardTwoLocation.add(7, new Coordinates(590,430));
-			CardTwoLocation.add(8, new Coordinates(423,435));
+			CardTwoLocation.add(8, new Coordinates(410,405));
+			
+			DealerLocation.add(0, new Coordinates(280, 390));
+			DealerLocation.add(1, new Coordinates(130, 340));
+			DealerLocation.add(2, new Coordinates(130, 210));
+			DealerLocation.add(3, new Coordinates(300, 150));
+			DealerLocation.add(4, new Coordinates(555, 150));
+			DealerLocation.add(5, new Coordinates(740, 210));
+			DealerLocation.add(6, new Coordinates(740, 340));
+			DealerLocation.add(7, new Coordinates(575, 390));
+			DealerLocation.add(8, new Coordinates(455, 370));
 			
 		if(what == PlayerBar){
 			if(axis == x){
@@ -309,6 +317,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     			} else if (axis == y){
     			return CardTwoLocation.get(id).axisY;	
     			}
+    	} else if(what == Deal){
+    		if(axis == x){
+    			return DealerLocation.get(id).axisX;
+    			} else if (axis == y){
+    			return DealerLocation.get(id).axisY;	
+    			}
     	}
 		return 0;
 	
@@ -325,24 +339,23 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                 	offSet = 9 - model.getID();
                     id = player.getId() - 1;                    
                     switch (id){
-                    case 0:
-                    	
-                        myCards = fromCardToString(model.getFieldCards());
-                          if(model.getID() - 1 == id){
-                                arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
-                                arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
-                                
-                            }
+                    case 0: 	
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                        	arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                        	arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                        	arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+		                                
+                        }
                         arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         TableWindow.add(arrayPlayersCards[id][0]);
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 1:
-                        myCards = fromCardToString(model.getFieldCards());
+                        myCards = fromCardToString(model.getMyCards());
                         if(model.getID() - 1 == id){
                             arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
                             arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
@@ -351,13 +364,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                             arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
                             
                         }
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         TableWindow.add(arrayPlayersCards[id][0]);
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 2:
-                        myCards = fromCardToString(model.getFieldCards());
+                        myCards = fromCardToString(model.getMyCards());                       
                         if(model.getID() - 1 == id){
                             arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
                             arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
@@ -402,7 +415,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 5:
-                        myCards = fromCardToString(model.getCards(id));
+                        myCards = fromCardToString(model.getMyCards());
                         if(model.getID() - 1 == id){
                             arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
                             arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
@@ -417,7 +430,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 6:
-                        myCards = fromCardToString(model.getCards(id));
+                        myCards = fromCardToString(model.getMyCards());
                         if(model.getID() - 1 == id){
                             arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
                             arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
@@ -433,7 +446,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
                         break;
                     case 7:
-                        myCards = fromCardToString(model.getCards(id));
+                        myCards = fromCardToString(model.getMyCards());
                         if(model.getID() - 1 == id){
                             arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
                             arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
@@ -448,7 +461,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 8:
-                        myCards = fromCardToString(model.getCards(id));
+                        myCards = fromCardToString(model.getMyCards());
                         if(model.getID() - 1 == id){
                             arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
                             arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
@@ -464,6 +477,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         break;
 
                 }
+                    TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
                 }
             }
     }
@@ -489,7 +503,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         String fileName="";
         for(Card card:cards){
             if (card==null){
-                fileName="ace_of_spades";
+                fileName="ace_of_diamonds";
                 output.add(fileName);
                 continue;
             }
@@ -549,6 +563,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                     break;
             }
             output.add(fileName);
+            fileName = "";
         }
         return output;
     }
@@ -558,20 +573,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     // TableWindow variables description STARTs
 
-//    public JLabel displayNick(){
-//        displayNick.setBounds(403, 515, 100, 20);
-//        displayNick.setForeground(Color.WHITE);
-//        displayNick.setHorizontalAlignment( SwingConstants.CENTER );
-//        displayNick.setText("aaa");
-//        return displayNick;
-//    }
-//    public JLabel displayCash(){
-//        displayCash.setBounds(428, 530, 50, 25);
-//        displayCash.setForeground(Color.WHITE);
-//        displayCash.setHorizontalAlignment( SwingConstants.CENTER );
-//        displayCash.setText("(" + String.valueOf(Cash) + ")");
-//        return displayCash;
-//    }
     public JLabel displayBroadcast(){
         JLabel Broadcast = new JLabel();
         Broadcast.setText("");
@@ -755,12 +756,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public JLabel Dealer(int x, int y){
         ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/Dealer.png"));
-        JLabel backCard = new JLabel(back);
-        backCard.setBounds(x,y,25,20);
-        return backCard;
+        Dealer = new JLabel(back);
+        Dealer.setBounds(x,y,25,20);
+        return Dealer;
     }
 
     public JLabel showTable(String card, int x, int y){
+    	
         ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
         JLabel showTable = new JLabel(cardImg1);
         showTable.setBounds(x,y,70,100);

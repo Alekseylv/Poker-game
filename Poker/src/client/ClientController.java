@@ -62,7 +62,7 @@ public class ClientController implements Observer {
 
     public void update(ClientModel model, Object arg) {
         if(arg instanceof Card[] ) {
-            view.tableCards(model.getFieldCards());
+            view.tableCards();
 
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
