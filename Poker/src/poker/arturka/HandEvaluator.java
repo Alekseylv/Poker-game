@@ -151,17 +151,23 @@ public class HandEvaluator {
 	}
 
 	private boolean handIsFullHouse(Boolean[][] combination2) {
+		Boolean[][] temp = new Boolean[Suit.values().length][Rank.values().length];
+		for (int i = 0; i <  Rank.values().length; i++) {
+			for (int j = 0; j < Suit.values().length; j++) {
+				temp[j][i] = combination2[j][i];
+			}
+		}
 		int tokCount = 0;
 		boolean threeOfAKind = false;
 		boolean twoOfAKind = false;
 		boolean lineCleared = false;
 		for (int i = 0; i < Rank.values().length; i++) {
 			for (int j = 0; j < Suit.values().length; j++) {
-				if(combination2[j][i] != null)
+				if(temp[j][i] != null)
 					tokCount++;
 				if (tokCount == 3 && !lineCleared) {
 					for (int j2 = 0; j2 < Suit.values().length; j2++) {
-						combination2[j2][i] = null;
+						temp[j2][i] = null;
 					}
 					lineCleared = true;
 					threeOfAKind = true;
@@ -169,7 +175,7 @@ public class HandEvaluator {
 			}
 			tokCount = 0;
 		}
-		if (handIsSameKind(combination2, 2))
+		if (handIsSameKind(temp, 2))
 			twoOfAKind = true;
 		if (twoOfAKind && threeOfAKind)
 			return true;
