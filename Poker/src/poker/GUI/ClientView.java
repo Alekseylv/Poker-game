@@ -549,6 +549,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                     break;
             }
             output.add(fileName);
+            fileName = "";
         }
         return output;
     }
