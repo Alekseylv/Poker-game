@@ -106,20 +106,25 @@ public class ClientController implements Observer {
 		if(arg instanceof ClientTurn) {
             switch(player.getLastTurn()){
                 case CALL:
-                    view.BroadCast("|PLAYER| has called a bet ($|BET|)");
+                    view.displayBroadcast().setText(player.getId() + "ID has called for |CHIPS|");
                     break;
                 case CHECK:
-                    view.BroadCast("|PLAYER| has checked");
+                	view.displayBroadcast().setText(player.getId() + "ID has checked");
                     break;
                 case EXIT:
-                    view.BroadCast("|PLAYER| has gone offline");
+                	view.displayBroadcast().setText(player.getId() + "ID has gone offline");
                     break;
                 case FOLD:
-                    view.BroadCast("|PLAYER| has folded");
+                	view.displayBroadcast().setText(player.getId() + "ID has folded");
                     break;
                 case RAISE:
-                    view.BroadCast("|PLAYER| has raised for $|RAISE|");
+                	view.displayBroadcast().setText(player.getId() + "ID has raised for |CHIPS|");
                     break;
+                case BLIND:
+                	view.displayBroadcast().setText((model.getDealer() + 2)%(model.getDealer() + 2) + "ID is on a BIG BLIND");
+                	break;
+                default:
+                	break;
                 }
 		}  else if(arg instanceof Card[]) {
             view.placePlayers(model.getPlayerList());

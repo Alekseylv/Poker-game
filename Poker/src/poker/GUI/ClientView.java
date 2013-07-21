@@ -63,7 +63,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         // LoginWindow appearance
         LoginWindow.setLayout(new FlowLayout());
-        LoginWindow.setSize(240, 100);
+        LoginWindow.setSize(240, 120);
         LoginWindow.setLocation(screenSize.width / 2 - LoginWindow.getSize().width / 2, screenSize.height / 2 - LoginWindow.getSize().height / 2);
         LoginWindow.setResizable(false);
         LoginWindow.setVisible(true);
@@ -103,17 +103,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(PlusSizeSlider(), null);
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(displayBroadcast(), null);
-
-
-
-
     }
 
     // Methods for CONTROLLER
 
     public void stateReady(){
         Broadcast.setVisible(true);
-        Broadcast.setText("Waiting for players!");
         foldButton.setEnabled(false);
         raiseButton.setEnabled(false);
         checkButton.setEnabled(false);
@@ -492,10 +487,9 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 //            arrayPlayersCards[id][1] = backCard(250,430);
 //        }
 //    }
-    public void BroadCast(String toChange){
+    public void BroadcastCall(){	
         Broadcast.setVisible(true);
-        Broadcast.setText(toChange);
-
+        Broadcast.setText("privet");
     }
 
     public ArrayList<String> fromCardToString(Card[] cards ){
@@ -573,12 +567,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     // TableWindow variables description STARTs
 
     public JLabel displayBroadcast(){
-        JLabel Broadcast = new JLabel();
-        Broadcast.setText("");
+        
+        Broadcast.setText("Waiting for actions");
         Broadcast.setBounds(350, 565, 200, 20);
         Broadcast.setForeground(Color.WHITE);
         Broadcast.setHorizontalAlignment( SwingConstants.CENTER );
-        Broadcast.setVisible(false);
+        Broadcast.setVisible(true);
         return Broadcast;
     }
     public JButton foldButton(){
