@@ -7,6 +7,7 @@ import message.data.PlayerMove;
 import poker.server.Room;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Game implements Runnable {
@@ -35,7 +36,8 @@ public class Game implements Runnable {
     private void endGame(){
         List<SendWinnerListCommand.Tuple> winners =new ArrayList<SendWinnerListCommand.Tuple>();
         if (players.playersLeft().size()>1){
-            List<Player> bestPlayers=players.getBestPlayers();
+        	// Changes from List<Player> to HashMap, to evaluate if pot should be split
+            HashMap<Integer, Player> bestPlayers=players.getBestPlayers();
             int i=0;
             Player currentWinner;
             while(players.getPot()>0){

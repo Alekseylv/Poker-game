@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import poker.arturka.Card.Rank;
 import poker.arturka.Card.Suit;
 
@@ -15,44 +16,51 @@ public class HandEvaluator {
 	private static final int THREE_OF_A_KIND_COUNT = 3;
 	private static final int TWO_PAIR_COUNT = 2;
 	private static final int ONE_PAIR_COUNT = 1;
-	
+
 	public HandEvaluator(List<Player> playersLeft) {
 		playersToEvaluate = playersLeft;
-		evaluatedPlayers = new HashMap<Player, Hand>();
+		evaluatedPlayers = new HashMap<Player, PlayerHand>();
 	}
 
-	public List<Player> getPlayerHandEvaluation() {
-		List<Player> playerRanking = new ArrayList<Player>();
-		for (Player player: playersToEvaluate) {
-			evaluatedPlayers.put(player, getPlayerHand(player));
+	public HashMap<Integer, Player> getPlayerHandEvaluation() {
+		HashMap<Integer, Player> playerRanking = new HashMap<Integer, Player>();
+		for (Player player : playersToEvaluate) {
+			// getPlayerHand(player);
+			Hand hand = getPlayerHand(player);
+			playerHand = new PlayerHand(hand, scoreCards);
+			evaluatedPlayers.put(player, playerHand);
 		}
-		sortEvaluatedPlayers();
-		playerRanking.addAll(evaluatedPlayers.keySet());
+		playerRanking = sortEvaluatedPlayers();
 		return playerRanking;
 	}
 
 	private Card[][] createHandTable(Card[] hand) {
 		Card[][] tempHand = new Card[Suit.values().length][Rank.values().length];
-		for (Card card: hand) {
+		for (Card card : hand) {
 			tempHand[card.getSuit().ordinal()][card.getRank().ordinal()] = card;
 		}
 		return tempHand;
 	}
-	
-	private void sortEvaluatedPlayers() {
-		Map.Entry<Player, Hand> prev = null;
-		for (Entry<Player, Hand> entry: evaluatedPlayers.entrySet()) {
-			if (prev.getValue().ordinal() > entry.getValue().ordinal() && prev != null) {
+
+	private HashMap<Integer, Player> sortEvaluatedPlayers() {
+		int position = 0;
+		Map.Entry<Player, PlayerHand> prev = null;
+		for (Entry<Player, PlayerHand> entry : evaluatedPlayers.entrySet()) {
+			if (prev.getValue().getHand().ordinal() > entry.getValue()
+					.getHand().ordinal()
+					&& prev != null) {
 				swapEntries(prev, entry);
-			}
-			else if (prev.getValue().ordinal() == entry.getValue().ordinal() && prev != null) {
-				
+			} else if (prev.getValue().getHand().ordinal() == entry.getValue()
+					.getHand().ordinal()
+					&& prev != null) {
+
 			}
 			prev = entry;
 		}
+		return null;
 	}
 
-	private void swapEntries(Entry<Player, Hand> prev, Entry<Player, Hand> entry) {
+	private void swapEntries(Entry<Player, PlayerHand> prev, Entry<Player, PlayerHand> entry) {
 		entry.setValue(prev.setValue(entry.getValue()));
 	}
 
@@ -62,7 +70,7 @@ public class HandEvaluator {
 
 	public Hand getHand(Card[] hand) {
 		combination = createHandTable(hand);
-		//Card[] sortedHand = sortHand(hand);
+		// Card[] sortedHand = sortHand(hand);
 		if (handIsRoyalFlush(combination))
 			return Hand.ROYAL_FLUSH;
 		else if (handIsStraightFlush(combination))
@@ -84,12 +92,12 @@ public class HandEvaluator {
 		else
 			return Hand.HIGH_HAND;
 	}
-	
+
 	private boolean handIsTwoPair(Card[][] combination2) {
 		int skCount = 0;
-		for (int i = Rank.values().length - 1; i > - 1; i--) {
+		for (int i = Rank.values().length - 1; i > -1; i--) {
 			for (int j = 0; j < Suit.values().length; j++) {
-				if(combination2[Suit.values().length - j - 1][i] != null) {
+				if (combination2[Suit.values().length - j - 1][i] != null) {
 					skCount++;
 				}
 				if (skCount == TWO_PAIR_COUNT)
@@ -142,7 +150,7 @@ public class HandEvaluator {
 
 	private boolean handIsFullHouse(Card[][] combination2) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
-		for (int i = 0; i <  Rank.values().length; i++) {
+		for (int i = 0; i < Rank.values().length; i++) {
 			for (int j = 0; j < Suit.values().length; j++) {
 				temp[j][i] = combination2[j][i];
 			}
@@ -153,7 +161,7 @@ public class HandEvaluator {
 		boolean lineCleared = false;
 		for (int i = 0; i < Rank.values().length; i++) {
 			for (int j = 0; j < Suit.values().length; j++) {
-				if(temp[j][i] != null)
+				if (temp[j][i] != null)
 					tokCount++;
 				if (tokCount == 3 && !lineCleared) {
 					for (int j2 = 0; j2 < Suit.values().length; j2++) {
@@ -176,7 +184,7 @@ public class HandEvaluator {
 		int skCount = 0;
 		for (int i = Rank.values().length - 1; i > -1; i--) {
 			for (int j = 0; j < Suit.values().length; j++) {
-				if(combination2[j][i] != null) {
+				if (combination2[j][i] != null) {
 					skCount++;
 				}
 				if (skCount == count)
@@ -191,8 +199,8 @@ public class HandEvaluator {
 		int sfCount = 0;
 		for (int i = 0; i < Suit.values().length; i++) {
 			for (int j = 0; j < Rank.values().length - 1; j++) {
-				if (combination2[i][Rank.values().length - j - 1] != null &&
-						combination2[i][Rank.values().length - j] != null) {
+				if (combination2[i][Rank.values().length - j - 1] != null
+						&& combination2[i][Rank.values().length - j] != null) {
 					sfCount++;
 				}
 				if (sfCount == 4)
@@ -217,22 +225,25 @@ public class HandEvaluator {
 		}
 		return false;
 	}
-	
+
 	/*
-	private Card[] sortHand(Card[] hand) {
-		for (int i = 1; i < hand.length; i++) {
-			if (hand[i-1].getRank().ordinal() < hand[i].getRank().ordinal()) {
-				Card prev = hand[i-1];
-				hand[i-1] = hand[i];
-				hand[i] = prev;
-				i--;
-			}
+	 * private Card[] sortHand(Card[] hand) { for (int i = 1; i < hand.length;
+	 * i++) { if (hand[i-1].getRank().ordinal() < hand[i].getRank().ordinal()) {
+	 * Card prev = hand[i-1]; hand[i-1] = hand[i]; hand[i] = prev; i--; } }
+	 * return hand; }
+	 */
+
+	private void evaluateScore(List<Card> cards) {
+		int score = 0;
+		for (Card card : cards) {
+			score += card.getRank().ordinal();
 		}
-		return hand;
+		playerHand.setHandScore(score);
 	}
-	*/
 
 	private List<Player> playersToEvaluate;
-	private HashMap<Player, Hand> evaluatedPlayers;
+	private HashMap<Player, PlayerHand> evaluatedPlayers;
 	private Card[][] combination;
+	private PlayerHand playerHand;
+	private List<Card> scoreCards;
 }
