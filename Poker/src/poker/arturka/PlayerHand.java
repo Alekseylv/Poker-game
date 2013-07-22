@@ -5,18 +5,12 @@ import java.util.List;
 
 public class PlayerHand {
 
-	private List<Card> playerHand;
-	private int handScore;
-	private Hand hand;
-	private Card highCard;
-	private Card kicker;
-	private Player player;
-
 	public PlayerHand(Player player) {
 		this.player = player;
 		kicker = null;
 		highCard = null;
 		handScore = 0;
+		setPosition(0);
 	}
 
 	public Player getPlayer() {
@@ -32,9 +26,12 @@ public class PlayerHand {
 	}
 
 	public List<Card> getPlayerHand() {
-		List<Card> tempHand = new ArrayList<Card>();
-		tempHand.addAll(playerHand);
-		return tempHand;
+		if (playerHand != null) {
+			List<Card> tempHand = new ArrayList<Card>();
+			tempHand.addAll(playerHand);
+			return tempHand;
+		}
+		return null;
 	}
 
 	public void setPlayerHand(Card[] playerHand) {
@@ -42,10 +39,18 @@ public class PlayerHand {
 			this.playerHand.add(card);
 		}
 	}
+	
+	public void setPlayerHand(List<Card> playerHand) {
+		if (playerHand != null)
+			this.playerHand.addAll(playerHand);
+	}
 
 	public Card getHighCard() {
-		Card tempHighCard = new Card(highCard.getSuit(), highCard.getRank());
-		return tempHighCard;
+		if (highCard != null) {
+			Card tempHighCard = new Card(highCard.getSuit(), highCard.getRank());
+			return tempHighCard;
+		}
+		return null;
 	}
 
 	public void setHighCard(Card highCard) {
@@ -53,8 +58,11 @@ public class PlayerHand {
 	}
 
 	public Card getKicker() {
-		Card temp = new Card(kicker.getSuit(), kicker.getRank());
-		return temp;
+		if (kicker != null) {
+			Card temp = new Card(kicker.getSuit(), kicker.getRank());
+			return temp;
+		}
+		return null;
 	}
 
 	public void setKicker(Card kicker) {
@@ -68,4 +76,20 @@ public class PlayerHand {
 	public Hand setHand(Hand hand) {
 		return this.hand = hand;
 	}
+	
+	public int getPosition() {
+		return Integer.valueOf(position);
+	}
+
+	public int setPosition(int position) {
+		return this.position = position;
+	}
+
+	private List<Card> playerHand;
+	private int handScore;
+	private Hand hand;
+	private Card highCard;
+	private Card kicker;
+	private Player player;
+	private int position;
 }
