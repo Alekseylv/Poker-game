@@ -142,6 +142,8 @@ public class ClientController implements Observer {
 		} else {
 			System.out.println("Not a valid object" + obj);
 		}
+		
+		view.updateView();
 	}
-	view.updateView();
+	
 }
