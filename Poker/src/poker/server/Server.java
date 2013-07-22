@@ -12,7 +12,7 @@ public class Server {
 	private static final int PORT = 9999;
 	private static final int CONNECTION_LIMIT = 50;
 	private static final int MAX_PLAYERS_IN_ROOM = 3;
-	private static final int WAITING_TIMEOUT = 2000;
+	private static final int WAITING_TIMEOUT = 0;
 
 	/* Private instance variables. 
 	 * 'roomID' is identification for room, used once room is created.
