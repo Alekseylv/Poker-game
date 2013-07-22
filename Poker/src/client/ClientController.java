@@ -105,22 +105,22 @@ public class ClientController implements Observer {
 		if(arg instanceof ClientTurn) {
             switch(player.getLastTurn()){
                 case CALL:
-                    view.displayBroadcast().setText(player.getId() + "ID has called for |CHIPS|");
+                    view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for |CHIPS|");
                     break;
                 case CHECK:
-                	view.displayBroadcast().setText(player.getId() + "ID has checked");
+                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has checked");
                     break;
                 case EXIT:
-                	view.displayBroadcast().setText(player.getId() + "ID has gone offline");
+                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has gone offline");
                     break;
                 case FOLD:
-                	view.displayBroadcast().setText(player.getId() + "ID has folded");
+                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has folded");
                     break;
                 case RAISE:
-                	view.displayBroadcast().setText(player.getId() + "ID has raised for |CHIPS|");
+                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has raised for |CHIPS|");
                     break;
                 case BLIND:
-                	view.displayBroadcast().setText((model.getDealer() + 2)%(model.getDealer() + 2) + "ID is on a BIG BLIND");
+                	view.displayBroadcast().setText("Player" + (model.getDealer() + 1)%(model.getPlayerList().size()) + " is on a BIG BLIND");
                 	break;
                 default:
                 	break;
