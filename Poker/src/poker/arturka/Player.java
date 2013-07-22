@@ -63,7 +63,7 @@ public class Player extends Observable implements Serializable {
         return fold;
     }
     public boolean bet(int ammount){
-        if(ammount<cash){
+        if(ammount<=cash+bet){
             cash-=ammount;
             bet+=ammount;
             return true;
