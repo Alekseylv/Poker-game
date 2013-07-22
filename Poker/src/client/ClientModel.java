@@ -264,4 +264,25 @@ public class ClientModel extends Observable {
 		this.pressedButton(ClientTurn.CHECK, -1);
 
 	}
+	
+	
+	/**
+	 * Get's maximum bet across the player list
+	 * @return the maximum bet
+	 */
+	public int getMaxBet() {
+		int temp = 0;
+		int maxBet = 0;
+		
+		for(ClientSidePlayer i: players) {
+			temp = i.getBet();
+			if(temp > maxBet) maxBet = temp;
+		}
+		
+		return temp;
+	}
+	
+	public int getCash(int id) {
+		return this.getPlayer(id).getCash();
+	}
 }
