@@ -112,7 +112,7 @@
 		<jar destfile="./server.jar"
 		     basedir="bin">
 		     <manifest>
-		      <attribute name="Main-Class" value="poker.server.server"/>
+		      <attribute name="Main-Class" value="poker.server.Server"/>
 		     </manifest>
 		</jar>
 		</target>
