@@ -1,13 +1,11 @@
 package poker.arturka;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-
 import poker.arturka.Card.Rank;
 import poker.arturka.Card.Suit;
+import poker.arturka.Hand;
 
 public class HandEvaluator {
 
@@ -22,12 +20,12 @@ public class HandEvaluator {
 		evaluatedPlayers = new HashMap<Player, PlayerHand>();
 	}
 
-	public HashMap<Integer, Player> getPlayerHandEvaluation() {
-		HashMap<Integer, Player> playerRanking = new HashMap<Integer, Player>();
+	public HashMap<Integer, PlayerHand> getPlayerHandEvaluation() {
+		HashMap<Integer, PlayerHand> playerRanking = new HashMap<Integer, PlayerHand>();
 		for (Player player : playersToEvaluate) {
 			// getPlayerHand(player);
 			Hand hand = getPlayerHand(player);
-			playerHand = new PlayerHand(hand, scoreCards);
+			playerHand = new PlayerHand(hand, scoreCards, player);
 			evaluatedPlayers.put(player, playerHand);
 		}
 		playerRanking = sortEvaluatedPlayers();
@@ -42,25 +40,17 @@ public class HandEvaluator {
 		return tempHand;
 	}
 
-	private HashMap<Integer, Player> sortEvaluatedPlayers() {
-		int position = 0;
-		Map.Entry<Player, PlayerHand> prev = null;
+	private HashMap<Integer, PlayerHand> sortEvaluatedPlayers() {
+		//swapEntries(prev, entry);
+		int incremental = 0;
+		HashMap<Integer, PlayerHand> playerPositions = new HashMap<Integer, PlayerHand>();
 		for (Entry<Player, PlayerHand> entry : evaluatedPlayers.entrySet()) {
-			if (prev.getValue().getHand().ordinal() > entry.getValue()
-					.getHand().ordinal()
-					&& prev != null) {
-				swapEntries(prev, entry);
-			} else if (prev.getValue().getHand().ordinal() == entry.getValue()
-					.getHand().ordinal()
-					&& prev != null) {
-
-			}
-			prev = entry;
+			playerPositions.put(entry.getValue().getHand().ordinal(), entry.getValue());
 		}
-		return null;
+		return playerPositions;
 	}
 
-	private void swapEntries(Entry<Player, PlayerHand> prev, Entry<Player, PlayerHand> entry) {
+	private void swapEntries(Entry<Integer, PlayerHand> prev, Entry<Player, PlayerHand> entry) {
 		entry.setValue(prev.setValue(entry.getValue()));
 	}
 
@@ -69,8 +59,8 @@ public class HandEvaluator {
 	}
 
 	public Hand getHand(Card[] hand) {
+		// In method calls have to set scoreCards!
 		combination = createHandTable(hand);
-		// Card[] sortedHand = sortHand(hand);
 		if (handIsRoyalFlush(combination))
 			return Hand.ROYAL_FLUSH;
 		else if (handIsStraightFlush(combination))
@@ -226,12 +216,19 @@ public class HandEvaluator {
 		return false;
 	}
 
-	/*
-	 * private Card[] sortHand(Card[] hand) { for (int i = 1; i < hand.length;
-	 * i++) { if (hand[i-1].getRank().ordinal() < hand[i].getRank().ordinal()) {
-	 * Card prev = hand[i-1]; hand[i-1] = hand[i]; hand[i] = prev; i--; } }
-	 * return hand; }
-	 */
+	
+	private Card[] sortHand(Card[] hand) {
+		for (int i = 1; i < hand.length; i++) {
+			if (hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
+				Card prev = hand[i - 1];
+				hand[i - 1] = hand[i];
+				hand[i] = prev;
+				i--;
+			}
+		}
+		return hand;
+	}
+	 
 
 	private void evaluateScore(List<Card> cards) {
 		int score = 0;
@@ -247,3 +244,38 @@ public class HandEvaluator {
 	private PlayerHand playerHand;
 	private List<Card> scoreCards;
 }
+
+/*
+switch (entry.getValue().getHand()) {
+case ROYAL_FLUSH:
+
+	break;
+case STRAIGHT_FLUSH:
+
+	break;
+case FOUR_OF_A_KIND:
+
+	break;
+case FULL_HOUSE:
+
+	break;
+case FLUSH:
+
+	break;
+case STRAIGHT:
+
+	break;
+case THREE_OF_A_KIND:
+
+	break;
+case TWO_PAIR:
+
+	break;
+case ONE_PAIR:
+
+	break;
+// Default equals to Hand.HIGH_HAND
+default:
+	break;
+}
+*/
