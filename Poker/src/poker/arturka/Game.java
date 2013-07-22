@@ -85,7 +85,7 @@ public class Game implements Runnable {
 //        }
         players.getDealer();
         for(Player player:players.getPlayersList()){
-            room.sendToUser(player.getId(), new SendPlayerListCommand(players.getPlayersList()));
+            room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
             System.out.println("Send to: "+player.getId()+" SEND PLAYER LIST");
         }
         while(players.playersLeft().size()>1){
