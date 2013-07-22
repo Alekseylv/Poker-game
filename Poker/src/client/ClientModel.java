@@ -285,6 +285,20 @@ public class ClientModel extends Observable {
 	}
 	
 	/**
+	 * Get's the current pot
+	 * @return current pot
+	 */
+	
+	public int getPot() {
+		int sum = 0;
+		for(ClientSidePlayer i: players) {
+			sum += i.getBet();
+		}
+		
+		return sum;
+	}
+	
+	/**
 	 * Return the bet of a concrete player
 	 * @param id of the player
 	 * @return current bet
