@@ -63,7 +63,7 @@ public class ClientController implements Observer {
         int count = 0;
         if(arg instanceof Card[] ) {
 
-           // view.tableCards();
+           view.tableCards();
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
                 view.stateReady();

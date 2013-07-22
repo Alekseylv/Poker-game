@@ -333,8 +333,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public void setNums(){
         CashSlider.setMaximum(model.getCash(model.getID()));
-        CashSlider.setValue(60); // SET BIG BLINDS * 2 VIA MODEL
-        CashSlider.setMinimum(60);
+        CashSlider.setValue(model.getMaxBet()); // SET BIG BLINDS * 2 VIA MODEL
+        CashSlider.setMinimum(model.getMaxBet());
 
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
@@ -351,62 +351,81 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                     id = player.getId() - 1;
                     switch (id){
                     case 0:
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
 
                         arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 1:
-
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
                         arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 2:
-
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
                     arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 3:
-
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
                     arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 4:
-
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
                     arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 5:
-
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
                     arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 6:
-
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
                     arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 7:
-
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
                     arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 8:
-
+                        if(id + 1 == model.getDealer()){
+                            TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                        }
                     arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
 
                 }
-                    TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+
                 }
             }
     }
@@ -585,7 +604,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         String fileName="";
         for(Card card:cards){
             if (card==null){
-                fileName="ace_of_diamonds";
+                fileName="back";
                 output.add(fileName);
                 continue;
             }
