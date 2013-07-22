@@ -49,7 +49,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JLabel Broadcast = new JLabel();
     JLabel Dealer = new JLabel();
     
-    int Cash = 3000;
+    int Cash = 1500;
     int CashCurrent = 30;
     int pot = 550;
     int bigBlind = 50;
@@ -813,7 +813,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             model.pressedCheck();
 
         } else if("call".equals(e.getActionCommand())){
-            // model.pressedCall( INT HERE);
+            model.pressedCall(model.getMaxBet());
 
         } else if("fold".equals(e.getActionCommand())){
             model.pressedFold();
