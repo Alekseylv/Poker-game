@@ -1,9 +1,7 @@
 package poker.arturka;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import poker.arturka.Card.Rank;
 import poker.arturka.Card.Suit;

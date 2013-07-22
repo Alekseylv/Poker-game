@@ -46,7 +46,6 @@ public class HandEvaluator {
 		for (Entry<Player, PlayerHand> entry : evaluatedPlayers.entrySet()) {
 			entry.getValue().setPosition(entry.getValue().getHand().ordinal() + 1);
 			playerPositions.add(entry.getValue());
-			System.out.println("Hand: " + entry.getValue().getHand() + ", PlayerID: " + entry.getKey().getId());
 		}
 		// Sorts position list hands if they are the same
 		PlayerHand prev = null;
@@ -58,13 +57,21 @@ public class HandEvaluator {
 							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
 							incrementFollowingPlayers(playerPositions, incrementFrom);
 						}
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
 					} else if (entry.getHand().equals(Hand.STRAIGHT_FLUSH)
 							|| entry.getHand().equals(Hand.FULL_HOUSE)
 							|| entry.getHand().equals(Hand.FLUSH)
 							|| entry.getHand().equals(Hand.STRAIGHT)) {
-						System.out.println("prev: " + prev.getHandScore() +", curr: "+ entry.getHandScore());
+						System.out.println("PlayerID: " +prev.getPlayer().getId() + " score is " + prev.getHandScore() +", PlayerID: " +entry.getPlayer().getId() + " score is " + entry.getHandScore());
 						if (prev.getHandScore() < entry.getHandScore()) {
 							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
 							incrementFollowingPlayers(playerPositions, incrementFrom);
 						}
 					} else if (entry.getHand().equals(Hand.ROYAL_FLUSH)) {
@@ -76,17 +83,20 @@ public class HandEvaluator {
 							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
 							incrementFollowingPlayers(playerPositions, incrementFrom);
 						}
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
 					}
 				}
-			} else {
-				prev = new PlayerHand(entry.getPlayer());
-				prev.setHand(entry.getHand());
-				prev.setHandScore(entry.getHandScore());
-				prev.setHighCard(entry.getHighCard());
-				prev.setKicker(entry.getKicker());
-				prev.setPlayerHand(entry.getPlayerHand());
-				prev.setPosition(entry.getPosition());
 			}
+			prev = new PlayerHand(entry.getPlayer());
+			prev.setHand(entry.getHand());
+			prev.setHandScore(entry.getHandScore());
+			prev.setHighCard(entry.getHighCard());
+			prev.setKicker(entry.getKicker());
+			prev.setPlayerHand(entry.getPlayerHand());
+			prev.setPosition(entry.getPosition());
 		}
 		return playerPositions;
 	}
@@ -94,7 +104,7 @@ public class HandEvaluator {
 	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
 			int incrementFrom) {
 		for (PlayerHand playerHand: playerPositions) {
-			if(playerHand.getPosition() >= incrementFrom - 1)
+			if(playerHand.getPosition() > incrementFrom)
 				playerHand.setPosition(playerHand.getPosition() + 1);
 		}
 	}
