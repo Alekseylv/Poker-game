@@ -339,8 +339,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
     public void setNewCash(){
-
-        arrayPlayersNickCash[0].setText("SAAS");
+//    	for(int i = 0; i < arrayPlayersNickCash.length; i++){
+//    		arrayPlayersNickCash[i].setText("Player " + model.getCash(i));
+//    	
+//    	}
     }
 
 
@@ -420,7 +422,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         int id = 0;
         int offSet = 0;
         ArrayList<String> myCards;
-
+        
         for(ClientSidePlayer player : list){
             if(player != null){
 
@@ -589,7 +591,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         ArrayList<String> output=new ArrayList<String>();
         String fileName="";
         for(Card card:cards){
-            
+            if(card == null){
+            	fileName = "invisibleCard";
+            	output.add(fileName);
+            	continue;
+            }
             switch (card.getRank()){
                 case TWO:
                     fileName = "2_of_";
