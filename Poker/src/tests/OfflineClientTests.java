@@ -27,13 +27,13 @@ import client.TaskQueue;
 public class OfflineClientTests {
 
 	private TaskQueue que;
-	private TestClientGame game;
+	private FakeClientGame game;
 	
 	@Before
 	public void setUp() throws Exception {
 		
 		this.que = new TaskQueue();
-		this.game = new TestClientGame(null, que);	
+		this.game = new FakeClientGame(null, que);	
 		
 		Thread gameThread = new Thread(game);
 		gameThread.start();
