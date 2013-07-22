@@ -2,7 +2,9 @@ package poker.arturka;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+
 import poker.arturka.Card.Rank;
 import poker.arturka.Card.Suit;
 import poker.arturka.Hand;
@@ -41,16 +43,45 @@ public class HandEvaluator {
 	}
 
 	private HashMap<Integer, PlayerHand> sortEvaluatedPlayers() {
-		//swapEntries(prev, entry);
-		int incremental = 0;
+		int incremental = 1;
 		HashMap<Integer, PlayerHand> playerPositions = new HashMap<Integer, PlayerHand>();
+		// Adds hands to a position list.
 		for (Entry<Player, PlayerHand> entry : evaluatedPlayers.entrySet()) {
-			playerPositions.put(entry.getValue().getHand().ordinal(), entry.getValue());
+			playerPositions.put(entry.getValue().getHand().ordinal() + 1, entry.getValue());
+		}
+		// Sorts position list hands if they are the same
+		Map.Entry<Integer, PlayerHand> prev = null;
+		for (Entry<Integer, PlayerHand> entry : playerPositions.entrySet()) {
+			if (prev != null) {
+				if (prev.getKey() == entry.getKey()) {
+					if (entry.getValue().getHand() == Hand.STRAIGHT_FLUSH
+							|| entry.getValue().getHand() == Hand.FULL_HOUSE
+							|| entry.getValue().getHand() == Hand.FLUSH
+							|| entry.getValue().getHand() == Hand.STRAIGHT) {
+						if (prev.getValue().getHandScore() < entry.getValue().getHandScore()) {
+							swapEntries(prev, entry);
+							playerPositions.put(entry.getKey() + incremental++, entry.getValue());
+						}
+					}
+					else if (entry.getValue().getHand() == Hand.ROYAL_FLUSH) {
+						//do nothing, because it is the strongest hand
+						//empty so that shouldn't write many evaluations in next statement :)
+					}
+					else {
+						if (prev.getValue().getKicker().getRank().ordinal() < entry.getValue().getKicker().getRank().ordinal()) {
+							swapEntries(prev, entry);
+							playerPositions.put(entry.getKey() + incremental++,	entry.getValue());
+						}
+					}
+				}
+			}
+			else
+				prev = entry;
 		}
 		return playerPositions;
 	}
 
-	private void swapEntries(Entry<Integer, PlayerHand> prev, Entry<Player, PlayerHand> entry) {
+	private void swapEntries(Entry<Integer, PlayerHand> prev, Entry<Integer, PlayerHand> entry) {
 		entry.setValue(prev.setValue(entry.getValue()));
 	}
 
