@@ -49,12 +49,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JLabel[] showTableCards = new JLabel[5];
     JLabel Broadcast = new JLabel();
     JLabel Dealer = new JLabel();
+    JLabel showPot = new JLabel();
 
-
-//    int pot = model.getPot();
-//
-//    int bigBlind = model.getMaxBet();
-//    return Cash;
     String userCardOne;
     String userCardTwo;
     // TableWindow variables end
@@ -105,8 +101,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(PlusSizeSlider(), null);
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(displayBroadcast(), null);
-        }
-
+        TableWindow.add(showPot(), null);
+    }
     
     public void updateView() {
     	TableWindow.invalidate();
@@ -338,18 +334,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
-    public void setNewCash(){
-//    	for(int i = 0; i < arrayPlayersNickCash.length; i++){
-//    		arrayPlayersNickCash[i].setText("Player " + model.getCash(i));
-//    	
-//    	}
+    public void setNewPot(){   
+    	showPot.setText("POT: " + model.getPot());
     }
-
-
-	public void placePlayers(ArrayList<ClientSidePlayer> list){
+    public void setNewCash(ArrayList<ClientSidePlayer> list){
         int id = 0;
         int offSet = 0;
-
 
             for(ClientSidePlayer player : list){
                 if(player != null){
@@ -358,60 +348,146 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                     id = player.getId() - 1;
                     switch (id){
                     case 0:
-
-                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                    	TableWindow.remove(arrayPlayersNickCash[id]);
+                    	}
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
                     case 1:
-
-                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
                     case 2:
-
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
                     case 3:
-
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
                     case 4:
-
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
                     case 5:
-
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
                     case 6:
-
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
                     case 7:
-
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
                     case 8:
-
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
-
                         break;
+                }
+            }
+        }
+    }
 
+	public void placePlayers(ArrayList<ClientSidePlayer> list){
+        int id = 0;
+        int offSet = 0;
+
+            for(ClientSidePlayer player : list){
+                if(player != null){
+
+                	offSet = 9 - model.getID();
+                    id = player.getId() - 1;
+                    switch (id){
+                    case 0:
+                    	if(arrayPlayersNickCash[id] != null){
+                    	TableWindow.remove(arrayPlayersNickCash[id]);
+                    	}
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 1:
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 2:
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 3:
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 4:
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 5:
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 6:
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 7:
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
+                    case 8:
+                    	if(arrayPlayersNickCash[id] != null){
+                        	TableWindow.remove(arrayPlayersNickCash[id]);
+                        	}
+                    	arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        break;
                 }
                     TableWindow.add(Dealer(getLocation((model.getDealer() + 1 + offSet)%9,Deal,x),getLocation((model.getDealer() + 1 + offSet)%9,Deal,y)));
                 }
@@ -847,7 +923,14 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         Dealer.setBounds(x,y,25,20);
         return Dealer;
     }
-
+    public JLabel showPot(){
+    	showPot.setForeground(Color.WHITE);
+    	showPot.setHorizontalAlignment( SwingConstants.CENTER );
+		showPot.setText("POT: " + model.getPot());
+		showPot.setBounds(415,300,70,20);
+    	return showPot;
+    }
+    
     public JLabel showTable(String card, int x, int y){
     	
         ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));

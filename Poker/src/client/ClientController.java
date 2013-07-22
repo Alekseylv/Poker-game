@@ -81,11 +81,9 @@ public class ClientController implements Observer {
                 view.stateEnded();
             }
         } else if(arg instanceof Integer) {
-
+        	// something gonna be here
         } else if(arg instanceof List) {
-            view.placePlayers(model.getPlayerList());
-
-
+        	view.placePlayers(model.getPlayerList());  
         }
 			
 			
@@ -134,12 +132,13 @@ public class ClientController implements Observer {
                 default:
                 	break;
                 }
-            view.setNewCash();
+            view.setNewPot();
+            view.setNewCash(model.getPlayerList());
             view.setNums();
 
 		}   else if(arg instanceof Card) {
             view.giveCards(model.getPlayerList());
-        }
+        }	
 	}
 	
 	
