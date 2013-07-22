@@ -25,7 +25,7 @@ import commands.SetIDCommand;
 
 public class FakeServer implements Runnable {
 
-	private static final int PORT = 9999;
+	private static final int PORT = 9998;
 	private static final int CONNECTION_LIMIT = 50;
 	
 	private ServerSocket server;
