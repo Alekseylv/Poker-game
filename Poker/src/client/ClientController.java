@@ -6,7 +6,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import message.data.ClientTurn;
-import commands.SendWinnerListCommand;
 import commands.SendWinnerListCommand.Tuple;
 
 import poker.GUI.ClientView;
@@ -62,7 +61,7 @@ public class ClientController implements Observer {
 
     public void update(ClientModel model, Object arg) {
         if(arg instanceof Card[] ) {
-            view.tableCards(model.getFieldCards());
+            view.tableCards();
 
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
@@ -106,20 +105,25 @@ public class ClientController implements Observer {
 		if(arg instanceof ClientTurn) {
             switch(player.getLastTurn()){
                 case CALL:
-                    view.BroadCast("|PLAYER| has called a bet ($|BET|)");
+                    view.displayBroadcast().setText(player.getId() + "ID has called for |CHIPS|");
                     break;
                 case CHECK:
-                    view.BroadCast("|PLAYER| has checked");
+                	view.displayBroadcast().setText(player.getId() + "ID has checked");
                     break;
                 case EXIT:
-                    view.BroadCast("|PLAYER| has gone offline");
+                	view.displayBroadcast().setText(player.getId() + "ID has gone offline");
                     break;
                 case FOLD:
-                    view.BroadCast("|PLAYER| has folded");
+                	view.displayBroadcast().setText(player.getId() + "ID has folded");
                     break;
                 case RAISE:
-                    view.BroadCast("|PLAYER| has raised for $|RAISE|");
+                	view.displayBroadcast().setText(player.getId() + "ID has raised for |CHIPS|");
                     break;
+                case BLIND:
+                	view.displayBroadcast().setText((model.getDealer() + 2)%(model.getDealer() + 2) + "ID is on a BIG BLIND");
+                	break;
+                default:
+                	break;
                 }
 		}  else if(arg instanceof Card[]) {
             view.placePlayers(model.getPlayerList());
@@ -139,4 +143,5 @@ public class ClientController implements Observer {
 			System.out.println("Not a valid object" + obj);
 		}
 	}
+	view.updateView();
 }

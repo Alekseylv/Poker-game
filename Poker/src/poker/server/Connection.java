@@ -29,6 +29,7 @@ public class Connection implements Runnable {
 	 */
 	public ClientResponse getMove() {
 		try {
+			
 			client.setSoTimeout(READ_TIMEOUT);
 			ClientResponse move = null;
 			try {
@@ -36,11 +37,10 @@ public class Connection implements Runnable {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			in.close();
 			return move;
 		} catch (IOException e) {
 			return null;
-		}
+		} 
 	}
 	
 	/* Returns client 'Socket'. */

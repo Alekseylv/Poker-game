@@ -8,28 +8,23 @@ import javax.swing.event.*;
 import client.ClientModel;
 import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
+import poker.GUI.Coordinates;
 import poker.arturka.Card;
-import poker.arturka.Player;
+
 
 @SuppressWarnings("serial")
 public class ClientView extends JFrame implements ChangeListener, ActionListener{
 
     private ClientModel model;
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-    // Methods' variables START
-
-    String userCardOne;
-    String userCardTwo;
-
-    // Methods' variables END
-
+    
     // LoginWindow variables
     JFrame LoginWindow = new JFrame();
     String PlayerName;
     JLabel labelName = new JLabel();
     JLabel warning = new JLabel();
     JTextField textName = new JTextField();
+    JButton buttonConnect = new JButton();
     // LoginWindow variables end
 
     // TableWindow variables
@@ -41,17 +36,25 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     JButton checkButton = new JButton();
     JButton callButton = new JButton();
     JButton potSizeSlider = new JButton();
-    JButton TwoxSizeSlider = new JButton();
+    JButton OneThirdSizeSlider = new JButton();
     JButton ThreexSizeSlider = new JButton();
+    JButton AllInSizeSlider = new JButton();
+    JButton PlusSizeSlider = new JButton();
+    JButton MinusSizeSlider = new JButton();
     JSlider CashSlider = new JSlider();
     JLabel displayCashSlider = new JLabel();
     JLabel[][] arrayPlayersCards = new JLabel[8][2];
     JLabel[] arrayPlayersNickCash = new JLabel[9];
-    JLabel[] showTable = new JLabel[5];
+    JLabel[] showTableCards = new JLabel[5];
     JLabel Broadcast = new JLabel();
-
-    int Cash = 1000;
+    JLabel Dealer = new JLabel();
+    
+    int Cash = 3000;
     int CashCurrent = 30;
+    int pot = 550;
+    int bigBlind = 50;
+    String userCardOne;
+    String userCardTwo;
     // TableWindow variables end
 
     public ClientView(ClientModel model) {
@@ -60,7 +63,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         // LoginWindow appearance
         LoginWindow.setLayout(new FlowLayout());
-        LoginWindow.setSize(240, 100);
+        LoginWindow.setSize(240, 120);
         LoginWindow.setLocation(screenSize.width / 2 - LoginWindow.getSize().width / 2, screenSize.height / 2 - LoginWindow.getSize().height / 2);
         LoginWindow.setResizable(false);
         LoginWindow.setVisible(true);
@@ -94,29 +97,36 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(CashSlider(), null);
         TableWindow.add(displayCashSlider(), null);
         TableWindow.add(potSizeSlider(), null);
-        TableWindow.add(TwoxSizeSlider(), null);
+        TableWindow.add(OneThirdSizeSlider(), null);
         TableWindow.add(ThreexSizeSlider(), null);
-
+        TableWindow.add(AllInSizeSlider(), null);
+        TableWindow.add(PlusSizeSlider(), null);
+        TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(displayBroadcast(), null);
-
-        TableWindow.add(Dealer(450, 330), null);
-
-
     }
-
+    
+    public void updateView() {
+    	TableWindow.invalidate();
+    	TableWindow.validate();
+    	TableWindow.repaint();
+    }
+    
     // Methods for CONTROLLER
 
     public void stateReady(){
         Broadcast.setVisible(true);
-        Broadcast.setText("Waiting for players!");
         foldButton.setEnabled(false);
         raiseButton.setEnabled(false);
         checkButton.setEnabled(false);
         callButton.setEnabled(false);
         potSizeSlider.setEnabled(false);
-        TwoxSizeSlider.setEnabled(false);
+        OneThirdSizeSlider.setEnabled(false);
         ThreexSizeSlider.setEnabled(false);
         CashSlider.setEnabled(false);
+        AllInSizeSlider.setEnabled(false);
+        PlusSizeSlider.setEnabled(false);
+        MinusSizeSlider.setEnabled(false);
+        displayCashSlider.setVisible(false);
     }
     public void stateInputCheck(){
         checkButton.setVisible(true);
@@ -127,8 +137,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         raiseButton.setEnabled(true);
         CashSlider.setEnabled(true);
         potSizeSlider.setEnabled(true);
-        TwoxSizeSlider.setEnabled(true);
+        OneThirdSizeSlider.setEnabled(true);
         ThreexSizeSlider.setEnabled(true);
+        AllInSizeSlider.setEnabled(true);
+        PlusSizeSlider.setEnabled(true);
+        MinusSizeSlider.setEnabled(true);
+        displayCashSlider.setVisible(true);
     }
     public void stateInputCall(){
         callButton.setVisible(true);
@@ -139,8 +153,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         raiseButton.setEnabled(true);
         CashSlider.setEnabled(true);
         potSizeSlider.setEnabled(true);
-        TwoxSizeSlider.setEnabled(true);
+        OneThirdSizeSlider.setEnabled(true);
         ThreexSizeSlider.setEnabled(true);
+        AllInSizeSlider.setEnabled(true);
+        PlusSizeSlider.setEnabled(true);
+        MinusSizeSlider.setEnabled(true);
+        displayCashSlider.setVisible(true);
     }
     public void statePlaying(){
         foldButton.setEnabled(false);
@@ -149,29 +167,35 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         raiseButton.setEnabled(false);
         CashSlider.setEnabled(false);
         potSizeSlider.setEnabled(false);
-        TwoxSizeSlider.setEnabled(false);
+        OneThirdSizeSlider.setEnabled(false);
         ThreexSizeSlider.setEnabled(false);
+        AllInSizeSlider.setEnabled(false);
+        PlusSizeSlider.setEnabled(false);
+        MinusSizeSlider.setEnabled(false);
+        callButton.setVisible(false);
+        displayCashSlider.setVisible(false);
     }
     public void stateEnded(){
         Broadcast.setVisible(true);
         Broadcast.setText("|PLAYER| has won |CASH||");
     }
 
-    public void tableCards(Card[] cards){
+    public void tableCards(){
         int count = -1;
         int x = 265;
         int offSetX = 75;
         int newOffSetX;
-        ArrayList<String> tableCards = fromCardToString(cards);
+        ArrayList<String> tableCards = fromCardToString(model.getFieldCards());
         
         for(String card : tableCards){
+        
             if(card != null){
                 count++;
                 newOffSetX = x + (count * offSetX);
-                showTable[count] = showTable(tableCards.get(count), newOffSetX, 180);
-                    for(int i = 0; i < showTable.length; i++){
-                        if(showTable[i] != null){
-                            TableWindow.add(showTable[i], null);
+                showTableCards[count] = showTable(tableCards.get(count), newOffSetX, 180);
+                    for(int i = 0; i < showTableCards.length; i++){
+                        if(showTableCards[i] != null){
+                            TableWindow.add(showTableCards[i], null);
                         }
                     }
 
@@ -191,8 +215,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                 switch (id){
                     case 0:
                         arrayPlayersNickCash[id] = clientNameCash("Player0", newCash, 230, 510);
-                        //	arrayPlayersNickCash[id].setVisible(true); for players' list
-                        //	TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 1:
                         arrayPlayersNickCash[id] = clientNameCash("Player1", newCash, 30, 420);
@@ -223,162 +245,240 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
     }
+     
+    String Card1 = "CardOne";
+    String Card2 = "CardTwo";
+    String PlayerBar = "PlayerBar";
+    String Deal = "Dealer";
+    char x = 'x';
+    char y = 'y';
+    
+    public int getLocation(int id, String what, char axis){
+    	
+    	ArrayList<Coordinates> PlayerLocation = new ArrayList<Coordinates>();
+    	ArrayList<Coordinates> CardOneLocation = new ArrayList<Coordinates>();
+    	ArrayList<Coordinates> CardTwoLocation = new ArrayList<Coordinates>();
+    	ArrayList<Coordinates> DealerLocation = new ArrayList<Coordinates>();
+    	
+	    	PlayerLocation.add(0, new Coordinates(230, 510));
+			PlayerLocation.add(1, new Coordinates(30, 420));
+			PlayerLocation.add(2, new Coordinates(30, 110));
+			PlayerLocation.add(3, new Coordinates(250, 20));
+			PlayerLocation.add(4, new Coordinates(540, 20));
+			PlayerLocation.add(5, new Coordinates(760, 110));
+			PlayerLocation.add(6, new Coordinates(760, 420));
+			PlayerLocation.add(7, new Coordinates(570, 510));
+			PlayerLocation.add(8, new Coordinates(400, 515));
+			
+			CardOneLocation.add(0, new Coordinates(260,435));
+			CardOneLocation.add(1, new Coordinates(60,345));
+			CardOneLocation.add(2, new Coordinates(60,155));
+			CardOneLocation.add(3, new Coordinates(280,65));
+			CardOneLocation.add(4, new Coordinates(570,65));
+			CardOneLocation.add(5, new Coordinates(790,165));
+			CardOneLocation.add(6, new Coordinates(790,345));
+			CardOneLocation.add(7, new Coordinates(600,435));
+			CardOneLocation.add(8, new Coordinates(420,410));
+			
+			CardTwoLocation.add(0, new Coordinates(250,430));
+			CardTwoLocation.add(1, new Coordinates(50,340));
+			CardTwoLocation.add(2, new Coordinates(50,150));
+			CardTwoLocation.add(3, new Coordinates(270,60));
+			CardTwoLocation.add(4, new Coordinates(560,60));
+			CardTwoLocation.add(5, new Coordinates(780,160));
+			CardTwoLocation.add(6, new Coordinates(780,340));
+			CardTwoLocation.add(7, new Coordinates(590,430));
+			CardTwoLocation.add(8, new Coordinates(410,405));
+			
+			DealerLocation.add(0, new Coordinates(280, 390));
+			DealerLocation.add(1, new Coordinates(130, 340));
+			DealerLocation.add(2, new Coordinates(130, 210));
+			DealerLocation.add(3, new Coordinates(300, 150));
+			DealerLocation.add(4, new Coordinates(555, 150));
+			DealerLocation.add(5, new Coordinates(740, 210));
+			DealerLocation.add(6, new Coordinates(740, 340));
+			DealerLocation.add(7, new Coordinates(575, 390));
+			DealerLocation.add(8, new Coordinates(455, 370));
+			
+		if(what == PlayerBar){
+			if(axis == x){
+			return PlayerLocation.get(id).axisX;
+			} else if (axis == y){
+			return PlayerLocation.get(id).axisY;	
+			}
+    	} else if(what == Card1){
+    		if(axis == x){
+    			return CardOneLocation.get(id).axisX;
+    			} else if (axis == y){
+    			return CardOneLocation.get(id).axisY;	
+    			}
+    	} else if(what == Card2){
+    		if(axis == x){
+    			return CardTwoLocation.get(id).axisX;
+    			} else if (axis == y){
+    			return CardTwoLocation.get(id).axisY;	
+    			}
+    	} else if(what == Deal){
+    		if(axis == x){
+    			return DealerLocation.get(id).axisX;
+    			} else if (axis == y){
+    			return DealerLocation.get(id).axisY;	
+    			}
+    	}
+		return 0;
+	
+    }
+  
 
-    public void placePlayers(ArrayList<ClientSidePlayer> list){
-        int ListSize = list.size();
+	public void placePlayers(ArrayList<ClientSidePlayer> list){
         int id = 0;
+        int offSet = 0;
         ArrayList<String> myCards;
 
             for(ClientSidePlayer player : list){
                 if(player != null){
-
-                    id = player.getId() - 1;
-
+                	offSet = 9 - model.getID();
+                    id = player.getId() - 1;                    
                     switch (id){
-                        case 0:
-                            myCards = fromCardToString(model.getMyCards());
-                              if(model.getID() - 1 == id){
-                                    arrayPlayersCards[id][0] = userCard1(260,435, myCards.get(0));
-                                    arrayPlayersCards[id][1] = userCard1(250,430, myCards.get(1));
-                                } else {
-                                    arrayPlayersCards[id][0] = backCard(260,435);
-                                    arrayPlayersCards[id][1] = backCard(250,430);
-                                }
-                            arrayPlayersNickCash[id] = clientNameCash("Player0", player.getCash(), 230, 510);
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 1:
-                            myCards = fromCardToString(model.getMyCards());
-                            if(model.getID() - 1 == id){
+                    case 0: 	
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                        	arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                        	arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                        	arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+		                                
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 1:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 2:
+                        myCards = fromCardToString(model.getMyCards());                       
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 3:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 4:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 5:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 6:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
 
-                                arrayPlayersCards[id][0] = userCard1(60,345, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(50,340, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(60,345);
-                                arrayPlayersCards[id][1] = backCard(50,340);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player1", player.getCash(), 30, 420);
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 2:
-                            myCards = fromCardToString(model.getMyCards());
-                            if(model.getID() - 1 == id){
+                        break;
+                    case 7:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
+                    case 8:
+                        myCards = fromCardToString(model.getMyCards());
+                        if(model.getID() - 1 == id){
+                            arrayPlayersCards[id][0] = userCard1(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y), myCards.get(0));
+                            arrayPlayersCards[id][1] = userCard2(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y), myCards.get(1));
+                        } else {
+                            arrayPlayersCards[id][0] = backCard(getLocation((id + offSet)%9,Card1,x),getLocation((id + offSet)%9,Card1,y));
+                            arrayPlayersCards[id][1] = backCard(getLocation((id + offSet)%9,Card2,x),getLocation((id + offSet)%9,Card2,y));
+                            
+                        }
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
+                        TableWindow.add(arrayPlayersCards[id][0]);
+                        TableWindow.add(arrayPlayersCards[id][1]);
+                        break;
 
-                                arrayPlayersCards[id][0] = userCard1(60,155, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(50,150, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(60,155);
-                                arrayPlayersCards[id][1] = backCard(50,150);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player2", player.getCash(), 30, 110);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 3:
-                            myCards = fromCardToString(model.getMyCards());
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(280,65, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(270,60, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(280,65);
-                                arrayPlayersCards[id][1] = backCard(270,60);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player3", player.getCash(), 250, 20);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 4:
-                            myCards = fromCardToString(model.getMyCards());
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(570,65, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(560,60, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(570,65);
-                                arrayPlayersCards[id][1] = backCard(560,60);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player4", player.getCash(), 540, 20);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 5:
-                            myCards = fromCardToString(model.getCards(id));
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(60,155, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(50,150, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(60,155);
-                                arrayPlayersCards[id][1] = backCard(50,150);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player5", player.getCash(), 760, 110);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 6:
-                            myCards = fromCardToString(model.getCards(id));
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(790,345, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(780,340, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(790,345);
-                                arrayPlayersCards[id][1] = backCard(780,340);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player6", player.getCash(), 760, 420);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-
-                            break;
-                        case 7:
-                            myCards = fromCardToString(model.getCards(id));
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(600,435, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(590,430, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(600,435);
-                                arrayPlayersCards[id][1] = backCard(590,430);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player7", player.getCash(), 570, 510);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-                        case 8:
-                            myCards = fromCardToString(model.getCards(id));
-                            if(model.getID() - 1 == id){
-
-                                arrayPlayersCards[id][0] = userCard1(433,440, myCards.get(0));
-                                arrayPlayersCards[id][1] = userCard1(423,435, myCards.get(1));
-                            } else {
-                                arrayPlayersCards[id][0] = backCard(433,440);
-                                arrayPlayersCards[id][1] = backCard(423,435);
-                            }
-                            arrayPlayersNickCash[id] = clientNameCash("Player8", player.getCash(), 403, 515);
-
-                            TableWindow.add(arrayPlayersNickCash[id]);
-                            TableWindow.add(arrayPlayersCards[id][0]);
-                            TableWindow.add(arrayPlayersCards[id][1]);
-                            break;
-
-                    }
+                }
+                    TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
                 }
             }
     }
@@ -393,10 +493,9 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 //            arrayPlayersCards[id][1] = backCard(250,430);
 //        }
 //    }
-    public void BroadCast(String toChange){
+    public void BroadcastCall(){	
         Broadcast.setVisible(true);
-        Broadcast.setText(toChange);
-
+        Broadcast.setText("privet");
     }
 
     public ArrayList<String> fromCardToString(Card[] cards ){
@@ -404,49 +503,49 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         String fileName="";
         for(Card card:cards){
             if (card==null){
-                fileName="ace_of_spades";
+                fileName="ace_of_diamonds";
                 output.add(fileName);
                 continue;
             }
             switch (card.getRank()){
                 case TWO:
-                    fileName+="2_of_";
+                    fileName = "2_of_";
                     break;
                 case THREE:
-                    fileName+="3_of_";
+                    fileName = "3_of_";
                     break;
                 case FOUR:
-                    fileName+="4_of_";
+                    fileName = "4_of_";
                     break;
                 case FIVE:
-                    fileName+="5_of_";
+                    fileName = "5_of_";
                     break;
                 case SIX:
-                    fileName+="6_of_";
+                    fileName = "6_of_";
                     break;
                 case SEVEN:
-                    fileName+="7_of_";
+                    fileName = "7_of_";
                     break;
                 case EIGHT:
-                    fileName+="8_of_";
+                    fileName = "8_of_";
                     break;
                 case NINE:
-                    fileName+="9_of_";
+                    fileName = "9_of_";
                     break;
                 case TEN:
-                    fileName+="10_of_";
+                    fileName = "10_of_";
                     break;
                 case JACK:
-                    fileName+="jack_of_";
+                    fileName = "jack_of_";
                     break;
                 case QUEEN:
-                    fileName+="queen_of_";
+                    fileName = "queen_of_";
                     break;
                 case KING:
-                    fileName+="king_of_";
+                    fileName = "king_of_";
                     break;
                 case ACE:
-                    fileName+="ace_of_";
+                    fileName = "ace_of_";
                     break;
             }
             switch (card.getSuit()){
@@ -473,27 +572,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     // TableWindow variables description STARTs
 
-//    public JLabel displayNick(){
-//        displayNick.setBounds(403, 515, 100, 20);
-//        displayNick.setForeground(Color.WHITE);
-//        displayNick.setHorizontalAlignment( SwingConstants.CENTER );
-//        displayNick.setText("aaa");
-//        return displayNick;
-//    }
-//    public JLabel displayCash(){
-//        displayCash.setBounds(428, 530, 50, 25);
-//        displayCash.setForeground(Color.WHITE);
-//        displayCash.setHorizontalAlignment( SwingConstants.CENTER );
-//        displayCash.setText("(" + String.valueOf(Cash) + ")");
-//        return displayCash;
-//    }
     public JLabel displayBroadcast(){
-        JLabel Broadcast = new JLabel();
-        Broadcast.setText("");
+        
+        Broadcast.setText("Waiting for actions");
         Broadcast.setBounds(350, 565, 200, 20);
         Broadcast.setForeground(Color.WHITE);
         Broadcast.setHorizontalAlignment( SwingConstants.CENTER );
-        Broadcast.setVisible(false);
+        Broadcast.setVisible(true);
         return Broadcast;
     }
     public JButton foldButton(){
@@ -523,6 +608,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         callButton.setOpaque(false);
         callButton.setContentAreaFilled(false);
         callButton.addActionListener(this);
+        callButton.setVisible(false);
         return callButton;
     }
     public JButton raiseButton(){
@@ -538,17 +624,17 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     public JSlider CashSlider(){
-        int tick = (Cash - 30) / 2;
+    	int pot = 550;
 
-        CashSlider.setBounds(675, 550, 210, 50);
+        CashSlider.setBounds(720, 550, 155, 50);
         CashSlider.setMaximum(Cash);
-        CashSlider.setMinimum(30);
-        CashSlider.setValue(30);
+        CashSlider.setMinimum(bigBlind * 2);
+        CashSlider.setValue(bigBlind * 2);
         CashSlider.addChangeListener(this);
-        CashSlider.setMajorTickSpacing(tick);
-        CashSlider.setMinorTickSpacing((int)(Math.round((Cash / 20)/ 10.0) * 10)); // FORMULA
+        CashSlider.setMajorTickSpacing(pot);
+//		CashSlider.setMinorTickSpacing((int)(Math.round((Cash / 20)/ 10.0) * 10)); // FORMULA
         CashSlider.setPaintTicks(true);
-        CashSlider.setPaintLabels(true);
+        
         CashSlider.setBackground(Color.GRAY);
         CashSlider.setForeground(Color.WHITE);
         CashSlider.setSnapToTicks(false);
@@ -559,7 +645,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public JLabel displayCashSlider(){
 
-        displayCashSlider.setBounds(820, 525, 50, 25);
+        displayCashSlider.setBounds(650, 555, 50, 25);
         displayCashSlider.setForeground(Color.WHITE);
         displayCashSlider.setHorizontalAlignment( SwingConstants.RIGHT );
 
@@ -569,35 +655,76 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public JButton potSizeSlider(){
         potSizeSlider.setActionCommand("pot");
-        potSizeSlider.setBounds(705, 525, 40, 25);
+        potSizeSlider.setBounds(750, 525, 40, 25);
         potSizeSlider.setText("POT");
         potSizeSlider.setForeground(Color.WHITE);
         potSizeSlider.setOpaque(false);
         potSizeSlider.setContentAreaFilled(false);
         potSizeSlider.setMargin(new Insets(0,0,0,0));
+        potSizeSlider.addActionListener(this);
         return potSizeSlider;
     }
-    public JButton TwoxSizeSlider(){
-        TwoxSizeSlider.setActionCommand("2X");
-        TwoxSizeSlider.setBounds(750, 525, 25, 25);
-        TwoxSizeSlider.setText("2X");
-        TwoxSizeSlider.setForeground(Color.WHITE);
-        TwoxSizeSlider.setOpaque(false);
-        TwoxSizeSlider.setContentAreaFilled(false);
-        TwoxSizeSlider.setMargin(new Insets(0,0,0,0));
-        return TwoxSizeSlider;
+    public JButton OneThirdSizeSlider(){
+        OneThirdSizeSlider.setActionCommand("1/3x");
+        OneThirdSizeSlider.setBounds(705, 525, 40, 25);
+        OneThirdSizeSlider.setText("1/3X");
+        OneThirdSizeSlider.setForeground(Color.WHITE);
+        OneThirdSizeSlider.setOpaque(false);
+        OneThirdSizeSlider.setContentAreaFilled(false);
+        OneThirdSizeSlider.setMargin(new Insets(0,0,0,0));
+        OneThirdSizeSlider.addActionListener(this);
+        return OneThirdSizeSlider;
     }
     public JButton ThreexSizeSlider(){
-        ThreexSizeSlider.setActionCommand("3X");
-        ThreexSizeSlider.setBounds(780, 525, 25, 25);
+        ThreexSizeSlider.setActionCommand("3x");
+        ThreexSizeSlider.setBounds(795, 525, 40, 25);
         ThreexSizeSlider.setText("3X");
         ThreexSizeSlider.setForeground(Color.WHITE);
         ThreexSizeSlider.setOpaque(false);
         ThreexSizeSlider.setContentAreaFilled(false);
         ThreexSizeSlider.setMargin(new Insets(0,0,0,0));
+        ThreexSizeSlider.addActionListener(this);
         return ThreexSizeSlider;
     }
-
+    public JButton AllInSizeSlider(){
+        AllInSizeSlider.setActionCommand("AllIn");
+        AllInSizeSlider.setBounds(840, 525, 50, 25);
+        AllInSizeSlider.setText("ALL-IN");
+        AllInSizeSlider.setForeground(Color.WHITE);
+        AllInSizeSlider.setOpaque(false);
+        AllInSizeSlider.setContentAreaFilled(false);
+        AllInSizeSlider.setMargin(new Insets(0,0,0,0));
+        AllInSizeSlider.addActionListener(this);
+        return AllInSizeSlider;
+    }
+    
+    public JButton PlusSizeSlider(){
+    	PlusSizeSlider.setActionCommand("PlusSlider");
+        PlusSizeSlider.setBounds(875, 560, 15, 15);
+        PlusSizeSlider.setText("+");
+        PlusSizeSlider.setForeground(Color.WHITE);
+        PlusSizeSlider.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        PlusSizeSlider.setBorderPainted(false);
+        PlusSizeSlider.setOpaque(false);
+        PlusSizeSlider.setContentAreaFilled(false);
+        PlusSizeSlider.setMargin(new Insets(0,0,0,0));
+        PlusSizeSlider.addActionListener(this);
+        return PlusSizeSlider;	
+    }
+    public JButton MinusSizeSlider(){
+    	MinusSizeSlider.setActionCommand("MinusSlider");
+        MinusSizeSlider.setBounds(705, 560, 15, 15);
+        MinusSizeSlider.setText("-");
+        MinusSizeSlider.setForeground(Color.WHITE);
+        MinusSizeSlider.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        MinusSizeSlider.setBorderPainted(false);
+        MinusSizeSlider.setOpaque(false);
+        MinusSizeSlider.setContentAreaFilled(false);
+        MinusSizeSlider.setMargin(new Insets(0,0,0,0));
+        MinusSizeSlider.addActionListener(this);
+        return MinusSizeSlider;	
+    }
+    
     public JLabel userCard1(int x, int y, String userCardOne){
         ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + userCardOne + ".png"));
         JLabel userCard1 = new JLabel(cardImg1);
@@ -615,7 +742,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/back.png"));
         JLabel backCard = new JLabel(back);
         backCard.setBounds(x,y,50,70);
-
         return backCard;
     }
 
@@ -629,12 +755,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public JLabel Dealer(int x, int y){
         ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/Dealer.png"));
-        JLabel backCard = new JLabel(back);
-        backCard.setBounds(x,y,25,20);
-        return backCard;
+        Dealer = new JLabel(back);
+        Dealer.setBounds(x,y,25,20);
+        return Dealer;
     }
 
     public JLabel showTable(String card, int x, int y){
+    	
         ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
         JLabel showTable = new JLabel(cardImg1);
         showTable.setBounds(x,y,70,100);
@@ -658,11 +785,18 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return warning;
     }
     private JTextField textName(){
-        textName.setBounds(100, 15, 120, 25);
+        textName.setBounds(100, 15, 120, 25);       
+		    textName.addKeyListener(new KeyAdapter() {public void keyPressed(KeyEvent e) {
+		       	if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		       		buttonConnect.doClick();
+		       	}
+		    }
+        }
+    );
         return textName;
     }
     private JButton buttonConnect(){
-        JButton buttonConnect = new JButton();
+        buttonConnect = new JButton();
         buttonConnect.setActionCommand("connect");
         buttonConnect.setBounds(70, 50, 100, 25);
         buttonConnect.setText("Connect");
@@ -683,7 +817,18 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         } else if("fold".equals(e.getActionCommand())){
             model.pressedFold();
-
+        } else if("1/3x".equals(e.getActionCommand())){
+        	CashSlider.setValue(pot / 3);
+        } else if("3x".equals(e.getActionCommand())){
+        	CashSlider.setValue(pot * 3);
+        } else if("pot".equals(e.getActionCommand())){
+        	CashSlider.setValue(pot);
+        } else if("AllIn".equals(e.getActionCommand())){
+        	CashSlider.setValue(Cash);
+        } else if("PlusSlider".equals(e.getActionCommand())){
+        	CashSlider.setValue(CashSlider.getValue() + bigBlind);
+        } else if("MinusSlider".equals(e.getActionCommand())){
+        	CashSlider.setValue(CashSlider.getValue() - bigBlind);
         } else if("connect".equals(e.getActionCommand())){
             if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
                 // SERVER CONNECTION IMPLEMENTATION
@@ -698,17 +843,16 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                 warning.setVisible(true);
             }
         }
-
     }
     @Override
     public void stateChanged(ChangeEvent e) {
         JSlider CashSlider = (JSlider) e.getSource();
-        CashCurrent = (int)(Math.round(CashSlider.getValue() / 10.0) * 10); // FORMULA
+        CashCurrent = (int)(Math.round(CashSlider.getValue() / (double) bigBlind) * bigBlind); // FORMULA
         if(CashCurrent > Cash){
             CashCurrent = Cash;
         }
         displayCashSlider.setText(String.valueOf("" + CashCurrent));
-
+        
     }
 
 
