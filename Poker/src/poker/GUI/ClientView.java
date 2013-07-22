@@ -338,6 +338,15 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
+    public void setNewCash(){
+
+        ArrayList<ClientSidePlayer> list = model.getPlayerList();
+        for(ClientSidePlayer player : list){
+
+
+    }
+    }
+
 
 	public void placePlayers(ArrayList<ClientSidePlayer> list){
         int id = 0;
@@ -352,55 +361,55 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                     switch (id){
                     case 0:
 
-                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 1:
 
-                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 2:
 
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 3:
 
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 4:
 
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 5:
 
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 6:
 
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 7:
 
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
                     case 8:
 
-                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, player.getCash(), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                    arrayPlayersNickCash[id] = clientNameCash("Player" + id, model.getCash(model.getID()), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
 
                         break;
@@ -890,7 +899,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         System.out.println(e.getActionCommand());
         if("raise".equals(e.getActionCommand())){
            model.pressedRaise(CashSlider.getValue());
-
         } else if("check".equals(e.getActionCommand())){
             model.pressedCheck();
 
