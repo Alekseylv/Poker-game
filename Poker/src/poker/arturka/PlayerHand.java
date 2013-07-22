@@ -13,9 +13,11 @@ public class PlayerHand {
 	private Player player;
 	
 	public PlayerHand(Hand hand, List<Card> scoreCards, Player player) {
-		this.setHand(hand);
+		this.hand = hand;
 		this.player = player;
 		this.playerHand = scoreCards;
+		kicker = null;
+		highCard = null;
 	}
 	
 	public Player getPlayer() {
@@ -36,8 +38,10 @@ public class PlayerHand {
 		return tempHand;
 	}
 
-	public void setPlayerHand(List<Card> playerHand) {
-		this.playerHand = playerHand;
+	public void setPlayerHand(Card[] playerHand) {
+		for (Card card: playerHand) {
+			this.playerHand.add(card);
+		}
 	}
 
 	public Card getHighCard() {
