@@ -19,10 +19,16 @@ import poker.arturka.Card.Suit;
 import client.ServerListener;
 import client.TaskQueue;
 
+
+/**
+ * Assumes port 9998 is free
+ * @author Aleksey
+ *
+ */
 public class OnlineClientTests {
 
 	private TaskQueue que;
-	private TestClientGame game;
+	private FakeClientGame game;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -39,12 +45,12 @@ public class OnlineClientTests {
 				e.printStackTrace();
 			}
 			
-			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);	
+			Socket socket = new Socket(InetAddress.getLocalHost(), 9998);	
 			this.que = new TaskQueue();
 			
 			ServerListener listener = new ServerListener(
 					socket.getInputStream() , que);
-			this.game  = new TestClientGame(null, que);	
+			this.game  = new FakeClientGame(null, que);	
 			
 			Thread listenerThread = new Thread(listener);
 			Thread gameThread = new Thread(game);
@@ -77,7 +83,7 @@ public class OnlineClientTests {
 			e.printStackTrace();
 		}
 		
-		// checking if commands work right on client side
+		// checking if commands work right on client side through a connection
 		
 		assertEquals("ID must be 1", 1, game.model.getID());
 		assertEquals("Player list must have 2 memebers", 
