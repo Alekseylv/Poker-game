@@ -60,7 +60,7 @@
             <classpath refid="Poker.classpath"/>
         </java>
     </target>
-    <target name="Server">
+    <target name="Server (1)">
         <java classname="poker.server.Server" failonerror="true" fork="yes">
             <classpath refid="Poker.classpath"/>
         </java>
@@ -97,4 +97,24 @@
             <report format="frames" todir="${junit.output.dir}"/>
         </junitreport>
     </target>
+	
+	
+	<target name="builClient-jar">
+	<jar destfile="./myjar.jar"
+	     basedir="bin">
+	     <manifest>
+	      <attribute name="Main-Class" value="client.Client"/>
+	     </manifest>
+	</jar>
+	</target>
+	
+	<target name="builServer-jar">
+		<jar destfile="./myjar.jar"
+		     basedir="bin">
+		     <manifest>
+		      <attribute name="Main-Class" value="poker.server.server"/>
+		     </manifest>
+		</jar>
+		</target>
+	
 </project>
