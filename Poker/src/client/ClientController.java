@@ -63,7 +63,7 @@ public class ClientController implements Observer {
         int count = 0;
         if(arg instanceof Card[] ) {
 
-           // view.tableCards();
+           view.tableCards();
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
                 view.stateReady();
@@ -81,10 +81,11 @@ public class ClientController implements Observer {
                 view.stateEnded();
             }
         } else if(arg instanceof Integer) {
-            // we just got an id
+
         } else if(arg instanceof List) {
             view.placePlayers(model.getPlayerList());
-            view.setNums();
+
+
         }
 			
 			
@@ -127,6 +128,7 @@ public class ClientController implements Observer {
                 default:
                 	break;
                 }
+            view.setNums();
 		}  else if(arg instanceof Card) {
             view.giveCards(model.getPlayerList());
 

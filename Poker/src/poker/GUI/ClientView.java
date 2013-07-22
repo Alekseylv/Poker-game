@@ -333,8 +333,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public void setNums(){
         CashSlider.setMaximum(model.getCash(model.getID()));
-        CashSlider.setValue(60); // SET BIG BLINDS * 2 VIA MODEL
-        CashSlider.setMinimum(60);
+        CashSlider.setValue(model.getMaxBet() * 2); // SET BIG BLINDS * 2 VIA MODEL
+        CashSlider.setMinimum(model.getMaxBet() * 2);
 
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
@@ -406,7 +406,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         break;
 
                 }
-                    TableWindow.add(Dealer(getLocation((model.getDealer() + offSet)%9,Deal,x),getLocation((model.getDealer() + offSet)%9,Deal,y)));
+                    TableWindow.add(Dealer(getLocation(model.getDealer() + 1,Deal,x),getLocation((model.getDealer() + 1),Deal,y)));
                 }
             }
     }
@@ -670,6 +670,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         foldButton.setForeground(Color.WHITE);
         foldButton.setOpaque(false);
         foldButton.setContentAreaFilled(false);
+        foldButton.addActionListener(this);
         return foldButton;
     }
     public JButton checkButton(){
@@ -886,6 +887,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     // LoginWindow variables description ENDs
 
     public void actionPerformed(ActionEvent e) {
+        System.out.println(e.getActionCommand());
         if("raise".equals(e.getActionCommand())){
            model.pressedRaise(CashSlider.getValue());
 
