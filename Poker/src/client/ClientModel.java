@@ -167,6 +167,8 @@ public class ClientModel extends Observable {
 		this.setCards(id, card1, card2);
 	}
 	
+	
+	
 	/**
 	 * Get's the cards on the table
 	 * @return card array of the table
@@ -280,6 +282,16 @@ public class ClientModel extends Observable {
 		}
 		
 		return temp;
+	}
+	
+	/**
+	 * Return the bet of a concrete player
+	 * @param id of the player
+	 * @return current bet
+	 */
+	
+	public int getPlayerBet(int id) {
+		return this.getPlayer(id).getBet();
 	}
 	
 	public int getCash(int id) {
