@@ -261,7 +261,8 @@ public class ClientModel extends Observable {
 	
 	public void pressedFold() {
 		this.pressedButton(ClientTurn.FOLD, -1);
-	}
+        System.out.println("FOLD WAS PRESSED");
+    }
 	
 	/**
 	 * Sends server a message that user has checked

@@ -12,7 +12,7 @@ import java.util.Observable;
 public class Player extends Observable implements Serializable {
     private int id;
     private int cash;
-    private Card[] hand;
+    public Card[] hand;
     private boolean dealer;
     private boolean fold;
     private int bet;
@@ -63,7 +63,7 @@ public class Player extends Observable implements Serializable {
         return fold;
     }
     public boolean bet(int ammount){
-        if(ammount<cash){
+        if(ammount<=cash+bet){
             cash-=ammount;
             bet+=ammount;
             return true;

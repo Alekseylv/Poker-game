@@ -63,7 +63,7 @@ public class ClientController implements Observer {
         int count = 0;
         if(arg instanceof Card[] ) {
 
-           // view.tableCards();
+           view.tableCards();
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
                 view.stateReady();
@@ -81,10 +81,11 @@ public class ClientController implements Observer {
                 view.stateEnded();
             }
         } else if(arg instanceof Integer) {
-            // we just got an id
+
         } else if(arg instanceof List) {
             view.placePlayers(model.getPlayerList());
-            view.setNums();
+
+
         }
 			
 			
@@ -108,28 +109,36 @@ public class ClientController implements Observer {
             switch(player.getLastTurn()){
                 case CALL:
                     view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for " + (model.getPlayerBet(player.getId())));
+
                     break;
                 case CHECK:
                 	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has checked");
+
                     break;
                 case EXIT:
                 	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has gone offline");
+
                     break;
                 case FOLD:
                 	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has folded");
+
                     break;
                 case RAISE:
                 	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has raised " + (model.getPlayerBet(player.getId())));
+
                     break;
                 case BLIND:
                 	view.displayBroadcast().setText("Player" + (model.getDealer() + 1)%(model.getPlayerList().size()) + " is on a BIG BLIND");
-                	break;
+
+                    break;
                 default:
                 	break;
                 }
-		}  else if(arg instanceof Card) {
-            view.giveCards(model.getPlayerList());
+            view.setNewCash();
+            view.setNums();
 
+		}   else if(arg instanceof Card) {
+            view.giveCards(model.getPlayerList());
         }
 	}
 	

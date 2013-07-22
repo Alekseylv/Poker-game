@@ -3,7 +3,6 @@ package poker.arturka;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import poker.arturka.Card.Rank;
 import poker.arturka.Card.Suit;
@@ -22,8 +21,8 @@ public class HandEvaluator {
 		evaluatedPlayers = new HashMap<Player, PlayerHand>();
 	}
 
-	public HashMap<Integer, PlayerHand> getPlayerHandEvaluation() {
-		HashMap<Integer, PlayerHand> playerRanking = new HashMap<Integer, PlayerHand>();
+	public List<PlayerHand> getPlayerHandEvaluation() {
+		List<PlayerHand> playerRanking = new ArrayList<PlayerHand>();
 		for (Player player : playersToEvaluate) {
 			playerHand = new PlayerHand(player);
 			getPlayerHand(player);
@@ -41,55 +40,73 @@ public class HandEvaluator {
 		return tempHand;
 	}
 
-	private HashMap<Integer, PlayerHand> sortEvaluatedPlayers() {
-		int incremental = 1;
-		HashMap<Integer, PlayerHand> playerPositions = new HashMap<Integer, PlayerHand>();
+	private List<PlayerHand> sortEvaluatedPlayers() {
+		List<PlayerHand> playerPositions = new ArrayList<PlayerHand>();
 		// Adds hands to a position list.
 		for (Entry<Player, PlayerHand> entry : evaluatedPlayers.entrySet()) {
-			playerPositions.put(entry.getValue().getHand().ordinal() + 1,
-					entry.getValue());
+			entry.getValue().setPosition(entry.getValue().getHand().ordinal() + 1);
+			playerPositions.add(entry.getValue());
 		}
 		// Sorts position list hands if they are the same
-		Map.Entry<Integer, PlayerHand> prev = null;
-		for (Entry<Integer, PlayerHand> entry : playerPositions.entrySet()) {
+		PlayerHand prev = null;
+		for (PlayerHand entry : playerPositions) {
 			if (prev != null) {
-				if (prev.getKey() == entry.getKey()) {
-					if (entry.getValue().getHand() == Hand.HIGH_HAND) {
-						if (prev.getValue().getHighCard().getRank().ordinal() < entry
-								.getValue().getHighCard().getRank().ordinal())
-							swapEntries(prev, entry);
-					} else if (entry.getValue().getHand() == Hand.STRAIGHT_FLUSH
-							|| entry.getValue().getHand() == Hand.FULL_HOUSE
-							|| entry.getValue().getHand() == Hand.FLUSH
-							|| entry.getValue().getHand() == Hand.STRAIGHT) {
-						if (prev.getValue().getHandScore() < entry.getValue()
-								.getHandScore()) {
-							swapEntries(prev, entry);
-							playerPositions.put(entry.getKey() + incremental++,
-									entry.getValue());
+				if (prev.getPosition() == entry.getPosition()) {
+					if (entry.getHand().equals(Hand.HIGH_HAND)) {
+						if (((PlayerHand) prev).getHighCard().getRank().ordinal() < entry.getHighCard().getRank().ordinal()) {
+							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
 						}
-					} else if (entry.getValue().getHand() == Hand.ROYAL_FLUSH) {
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+					} else if (entry.getHand().equals(Hand.STRAIGHT_FLUSH)
+							|| entry.getHand().equals(Hand.FULL_HOUSE)
+							|| entry.getHand().equals(Hand.FLUSH)
+							|| entry.getHand().equals(Hand.STRAIGHT)) {
+						System.out.println("PlayerID: " +prev.getPlayer().getId() + " score is " + prev.getHandScore() +", PlayerID: " +entry.getPlayer().getId() + " score is " + entry.getHandScore());
+						if (prev.getHandScore() < entry.getHandScore()) {
+							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+					} else if (entry.getHand().equals(Hand.ROYAL_FLUSH)) {
 						// do nothing, because it is the strongest hand
 						// empty so that shouldn't write many evaluations in
 						// next statement :)
 					} else {
-						if (prev.getValue().getKicker().getRank().ordinal() < entry
-								.getValue().getKicker().getRank().ordinal()) {
-							swapEntries(prev, entry);
-							playerPositions.put(entry.getKey() + incremental++,
-									entry.getValue());
+						if (prev.getKicker().getRank().ordinal() < entry.getKicker().getRank().ordinal()) {
+							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
 						}
 					}
 				}
-			} else
-				prev = entry;
+			}
+			prev = new PlayerHand(entry.getPlayer());
+			prev.setHand(entry.getHand());
+			prev.setHandScore(entry.getHandScore());
+			prev.setHighCard(entry.getHighCard());
+			prev.setKicker(entry.getKicker());
+			prev.setPlayerHand(entry.getPlayerHand());
+			prev.setPosition(entry.getPosition());
 		}
 		return playerPositions;
 	}
 
-	private void swapEntries(Entry<Integer, PlayerHand> prev,
-			Entry<Integer, PlayerHand> entry) {
-		entry.setValue(prev.setValue(entry.getValue()));
+	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
+			int incrementFrom) {
+		for (PlayerHand playerHand: playerPositions) {
+			if(playerHand.getPosition() > incrementFrom)
+				playerHand.setPosition(playerHand.getPosition() + 1);
+		}
 	}
 
 	private Hand getPlayerHand(Player player) {
