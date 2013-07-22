@@ -83,7 +83,7 @@ public class OnlineClientTests {
 			e.printStackTrace();
 		}
 		
-		// checking if commands work right on client side
+		// checking if commands work right on client side through a connection
 		
 		assertEquals("ID must be 1", 1, game.model.getID());
 		assertEquals("Player list must have 2 memebers", 

@@ -1,11 +1,9 @@
 package client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 
 /**
@@ -13,8 +11,6 @@ import java.util.Scanner;
  * initializing parameters.
  * 
  * @author Aleksey
- * 
- * 
  */
 
 public class Client {
