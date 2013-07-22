@@ -60,8 +60,15 @@ public class ClientController implements Observer {
      */
 
     public void update(ClientModel model, Object arg) {
+        int count = 0;
         if(arg instanceof Card[] ) {
+            if(count == 0){
+                view.placePlayers(model.getPlayerList());
+                count++;
+            } else if(count == 1){
+
             view.tableCards();
+            }
 
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
@@ -105,7 +112,7 @@ public class ClientController implements Observer {
 		if(arg instanceof ClientTurn) {
             switch(player.getLastTurn()){
                 case CALL:
-                    view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for |CHIPS|");
+                    view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for " + (model.getMaxBet()));
                     break;
                 case CHECK:
                 	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has checked");

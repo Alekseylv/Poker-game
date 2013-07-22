@@ -46,7 +46,7 @@ public class ClientModel extends Observable {
 	
 	/**
 	 * Sets the players of the game and notifies any Observers
-	 * @param players
+
 	 *  A list of players participating in the game
 	 */
 	
