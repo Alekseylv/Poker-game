@@ -169,7 +169,7 @@ public class Players {
      */
 	public HashMap<Integer, PlayerHand> getBestPlayers() {
 		HandEvaluator evaluator = new HandEvaluator(playersLeft());
-		HashMap<Integer, PlayerHand> playerHandRanking =  evaluator.getPlayerHandEvaluation();
+		HashMap<Integer, PlayerHand> playerHandRanking =  (HashMap<Integer, PlayerHand>) evaluator.getPlayerHandEvaluation();
 		if (!playerHandRanking.entrySet().isEmpty())
 			return playerHandRanking;
 		return null;
