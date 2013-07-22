@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import commands.FRCheckCommand;
 import message.data.ClientResponse;
 import commands.Command;
 import commands.FRCallCommand;
@@ -112,7 +113,7 @@ public class Room implements Runnable {
 				out.writeObject(command);
 				out.flush();
 				// Evaluates whether user input is needed.
-				if (command.getClass() == FRCallCommand.class || command.getClass() == FRCallCommand.class)
+				if (command.getClass() == FRCallCommand.class || command.getClass() == FRCheckCommand.class)
 					return (ClientResponse) getClientMove(id);
 			} catch (IOException e) {
 				e.printStackTrace();
