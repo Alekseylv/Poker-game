@@ -39,7 +39,7 @@ public class OnlineClientTests {
 				e.printStackTrace();
 			}
 			
-			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);	
+			Socket socket = new Socket(InetAddress.getLocalHost(), 9998);	
 			this.que = new TaskQueue();
 			
 			ServerListener listener = new ServerListener(
