@@ -47,9 +47,9 @@ public class HandEvaluator {
 			entry.getValue().setPosition(entry.getValue().getHand().ordinal() + 1);
 			playerPositions.add(entry.getValue());
 		}
-		for (int i = 0; i < playerPositions.size(); i++) {
+		for (int i = 0; i < playerPositions.size() - 1; i++) {
 			if (playerPositions.get(i).getHand().ordinal() > playerPositions.get(i + 1).getHand().ordinal())
-				System.out.println("to be implemented");
+				playerPositions.set(i, playerPositions.set(i + 1, playerPositions.get(i)));
 		}
 		// Sorts position list hands if they are the same
 		PlayerHand prev = null;
