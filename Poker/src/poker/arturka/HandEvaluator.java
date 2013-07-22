@@ -48,41 +48,49 @@ public class HandEvaluator {
 		HashMap<Integer, PlayerHand> playerPositions = new HashMap<Integer, PlayerHand>();
 		// Adds hands to a position list.
 		for (Entry<Player, PlayerHand> entry : evaluatedPlayers.entrySet()) {
-			playerPositions.put(entry.getValue().getHand().ordinal() + 1, entry.getValue());
+			playerPositions.put(entry.getValue().getHand().ordinal() + 1,
+					entry.getValue());
 		}
 		// Sorts position list hands if they are the same
 		Map.Entry<Integer, PlayerHand> prev = null;
 		for (Entry<Integer, PlayerHand> entry : playerPositions.entrySet()) {
 			if (prev != null) {
 				if (prev.getKey() == entry.getKey()) {
-					if (entry.getValue().getHand() == Hand.STRAIGHT_FLUSH
+					if (entry.getValue().getHand() == Hand.HIGH_HAND) {
+						if (prev.getValue().getHighCard().getRank().ordinal() < entry
+								.getValue().getHighCard().getRank().ordinal())
+							swapEntries(prev, entry);
+					} else if (entry.getValue().getHand() == Hand.STRAIGHT_FLUSH
 							|| entry.getValue().getHand() == Hand.FULL_HOUSE
 							|| entry.getValue().getHand() == Hand.FLUSH
 							|| entry.getValue().getHand() == Hand.STRAIGHT) {
-						if (prev.getValue().getHandScore() < entry.getValue().getHandScore()) {
+						if (prev.getValue().getHandScore() < entry.getValue()
+								.getHandScore()) {
 							swapEntries(prev, entry);
-							playerPositions.put(entry.getKey() + incremental++, entry.getValue());
+							playerPositions.put(entry.getKey() + incremental++,
+									entry.getValue());
 						}
-					}
-					else if (entry.getValue().getHand() == Hand.ROYAL_FLUSH) {
-						//do nothing, because it is the strongest hand
-						//empty so that shouldn't write many evaluations in next statement :)
-					}
-					else {
-						if (prev.getValue().getKicker().getRank().ordinal() < entry.getValue().getKicker().getRank().ordinal()) {
+					} else if (entry.getValue().getHand() == Hand.ROYAL_FLUSH) {
+						// do nothing, because it is the strongest hand
+						// empty so that shouldn't write many evaluations in
+						// next statement :)
+					} else {
+						if (prev.getValue().getKicker().getRank().ordinal() < entry
+								.getValue().getKicker().getRank().ordinal()) {
 							swapEntries(prev, entry);
-							playerPositions.put(entry.getKey() + incremental++,	entry.getValue());
+							playerPositions.put(entry.getKey() + incremental++,
+									entry.getValue());
 						}
 					}
 				}
-			}
-			else
+			} else
 				prev = entry;
 		}
 		return playerPositions;
 	}
 
-	private void swapEntries(Entry<Integer, PlayerHand> prev, Entry<Integer, PlayerHand> entry) {
+	private void swapEntries(Entry<Integer, PlayerHand> prev,
+			Entry<Integer, PlayerHand> entry) {
 		entry.setValue(prev.setValue(entry.getValue()));
 	}
 
@@ -112,8 +120,10 @@ public class HandEvaluator {
 			return Hand.TWO_PAIR;
 		else if (handIsSameKind(combination, ONE_PAIR_COUNT))
 			return Hand.ONE_PAIR;
-		else
+		else {
+			playerHand.setHighCard(currentHand[0]);
 			return Hand.HIGH_HAND;
+		}
 	}
 
 	private boolean handIsTwoPair(Card[][] combination2) {
@@ -322,7 +332,7 @@ public class HandEvaluator {
 		}
 		return hand;
 	}
-	 
+
 	private void evaluateScore(List<Card> cards) {
 		int score = 0;
 		for (Card card : cards) {
@@ -330,7 +340,7 @@ public class HandEvaluator {
 		}
 		playerHand.setHandScore(score);
 	}
-	
+
 	private void setPlayerHand() {
 		Card[] temp = new Card[CARDS_TO_EVALUATE];
 		for (int i = 0; i < CARDS_TO_EVALUATE; i++) {
@@ -338,8 +348,7 @@ public class HandEvaluator {
 				if (i == scoreCards.size())
 					playerHand.setKicker(temp[i]);
 				temp[i] = currentHand[i - scoreCards.size()];
-			}
-			else
+			} else
 				temp[i] = scoreCards.get(i);
 		}
 		temp = sortHand(temp);
