@@ -160,10 +160,10 @@ public class Players {
      * Outputs a List of players by the strength of their hand.
      * @return List of players, null if none.
      */
-	public List<Player> getBestPlayers() {
+	public HashMap<Integer, Player> getBestPlayers() {
 		HandEvaluator evaluator = new HandEvaluator(playersLeft());
-		List<Player> playerHandRanking =  evaluator.getPlayerHandEvaluation();
-		if (!playerHandRanking.isEmpty())
+		HashMap<Integer, Player> playerHandRanking =  evaluator.getPlayerHandEvaluation();
+		if (!playerHandRanking.entrySet().isEmpty())
 			return playerHandRanking;
 		return null;
 	}
