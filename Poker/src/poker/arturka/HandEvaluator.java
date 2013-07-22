@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import poker.arturka.Card.Rank;
 import poker.arturka.Card.Suit;
 import poker.arturka.Hand;
@@ -16,7 +15,7 @@ public class HandEvaluator {
 	private static final int FOUR_OF_A_KIND_COUNT = 4;
 	private static final int THREE_OF_A_KIND_COUNT = 3;
 	private static final int TWO_PAIR_COUNT = 2;
-	private static final int ONE_PAIR_COUNT = 1;
+	private static final int ONE_PAIR_COUNT = 2;
 
 	public HandEvaluator(List<Player> playersLeft) {
 		playersToEvaluate = playersLeft;
@@ -26,9 +25,8 @@ public class HandEvaluator {
 	public HashMap<Integer, PlayerHand> getPlayerHandEvaluation() {
 		HashMap<Integer, PlayerHand> playerRanking = new HashMap<Integer, PlayerHand>();
 		for (Player player : playersToEvaluate) {
-			// getPlayerHand(player);
-			Hand hand = getPlayerHand(player);
-			playerHand = new PlayerHand(hand, scoreCards, player);
+			playerHand = new PlayerHand(player);
+			getPlayerHand(player);
 			evaluatedPlayers.put(player, playerHand);
 		}
 		playerRanking = sortEvaluatedPlayers();
@@ -103,26 +101,26 @@ public class HandEvaluator {
 		currentHand = sortHand(hand);
 		combination = createHandTable(hand);
 		if (handIsRoyalFlush(combination))
-			return Hand.ROYAL_FLUSH;
+			return playerHand.setHand(Hand.ROYAL_FLUSH);
 		else if (handIsStraightFlush(combination))
-			return Hand.STRAIGHT_FLUSH;
+			return playerHand.setHand(Hand.STRAIGHT_FLUSH);
 		else if (handIsSameKind(combination, FOUR_OF_A_KIND_COUNT))
-			return Hand.FOUR_OF_A_KIND;
+			return playerHand.setHand(Hand.FOUR_OF_A_KIND);
 		else if (handIsFullHouse(combination))
-			return Hand.FULL_HOUSE;
+			return playerHand.setHand(Hand.FULL_HOUSE);
 		else if (handIsFlush(combination))
-			return Hand.FLUSH;
+			return playerHand.setHand(Hand.FLUSH);
 		else if (handIsStraight(combination))
-			return Hand.STRAIGHT;
+			return playerHand.setHand(Hand.STRAIGHT);
 		else if (handIsSameKind(combination, THREE_OF_A_KIND_COUNT))
-			return Hand.THREE_OF_A_KIND;
+			return playerHand.setHand(Hand.THREE_OF_A_KIND);
 		else if (handIsTwoPair(combination))
-			return Hand.TWO_PAIR;
+			return playerHand.setHand(Hand.TWO_PAIR);
 		else if (handIsSameKind(combination, ONE_PAIR_COUNT))
-			return Hand.ONE_PAIR;
+			return playerHand.setHand(Hand.ONE_PAIR);
 		else {
 			playerHand.setHighCard(currentHand[0]);
-			return Hand.HIGH_HAND;
+			return playerHand.setHand(Hand.HIGH_HAND);
 		}
 	}
 
@@ -190,9 +188,9 @@ public class HandEvaluator {
 		int fCount = 0;
 		for (int i = 0; i < Suit.values().length; i++) {
 			scoreCards = new ArrayList<Card>();
-			for (int j = 0; j < Rank.values().length - 1; j++) {
-				if (temp[i][Rank.values().length - j - 1] != null) {
-					scoreCards.add(temp[Suit.values().length - j - 1][i]);
+			for (int j = Rank.values().length - 1; j > - 1; j--) {
+				if (temp[i][j] != null) {
+					scoreCards.add(temp[i][j]);
 					fCount++;
 				}
 				if (fCount == 4) {
@@ -280,11 +278,13 @@ public class HandEvaluator {
 		int sfCount = 0;
 		for (int i = 0; i < Suit.values().length; i++) {
 			scoreCards = new ArrayList<Card>();
-			for (int j = 0; j < Rank.values().length - 1; j++) {
-				if (temp[i][Rank.values().length - j - 1] != null
-						&& temp[i][Rank.values().length - j] != null) {
-					scoreCards.add(temp[i][Rank.values().length - j]);
+			for (int j = Rank.values().length - 1; j > 0; j--) {
+				if (temp[i][j] != null
+						&& temp[i][j - 1] != null) {
+					scoreCards.add(temp[i][j]);
 					sfCount++;
+					if (sfCount == 4)
+						scoreCards.add(temp[i][j - 1]);
 				}
 				if (sfCount == 4) {
 					evaluateScore(scoreCards);
