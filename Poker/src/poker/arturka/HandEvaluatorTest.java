@@ -54,7 +54,7 @@ public class HandEvaluatorTest {
 		for (PlayerHand entry : playerPositions) {
 			System.out.println(entry.getPosition() + "position - PlayerID:"
 					+ entry.getPlayer().getId() + " with "
-					+ entry.getHand());
+					+ entry.getHand() + "| SCORE: " + entry.getHandScore());
 		}
 	}
 

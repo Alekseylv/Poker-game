@@ -47,8 +47,64 @@ public class HandEvaluator {
 			entry.getValue().setPosition(entry.getValue().getHand().ordinal() + 1);
 			playerPositions.add(entry.getValue());
 		}
+		for (int i = 0; i < playerPositions.size(); i++) {
+			if (playerPositions.get(i).getHand().ordinal() > playerPositions.get(i + 1).getHand().ordinal())
+				System.out.println("to be implemented");
+		}
 		// Sorts position list hands if they are the same
 		PlayerHand prev = null;
+		PlayerHand entry = null;
+		for (int i = 0; i < playerPositions.size(); i++) {
+			if (prev != null) {
+				entry = playerPositions.get(i);
+				if (prev.getPosition() == entry.getPosition()) {
+					if (entry.getHand().equals(Hand.HIGH_HAND)) {
+						if (((PlayerHand) prev).getHighCard().getRank().ordinal() < entry.getHighCard().getRank().ordinal()) {
+							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+					} else if (entry.getHand().equals(Hand.STRAIGHT_FLUSH)
+							|| entry.getHand().equals(Hand.FULL_HOUSE)
+							|| entry.getHand().equals(Hand.FLUSH)
+							|| entry.getHand().equals(Hand.STRAIGHT)) {
+						if (prev.getHandScore() < entry.getHandScore()) {
+							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+					} else if (entry.getHand().equals(Hand.ROYAL_FLUSH)) {
+						// do nothing, because it is the strongest hand
+						// empty so that shouldn't write many evaluations in
+						// next statement :)
+					} else {
+						if (prev.getKicker().getRank().ordinal() < entry.getKicker().getRank().ordinal()) {
+							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+						else {
+							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
+							incrementFollowingPlayers(playerPositions, incrementFrom);
+						}
+					}
+					i--;
+				}
+			}
+			prev = new PlayerHand(playerPositions.get(i).getPlayer());
+			prev.setHand(playerPositions.get(i).getHand());
+			prev.setHandScore(playerPositions.get(i).getHandScore());
+			prev.setHighCard(playerPositions.get(i).getHighCard());
+			prev.setKicker(playerPositions.get(i).getKicker());
+			prev.setPlayerHand(playerPositions.get(i).getPlayerHand());
+			prev.setPosition(playerPositions.get(i).getPosition());
+		}
+		/*
 		for (PlayerHand entry : playerPositions) {
 			if (prev != null) {
 				if (prev.getPosition() == entry.getPosition()) {
@@ -98,6 +154,7 @@ public class HandEvaluator {
 			prev.setPlayerHand(entry.getPlayerHand());
 			prev.setPosition(entry.getPosition());
 		}
+		*/
 		return playerPositions;
 	}
 
@@ -121,7 +178,7 @@ public class HandEvaluator {
 			return playerHand.setHand(Hand.ROYAL_FLUSH);
 		else if (handIsStraightFlush(combination))
 			return playerHand.setHand(Hand.STRAIGHT_FLUSH);
-		else if (handIsSameKind(combination, FOUR_OF_A_KIND_COUNT))
+		else if (handIsSameKind(combination, FOUR_OF_A_KIND_COUNT, true))
 			return playerHand.setHand(Hand.FOUR_OF_A_KIND);
 		else if (handIsFullHouse(combination))
 			return playerHand.setHand(Hand.FULL_HOUSE);
@@ -129,11 +186,11 @@ public class HandEvaluator {
 			return playerHand.setHand(Hand.FLUSH);
 		else if (handIsStraight(combination))
 			return playerHand.setHand(Hand.STRAIGHT);
-		else if (handIsSameKind(combination, THREE_OF_A_KIND_COUNT))
+		else if (handIsSameKind(combination, THREE_OF_A_KIND_COUNT, true))
 			return playerHand.setHand(Hand.THREE_OF_A_KIND);
 		else if (handIsTwoPair(combination))
 			return playerHand.setHand(Hand.TWO_PAIR);
-		else if (handIsSameKind(combination, ONE_PAIR_COUNT))
+		else if (handIsSameKind(combination, ONE_PAIR_COUNT, true))
 			return playerHand.setHand(Hand.ONE_PAIR);
 		else {
 			playerHand.setHighCard(currentHand[0]);
@@ -240,17 +297,18 @@ public class HandEvaluator {
 					for (int j2 = 0; j2 < Suit.values().length; j2++) {
 						temp[j2][i] = null;
 					}
+					evaluateScore(scoreCards);
 					lineCleared = true;
 					threeOfAKind = true;
 				}
 			}
-			scoreCards = null;
+			if (!threeOfAKind)
+				scoreCards = null;
 			tokCount = 0;
 		}
-		if (handIsSameKind(temp, 2))
+		if (handIsSameKind(temp, 2, false))
 			twoOfAKind = true;
 		if (twoOfAKind && threeOfAKind) {
-			evaluateScore(scoreCards);
 			setPlayerHand();
 			return true;
 		}
@@ -266,24 +324,29 @@ public class HandEvaluator {
 		return temp;
 	}
 
-	private boolean handIsSameKind(Card[][] combination2, int count) {
+	private boolean handIsSameKind(Card[][] combination2, int count, boolean b) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
 		int skCount = 0;
 		for (int i = Rank.values().length - 1; i > -1; i--) {
-			scoreCards = new ArrayList<Card>();
+			if (b)
+				scoreCards = new ArrayList<Card>();
 			for (int j = 0; j < Suit.values().length; j++) {
 				if (temp[j][i] != null) {
-					scoreCards.add(temp[j][i]);
+					if (b)
+						scoreCards.add(temp[j][i]);
 					skCount++;
 				}
 				if (skCount == count) {
-					evaluateScore(scoreCards);
-					setPlayerHand();
+					if (b) {
+						evaluateScore(scoreCards);
+						setPlayerHand();
+					}
 					return true;
 				}
 			}
-			scoreCards = null;
+			if (b)
+				scoreCards = null;
 			skCount = 0;
 		}
 		return false;
@@ -354,7 +417,9 @@ public class HandEvaluator {
 		int score = 0;
 		for (Card card : cards) {
 			score += card.getRank().ordinal();
+			System.out.println(card.getRank() + " of " + card.getSuit());
 		}
+		System.out.println("--------------------------");
 		playerHand.setHandScore(score);
 	}
 
