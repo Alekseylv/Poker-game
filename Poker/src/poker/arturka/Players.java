@@ -14,15 +14,24 @@ public class Players {
         playerMap =new HashMap<Integer, Player>();
     }
 
-    public void addPlayer(int id){
+    public Player addPlayer(int id){
+        if(id<0){
+            return null;
+        }
         Player tempPlayer = new Player(id);
         tempPlayer.toggleInGame();
         playerMap.put(id, tempPlayer);
+        return tempPlayer;
     }
 
-    public void removePlayer(int id){
-        playerMap.get(id).toggleInGame();
+    public Player removePlayer(int id){
+        Player player=playerMap.get(id);
+        if (player==null){
+            return null;
+        }
+        player.toggleInGame();
         playerMap.remove(id);
+        return player;
     }
 
     /**
@@ -31,7 +40,10 @@ public class Players {
      */
     public Player getRandomPlayer(){
         Random random=new Random();
-        return getPlayersList().get(random.nextInt(playerMap.size() - 1));
+        if (playerMap.size()<1){
+            return null;
+        }
+        return getPlayersList().get(random.nextInt(playerMap.size()));
     }
 
     /**
@@ -40,6 +52,9 @@ public class Players {
      * @return Next player to player param.
      */
     public Player getNextPlayer(Player player){
+        if (player==null){
+            return null;
+        }
         List<Player> playerList=getPlayersList();
         for(int i=0;i< playerList.size();i++){
             if(playerList.get(i).equals(player)){
@@ -69,6 +84,9 @@ public class Players {
             }
         }
         Player newDealer=getRandomPlayer();
+        if (newDealer==null){
+            return null;
+        }
         newDealer.toggleDealer();
         return newDealer;
     }
@@ -81,6 +99,9 @@ public class Players {
     public Player nextDealer(){
         Player oldDealer;
         oldDealer=getDealer();
+        if (oldDealer==null){
+            return oldDealer;
+        }
         oldDealer.toggleDealer();
         getNextPlayer(oldDealer).toggleDealer();
         return oldDealer;
@@ -108,20 +129,6 @@ public class Players {
         List<Player> tempList=new ArrayList<Player>();
         for(Player player:getPlayersList()){
             if(!player.hasFolded()&&player.isInGame()){
-                tempList.add(player);
-            }
-        }
-        return tempList;
-    }
-
-    /**
-     * Returns all players that are all-in.
-     * @return List of all-in players.
-     */
-    public List<Player> allInPlayers(){
-        List<Player> tempList=new ArrayList<Player>();
-        for(Player player:getPlayersList()){
-            if(!player.hasFolded()&&player.getCash()==0&&player.isInGame()){
                 tempList.add(player);
             }
         }
@@ -187,5 +194,13 @@ public class Players {
             }
         }
         return cash;
+    }
+    public Player getPlayerById(int id){
+        for(Player player:getPlayersList()){
+            if (player.getId()==id){
+                return player;
+            }
+        }
+        return null;
     }
 }

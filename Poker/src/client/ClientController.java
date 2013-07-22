@@ -62,14 +62,8 @@ public class ClientController implements Observer {
     public void update(ClientModel model, Object arg) {
         int count = 0;
         if(arg instanceof Card[] ) {
-            if(count == 0){
-                view.placePlayers(model.getPlayerList());
-                count++;
-            } else if(count == 1){
 
-            view.tableCards();
-            }
-
+           // view.tableCards();
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
                 view.stateReady();
@@ -90,6 +84,7 @@ public class ClientController implements Observer {
             // we just got an id
         } else if(arg instanceof List) {
             view.placePlayers(model.getPlayerList());
+            view.setNums();
         }
 			
 			
@@ -112,7 +107,7 @@ public class ClientController implements Observer {
 		if(arg instanceof ClientTurn) {
             switch(player.getLastTurn()){
                 case CALL:
-                    view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for " + (model.getMaxBet()));
+                    view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for " + (model.getPlayerBet(player.getId())));
                     break;
                 case CHECK:
                 	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has checked");
@@ -124,7 +119,7 @@ public class ClientController implements Observer {
                 	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has folded");
                     break;
                 case RAISE:
-                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has raised for |CHIPS|");
+                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has raised " + (model.getPlayerBet(player.getId())));
                     break;
                 case BLIND:
                 	view.displayBroadcast().setText("Player" + (model.getDealer() + 1)%(model.getPlayerList().size()) + " is on a BIG BLIND");
@@ -132,8 +127,9 @@ public class ClientController implements Observer {
                 default:
                 	break;
                 }
-		}  else if(arg instanceof Card[]) {
-            view.placePlayers(model.getPlayerList());
+		}  else if(arg instanceof Card) {
+            view.giveCards(model.getPlayerList());
+
         }
 	}
 	
