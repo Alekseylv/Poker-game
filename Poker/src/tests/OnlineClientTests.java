@@ -19,10 +19,16 @@ import poker.arturka.Card.Suit;
 import client.ServerListener;
 import client.TaskQueue;
 
+
+/**
+ * Assumes port 9998 is free
+ * @author Aleksey
+ *
+ */
 public class OnlineClientTests {
 
 	private TaskQueue que;
-	private TestClientGame game;
+	private FakeClientGame game;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -44,7 +50,7 @@ public class OnlineClientTests {
 			
 			ServerListener listener = new ServerListener(
 					socket.getInputStream() , que);
-			this.game  = new TestClientGame(null, que);	
+			this.game  = new FakeClientGame(null, que);	
 			
 			Thread listenerThread = new Thread(listener);
 			Thread gameThread = new Thread(game);

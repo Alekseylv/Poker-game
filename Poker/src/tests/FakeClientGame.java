@@ -6,12 +6,12 @@ import client.ClientGame;
 import client.Conn;
 import client.TaskQueue;
 
-public class TestClientGame extends ClientGame {
+public class FakeClientGame extends ClientGame {
 
 	private ClientController controller;
 	private ClientView view;
 	
-	public TestClientGame(Conn conn, TaskQueue queue) {
+	public FakeClientGame(Conn conn, TaskQueue queue) {
 		super(null, queue);
 		this.controller = new EmptyController(null, null);
 		this.view = null;

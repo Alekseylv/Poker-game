@@ -45,9 +45,8 @@ public class ClientModel extends Observable {
 	}
 	
 	/**
-	 * Sets the players of the game and notifies any Observers
-
-	 *  A list of players participating in the game
+	 * Get's the id of current dealer
+	 * @return id of dealer
 	 */
 	
 	public int getDealer() {
@@ -57,6 +56,12 @@ public class ClientModel extends Observable {
 		
 		return -1;
 	}
+	
+	/**
+	 * Sets the players of the game and notifies any Observers
+
+	 *  A list of players participating in the game
+	 */
 	
 	public void setPlayerList(List<ClientSidePlayer> players) {
 		this.players = players;
@@ -281,7 +286,7 @@ public class ClientModel extends Observable {
 			if(temp > maxBet) maxBet = temp;
 		}
 		
-		return temp;
+		return maxBet;
 	}
 	
 	/**
