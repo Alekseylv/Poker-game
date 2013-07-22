@@ -333,8 +333,9 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
     public void setNums(){
         CashSlider.setMaximum(model.getCash(model.getID()));
-        CashSlider.setMinimum(model.getPlayerBet(model.getDealer() + 2));
-        CashSlider.setValue(model.getPlayerBet(model.getDealer() + 2) % model.getPlayerList().size());
+        CashSlider.setValue(60); // SET BIG BLINDS * 2 VIA MODEL
+        CashSlider.setMinimum(60);
+
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
 
@@ -705,8 +706,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     public JSlider CashSlider(){
-
-        int tick = 0;
         CashSlider.setBounds(720, 550, 155, 50);
         CashSlider.setMaximum(0);
         CashSlider.setMinimum(0);
