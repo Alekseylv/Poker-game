@@ -37,11 +37,11 @@ public class Game implements Runnable {
         List<SendWinnerListCommand.Tuple> winners =new ArrayList<SendWinnerListCommand.Tuple>();
         if (players.playersLeft().size()>1){
         	// Changes from List<Player> to HashMap, to evaluate if pot should be split
-            HashMap<Integer, Player> bestPlayers=players.getBestPlayers();
+            HashMap<Integer, PlayerHand> bestPlayers=players.getBestPlayers();
             int i=0;
             Player currentWinner;
             while(players.getPot()>0){
-                currentWinner=bestPlayers.get(i++);
+                currentWinner=bestPlayers.get(i++).getPlayer();
                 int betsForWinner=players.fetchBets(currentWinner.getBet());
                 currentWinner.giveCash(betsForWinner);
                 winners.add(new SendWinnerListCommand.Tuple(currentWinner.getId(),betsForWinner));

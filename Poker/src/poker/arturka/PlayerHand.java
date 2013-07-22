@@ -10,12 +10,18 @@ public class PlayerHand {
 	private Hand hand;
 	private Card highCard;
 	private Card kicker;
+	private Player player;
 	
-	public PlayerHand(Hand hand, List<Card> scoreCards) {
+	public PlayerHand(Hand hand, List<Card> scoreCards, Player player) {
 		this.setHand(hand);
+		this.player = player;
 		this.playerHand = scoreCards;
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
+
 	public int getHandScore() {
 		return Integer.valueOf(handScore);
 	}
