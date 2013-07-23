@@ -19,7 +19,7 @@ public class Player extends Observable implements Serializable {
     private boolean inGame;
     private String nick;
 
-    public Player(int id){
+    public Player(int id,String nick){
         this.id=id;
         this.cash=1000;
         hand=new Card[2];

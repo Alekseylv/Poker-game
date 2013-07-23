@@ -16,11 +16,11 @@ public class Players {
         playerMap =new HashMap<Integer, Player>();
     }
 
-    public Player addPlayer(int id){
+    public Player addPlayer(int id, String nick){
         if(id<0){
             return null;
         }
-        Player tempPlayer = new Player(id);
+        Player tempPlayer = new Player(id, nick);
         tempPlayer.toggleInGame();
         playerMap.put(id, tempPlayer);
         return tempPlayer;
