@@ -1,7 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
-import static message.data.IterUtil.iter;
+import static tests.IterUtil.iter;
 
 import java.util.ArrayList;
 import java.util.List;

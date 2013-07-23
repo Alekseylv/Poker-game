@@ -1,4 +1,4 @@
-package message.data;
+package tests;
 
 import java.util.Iterator;
 
