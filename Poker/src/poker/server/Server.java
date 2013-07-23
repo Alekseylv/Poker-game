@@ -58,12 +58,12 @@ public class Server extends JFrame{
             
 			// GUI IMPLEMENTATION'S START
 			showServerInfo.setLayout(new FlowLayout());
-			showServerInfo.setSize(240, 100);
+			showServerInfo.setSize(180, 110);
 			showServerInfo.setLocation(screenSize.width / 2 - showServerInfo.getSize().width / 2, screenSize.height / 2 - showServerInfo.getSize().height / 2);
 			showServerInfo.setResizable(false);
 			showServerInfo.setVisible(true);
-			showServerInfo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			showServerInfo.setTitle("Server info");
+			
+			showServerInfo.setTitle("Server");
 			showServerInfo.getContentPane().setLayout(null);
 			
 			showServerInfo.add(serverIP(), null);
@@ -103,14 +103,14 @@ public class Server extends JFrame{
 	 */
 	
 	 private static JLabel serverIP(){
-		 serverIP.setBounds(10, 15, 150, 25);
-		 serverIP.setText("Server IP: " + serverAddress);
+		 serverIP.setBounds(15, 10, 150, 25);
+		 serverIP.setText("Server IP:  " + serverAddress.getHostAddress());
 		 serverIP.setVisible(true);
 		 return serverIP;
 	    }
 	 private static JLabel serverPort(){
-		 serverPort.setBounds(10, 50, 150, 25);
-		 serverPort.setText("Server port: " + PORT);
+		 serverPort.setBounds(15, 45, 150, 25);
+		 serverPort.setText("Server port:  " + PORT);
 		 serverPort.setVisible(true);
 		 return serverPort;
 	    }
