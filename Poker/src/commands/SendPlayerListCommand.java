@@ -3,6 +3,7 @@ package commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import message.data.Card;
 import message.data.Player;
 import client.ClientController;
 import client.ClientModel;
@@ -38,6 +39,8 @@ public class SendPlayerListCommand implements Command {
 		
 		model.setPlayerList(playList);	
 		model.changeState(State.PLAYING);
+		Card[] newField = new Card[] {null, null, null, null, null};
+		model.changeFieldCards(newField);
 	}
 
 }
