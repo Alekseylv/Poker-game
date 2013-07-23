@@ -55,8 +55,8 @@ public class HandEvaluator {
 		PlayerHand prev = null;
 		PlayerHand entry = null;
 		for (int i = 0; i < playerPositions.size(); i++) {
+			entry = playerPositions.get(i);
 			if (prev != null) {
-				entry = playerPositions.get(i);
 				if (prev.getPosition() == entry.getPosition()) {
 					if (entry.getHand().equals(Hand.HIGH_HAND)) {
 						if (((PlayerHand) prev).getHighCard().getRank().ordinal() < entry.getHighCard().getRank().ordinal()) {
@@ -93,68 +93,12 @@ public class HandEvaluator {
 							incrementFollowingPlayers(playerPositions, incrementFrom);
 						}
 					}
-					i--;
 				}
+				prev = entry;
+			} else {
+				prev = entry;
 			}
-			prev = new PlayerHand(playerPositions.get(i).getPlayer());
-			prev.setHand(playerPositions.get(i).getHand());
-			prev.setHandScore(playerPositions.get(i).getHandScore());
-			prev.setHighCard(playerPositions.get(i).getHighCard());
-			prev.setKicker(playerPositions.get(i).getKicker());
-			prev.setPlayerHand(playerPositions.get(i).getPlayerHand());
-			prev.setPosition(playerPositions.get(i).getPosition());
 		}
-		/*
-		for (PlayerHand entry : playerPositions) {
-			if (prev != null) {
-				if (prev.getPosition() == entry.getPosition()) {
-					if (entry.getHand().equals(Hand.HIGH_HAND)) {
-						if (((PlayerHand) prev).getHighCard().getRank().ordinal() < entry.getHighCard().getRank().ordinal()) {
-							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
-							incrementFollowingPlayers(playerPositions, incrementFrom);
-						}
-						else {
-							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
-							incrementFollowingPlayers(playerPositions, incrementFrom);
-						}
-					} else if (entry.getHand().equals(Hand.STRAIGHT_FLUSH)
-							|| entry.getHand().equals(Hand.FULL_HOUSE)
-							|| entry.getHand().equals(Hand.FLUSH)
-							|| entry.getHand().equals(Hand.STRAIGHT)) {
-						System.out.println("PlayerID: " +prev.getPlayer().getId() + " score is " + prev.getHandScore() +", PlayerID: " +entry.getPlayer().getId() + " score is " + entry.getHandScore());
-						if (prev.getHandScore() < entry.getHandScore()) {
-							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
-							incrementFollowingPlayers(playerPositions, incrementFrom);
-						}
-						else {
-							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
-							incrementFollowingPlayers(playerPositions, incrementFrom);
-						}
-					} else if (entry.getHand().equals(Hand.ROYAL_FLUSH)) {
-						// do nothing, because it is the strongest hand
-						// empty so that shouldn't write many evaluations in
-						// next statement :)
-					} else {
-						if (prev.getKicker().getRank().ordinal() < entry.getKicker().getRank().ordinal()) {
-							int incrementFrom = prev.setPosition(prev.getPosition() + 1);
-							incrementFollowingPlayers(playerPositions, incrementFrom);
-						}
-						else {
-							int incrementFrom = entry.setPosition(entry.getPosition() + 1);
-							incrementFollowingPlayers(playerPositions, incrementFrom);
-						}
-					}
-				}
-			}
-			prev = new PlayerHand(entry.getPlayer());
-			prev.setHand(entry.getHand());
-			prev.setHandScore(entry.getHandScore());
-			prev.setHighCard(entry.getHighCard());
-			prev.setKicker(entry.getKicker());
-			prev.setPlayerHand(entry.getPlayerHand());
-			prev.setPosition(entry.getPosition());
-		}
-		*/
 		return playerPositions;
 	}
 
@@ -417,9 +361,7 @@ public class HandEvaluator {
 		int score = 0;
 		for (Card card : cards) {
 			score += card.getRank().ordinal();
-			System.out.println(card.getRank() + " of " + card.getSuit());
 		}
-		System.out.println("--------------------------");
 		playerHand.setHandScore(score);
 	}
 
