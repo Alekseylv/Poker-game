@@ -78,15 +78,21 @@ public class Room implements Runnable {
 	}
 
 	/* Returns the list of all known clients in this room. */
-	public List<Tuple2> getUsers() throws IOException, ClassNotFoundException {
+	public List<Tuple2> getUsers() {
 		List<Tuple2> users = new ArrayList<Tuple2>();
 		// Iterates through every known user ID in 'connections' HashMap.
 		Tuple2 user;
 		for (Integer id : connections.keySet()) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					connections.get(id).getClient().getInputStream()));
-			user = new Tuple2(id, in.readLine());
-			users.add(user);
+			BufferedReader in;
+			try {
+				in = new BufferedReader(new InputStreamReader(
+						connections.get(id).getClient().getInputStream()));
+				user = new Tuple2(id, in.readLine());
+				users.add(user);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return users;
 	}
