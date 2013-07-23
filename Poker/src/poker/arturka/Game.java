@@ -5,9 +5,7 @@ import message.data.*;
 import poker.server.Room;
 import poker.server.Tuple2;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Game implements Runnable {
@@ -192,6 +190,9 @@ public class Game implements Runnable {
 //        }
         players.getDealer();
         while(true){
+            room.Broadcast(new FlopCommand(null,null,null));
+            room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.TURN));
+            room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.RIVER));
             for(Player player:players.getPlayersList()){
                 room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
                 System.out.println("Send to: "+player.getId()+" SEND PLAYER LIST");
