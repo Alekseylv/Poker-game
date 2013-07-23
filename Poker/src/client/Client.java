@@ -1,9 +1,11 @@
 package client;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
 import poker.GUI.Login;
 
 
@@ -31,6 +33,7 @@ public class Client {
 		
 		try {
 			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);
+			(new PrintWriter(socket.getOutputStream())).println(name);
 						
 			TaskQueue que = new TaskQueue();
 			Conn conn = new Conn(socket, socket.getOutputStream());

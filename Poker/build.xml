@@ -32,11 +32,12 @@
         <delete dir="bin"/>
     </target>
     <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
+    <target depends="build-subprojects,build-project,buildClient-jar,buildServer-jar" 
+    	name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" des1tdir="bin" includeantruntime="false" source="${source}" target="${target}">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="Poker.classpath"/>
         </javac>
@@ -101,7 +102,9 @@
 	
 	<target name="buildClient-jar">
 	<jar destfile="./client.jar"
-	     basedir="bin">
+	     basedir="bin"
+		 update="true"
+		 excludes="poker/server/*.class, poker/arturka/*.class">
 	     <manifest>
 	      <attribute name="Main-Class" value="client.Client"/>
 	     </manifest>
@@ -110,7 +113,9 @@
 	
 	<target name="buildServer-jar">
 		<jar destfile="./server.jar"
-		     basedir="bin">
+		     basedir="bin"
+			 update="true"
+			 excludes="client/*.class, poker/GUI/*.class">
 		     <manifest>
 		      <attribute name="Main-Class" value="poker.server.Server"/>
 		     </manifest>
