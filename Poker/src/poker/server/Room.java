@@ -88,10 +88,13 @@ public class Room implements Runnable {
 				connections.get(id).getClient().setSoTimeout(100);
 				in = new BufferedReader(new InputStreamReader(
 						connections.get(id).getClient().getInputStream()));
-				String line = in.readLine();
-				if(line == null) {
+				String line = null;
+				try {
+					line = in.readLine();
+				} catch (IOException e) {
 					line = "Player" + id;
 				}
+				
 				user = new Tuple2(id, line);
 				users.add(user);
 			} catch (IOException e) {
