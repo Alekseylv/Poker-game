@@ -11,10 +11,10 @@ import java.util.List;
 
 import message.data.ClientTurn;
 import message.data.PlayerMove;
-import poker.arturka.Card;
-import poker.arturka.Player;
-import poker.arturka.Card.Rank;
-import poker.arturka.Card.Suit;
+import message.data.Card;
+import message.data.Player;
+import message.data.Card.Rank;
+import message.data.Card.Suit;
 import commands.ChangeCashCommand;
 import commands.ChangeDealersCommand;
 import commands.Command;

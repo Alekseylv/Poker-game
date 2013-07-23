@@ -1,5 +1,7 @@
 package poker.arturka;
 
+import message.data.Player;
+
 import java.util.*;
 
 /**

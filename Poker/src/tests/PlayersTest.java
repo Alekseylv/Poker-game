@@ -1,16 +1,14 @@
 package tests;
 
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import poker.arturka.Card;
-import poker.arturka.Player;
+import message.data.Card;
+import message.data.Player;
 import poker.arturka.Players;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.

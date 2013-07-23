@@ -1,9 +1,7 @@
 package poker.arturka;
 
 import commands.*;
-import message.data.ClientResponse;
-import message.data.ClientTurn;
-import message.data.PlayerMove;
+import message.data.*;
 import poker.server.Room;
 
 import java.util.ArrayList;

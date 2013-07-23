@@ -1,8 +1,8 @@
 package client;
 
 import message.data.ClientTurn;
-import poker.arturka.Card;
-import poker.arturka.Player;
+import message.data.Card;
+import message.data.Player;
 
 /**
  * Extends the server side player and adds additional functionality

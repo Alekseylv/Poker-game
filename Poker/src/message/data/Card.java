@@ -1,4 +1,4 @@
-package poker.arturka;
+package message.data;
 
 import java.io.Serializable;
 

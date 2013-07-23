@@ -3,7 +3,7 @@ package commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import poker.arturka.Player;
+import message.data.Player;
 import client.ClientController;
 import client.ClientModel;
 import client.ClientSidePlayer;
