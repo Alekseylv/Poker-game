@@ -22,6 +22,7 @@ public class Player extends Observable implements Serializable {
     public Player(int id,String nick){
         this.id=id;
         this.cash=1000;
+        this.nick=nick;
         hand=new Card[2];
         fold=false;
     }
