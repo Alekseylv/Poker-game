@@ -67,13 +67,12 @@ public class HandEvaluator {
 						if (((PlayerHand) prev).getHighCard().getRank()
 								.ordinal() < entry.getHighCard().getRank()
 								.ordinal()) {
-							// int incrementFrom =
-							// prev.setPosition(prev.getPosition() + 1);
 							incrementFollowingPlayers(playerPositions, entry);
 							i--;
+						} else if (((PlayerHand) prev).getHighCard().getRank()
+								.ordinal() == entry.getHighCard().getRank()
+								.ordinal()) {
 						} else {
-							// int incrementFrom =
-							// entry.setPosition(entry.getPosition() + 1);
 							incrementFollowingPlayers(playerPositions, prev);
 						}
 					} else if (entry.getHand().equals(Hand.STRAIGHT_FLUSH)
@@ -83,6 +82,7 @@ public class HandEvaluator {
 						if (prev.getHandScore() < entry.getHandScore()) {
 							incrementFollowingPlayers(playerPositions, entry);
 							i--;
+						} else if (prev.getHandScore() == entry.getHandScore()) {
 						} else {
 							incrementFollowingPlayers(playerPositions, prev);
 						}
@@ -93,13 +93,11 @@ public class HandEvaluator {
 					} else {
 						if (prev.getKicker().getRank().ordinal() < entry
 								.getKicker().getRank().ordinal()) {
-							// int incrementFrom =
-							// prev.setPosition(prev.getPosition() + 1);
 							incrementFollowingPlayers(playerPositions, entry);
 							i--;
+						} else if (prev.getKicker().getRank().ordinal() == entry
+								.getKicker().getRank().ordinal()) {
 						} else {
-							// int incrementFrom =
-							// entry.setPosition(entry.getPosition() + 1);
 							incrementFollowingPlayers(playerPositions, prev);
 						}
 					}
