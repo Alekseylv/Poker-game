@@ -1,4 +1,4 @@
-package poker.arturka;
+package message.data;
 
 import java.io.Serializable;
 import java.util.Observable;
@@ -17,6 +17,7 @@ public class Player extends Observable implements Serializable {
     private boolean fold;
     private int bet;
     private boolean inGame;
+    private String nick;
 
     public Player(int id){
         this.id=id;
@@ -30,6 +31,7 @@ public class Player extends Observable implements Serializable {
         this.cash=player.getCash();
         this.hand=player.getHand();
         this.fold=player.hasFolded();
+        this.nick=player.getNick();
     }
 
     public void giveCash(int cash){
@@ -108,4 +110,11 @@ public class Player extends Observable implements Serializable {
         return player.getId()==id;
     }
 
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
 }

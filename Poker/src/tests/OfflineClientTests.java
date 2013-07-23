@@ -12,10 +12,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import poker.arturka.Card;
-import poker.arturka.Card.Rank;
-import poker.arturka.Card.Suit;
-import poker.arturka.Player;
+import message.data.Card;
+import message.data.Card.Rank;
+import message.data.Card.Suit;
+import message.data.Player;
 import commands.ChangeCashCommand;
 import commands.ChangeDealersCommand;
 import commands.PlayerMoveCommand;

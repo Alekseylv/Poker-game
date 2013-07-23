@@ -9,7 +9,7 @@ import message.data.ClientTurn;
 import commands.SendWinnerListCommand.Tuple;
 
 import poker.GUI.ClientView;
-import poker.arturka.Card;
+import message.data.Card;
 
 /**
  * Monitors changes in the {@link ClientModel} and toggles associated

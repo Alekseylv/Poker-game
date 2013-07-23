@@ -8,51 +8,55 @@ import javax.swing.event.*;
 import client.ClientModel;
 import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
-import poker.GUI.Coordinates;
-import poker.arturka.Card;
-import poker.arturka.Player;
+import message.data.Card;
 
 
 @SuppressWarnings("serial")
 public class ClientView extends JFrame implements ChangeListener, ActionListener{
 
     private ClientModel model;
-    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     
     // LoginWindow variables
-    JFrame LoginWindow = new JFrame();
-    String PlayerName;
-    JLabel labelName = new JLabel();
-    JLabel warning = new JLabel();
-    JTextField textName = new JTextField();
-    JButton buttonConnect = new JButton();
+    private JFrame LoginWindow = new JFrame();
+    private String PlayerName;
+    private JLabel labelName = new JLabel();
+    private JLabel warning = new JLabel();
+    private JTextField textName = new JTextField();
+    private JButton buttonConnect = new JButton();
     // LoginWindow variables end
 
     // TableWindow variables
-    JFrame TableWindow = new JFrame();
-    JLabel displayNick = new JLabel();
-    JLabel displayCash = new JLabel();
-    JButton foldButton = new JButton();
-    JButton raiseButton = new JButton();
-    JButton checkButton = new JButton();
-    JButton callButton = new JButton();
-    JButton potSizeSlider = new JButton();
-    JButton OneThirdSizeSlider = new JButton();
-    JButton ThreexSizeSlider = new JButton();
-    JButton AllInSizeSlider = new JButton();
-    JButton PlusSizeSlider = new JButton();
-    JButton MinusSizeSlider = new JButton();
-    JSlider CashSlider = new JSlider();
-    JLabel displayCashSlider = new JLabel();
-    JLabel[][] arrayPlayersCards = new JLabel[8][2];
-    JLabel[] arrayPlayersNickCash = new JLabel[9];
-    JLabel[] showTableCards = new JLabel[5];
-    JLabel Broadcast = new JLabel();
-    JLabel Dealer = new JLabel();
-    JLabel showPot = new JLabel();
+    private JFrame TableWindow = new JFrame();
+    private JLabel displayNick = new JLabel();
+    private JLabel displayCash = new JLabel();
+    private JButton foldButton = new JButton();
+    private JButton raiseButton = new JButton();
+    private JButton checkButton = new JButton();
+    private JButton callButton = new JButton();
+    private JButton potSizeSlider = new JButton();
+    private JButton OneThirdSizeSlider = new JButton();
+    private JButton ThreexSizeSlider = new JButton();
+    private JButton AllInSizeSlider = new JButton();
+    private JButton PlusSizeSlider = new JButton();
+    private JButton MinusSizeSlider = new JButton();
+    private JSlider CashSlider = new JSlider();
+    private JLabel displayCashSlider = new JLabel();
+    private JLabel[][] arrayPlayersCards = new JLabel[8][2];
+    private JLabel[] arrayPlayersNickCash = new JLabel[9];
+    private JLabel[] showTableCards = new JLabel[5];
+    private JLabel Broadcast = new JLabel();
+    private JLabel Dealer = new JLabel();
+    private JLabel showPot = new JLabel();
 
-    String userCardOne;
-    String userCardTwo;
+    // *** getLocation() method vars
+    private String Card1 = "CardOne";
+    private String Card2 = "CardTwo";
+    private String PlayerBar = "PlayerBar";
+    private String Deal = "Dealer";
+    private char x = 'x';
+    private char y = 'y';
+
     // TableWindow variables end
 
     public ClientView(ClientModel model) {
@@ -103,15 +107,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(displayBroadcast(), null);
         TableWindow.add(showPot(), null);
     }
-    
-    public void updateView() {
-    	TableWindow.invalidate();
-    	TableWindow.validate();
-    	TableWindow.repaint();
-    }
-    
-    // Methods for CONTROLLER
 
+    // Methods for CONTROLLER
+    public void updateView() {
+        TableWindow.invalidate();
+        TableWindow.validate();
+        TableWindow.repaint();
+    }
     public void stateReady(){
         Broadcast.setVisible(true);
         foldButton.setEnabled(false);
@@ -244,15 +246,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
     }
-     
-    String Card1 = "CardOne";
-    String Card2 = "CardTwo";
-    String PlayerBar = "PlayerBar";
-    String Deal = "Dealer";
-    char x = 'x';
-    char y = 'y';
     
-    public int getLocation(int id, String what, char axis){
+    private int getLocation(int id, String what, char axis){
     	
     	ArrayList<Coordinates> PlayerLocation = new ArrayList<Coordinates>();
     	ArrayList<Coordinates> CardOneLocation = new ArrayList<Coordinates>();
@@ -658,12 +653,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 //            arrayPlayersCards[id][1] = backCard(250,430);
 //        }
 //    }
-    public void BroadcastCall(){	
-        Broadcast.setVisible(true);
-        Broadcast.setText("privet");
-    }
 
-    public ArrayList<String> fromCardToString(Card[] cards ){
+    private ArrayList<String> fromCardToString(Card[] cards ){
         ArrayList<String> output=new ArrayList<String>();
         String fileName="";
         for(Card card:cards){
@@ -746,7 +737,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         Broadcast.setVisible(true);
         return Broadcast;
     }
-    public JButton foldButton(){
+    private JButton foldButton(){
         foldButton.setActionCommand("fold");
         foldButton.setBounds(15, 562, 85, 30);
         foldButton.setText("FOLD");
@@ -756,7 +747,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         foldButton.addActionListener(this);
         return foldButton;
     }
-    public JButton checkButton(){
+    private JButton checkButton(){
         checkButton.setActionCommand("check");
         checkButton.setBounds(105, 562, 85, 30);
         checkButton.setText("CHECK");
@@ -766,7 +757,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         checkButton.addActionListener(this);
         return checkButton;
     }
-    public JButton callButton(){
+    private JButton callButton(){
         callButton.setActionCommand("call");
         callButton.setBounds(105, 562, 85, 30);
         callButton.setText("CALL");
@@ -777,7 +768,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         callButton.setVisible(false);
         return callButton;
     }
-    public JButton raiseButton(){
+    private JButton raiseButton(){
         raiseButton.setActionCommand("raise");
         raiseButton.setBounds(195, 562, 85, 30);
         raiseButton.setText("RAISE");
@@ -789,7 +780,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return raiseButton;
     }
 
-    public JSlider CashSlider(){
+    private JSlider CashSlider(){
         CashSlider.setBounds(720, 550, 155, 50);
         CashSlider.setMaximum(0);
         CashSlider.setMinimum(0);
@@ -807,7 +798,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         return CashSlider;
     }
-    public JLabel displayCashSlider(){
+    private JLabel displayCashSlider(){
 
         displayCashSlider.setBounds(650, 555, 50, 25);
         displayCashSlider.setForeground(Color.WHITE);
@@ -817,7 +808,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         displayCashSlider.setText("" + CashSlider.getValue());
         return displayCashSlider;
     }
-    public JButton potSizeSlider(){
+    private JButton potSizeSlider(){
         potSizeSlider.setActionCommand("pot");
         potSizeSlider.setBounds(750, 525, 40, 25);
         potSizeSlider.setText("POT");
@@ -828,7 +819,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         potSizeSlider.addActionListener(this);
         return potSizeSlider;
     }
-    public JButton OneThirdSizeSlider(){
+    private JButton OneThirdSizeSlider(){
         OneThirdSizeSlider.setActionCommand("1/3x");
         OneThirdSizeSlider.setBounds(705, 525, 40, 25);
         OneThirdSizeSlider.setText("1/3X");
@@ -839,7 +830,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         OneThirdSizeSlider.addActionListener(this);
         return OneThirdSizeSlider;
     }
-    public JButton ThreexSizeSlider(){
+    private JButton ThreexSizeSlider(){
         ThreexSizeSlider.setActionCommand("3x");
         ThreexSizeSlider.setBounds(795, 525, 40, 25);
         ThreexSizeSlider.setText("3X");
@@ -850,7 +841,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         ThreexSizeSlider.addActionListener(this);
         return ThreexSizeSlider;
     }
-    public JButton AllInSizeSlider(){
+    private JButton AllInSizeSlider(){
         AllInSizeSlider.setActionCommand("AllIn");
         AllInSizeSlider.setBounds(840, 525, 50, 25);
         AllInSizeSlider.setText("ALL-IN");
@@ -861,8 +852,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         AllInSizeSlider.addActionListener(this);
         return AllInSizeSlider;
     }
-    
-    public JButton PlusSizeSlider(){
+
+    private JButton PlusSizeSlider(){
     	PlusSizeSlider.setActionCommand("PlusSlider");
         PlusSizeSlider.setBounds(875, 560, 15, 15);
         PlusSizeSlider.setText("+");
@@ -875,7 +866,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         PlusSizeSlider.addActionListener(this);
         return PlusSizeSlider;	
     }
-    public JButton MinusSizeSlider(){
+    private JButton MinusSizeSlider(){
     	MinusSizeSlider.setActionCommand("MinusSlider");
         MinusSizeSlider.setBounds(705, 560, 15, 15);
         MinusSizeSlider.setText("-");
@@ -888,20 +879,20 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         MinusSizeSlider.addActionListener(this);
         return MinusSizeSlider;	
     }
-    
-    public JLabel userCard1(int x, int y, String userCardOne){
+
+    private JLabel userCard1(int x, int y, String userCardOne){
         ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + userCardOne + ".png"));
         JLabel userCard1 = new JLabel(cardImg1);
         userCard1.setBounds(x, y, 70, 100);
         return userCard1;
     }
-    public JLabel userCard2(int x, int y, String userCardTwo){
+    private JLabel userCard2(int x, int y, String userCardTwo){
         ImageIcon cardImg2 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + userCardTwo + ".png"));
         JLabel userCard2 = new JLabel(cardImg2);
         userCard2.setBounds(x, y, 70, 100);
         return userCard2;
     }
-    public JLabel backCard(int x, int y){
+    private JLabel backCard(int x, int y){
 
         ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/back.png"));
         JLabel backCard = new JLabel(back);
@@ -909,7 +900,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return backCard;
     }
 
-    public JLabel clientNameCash(String ClientName, int ClientCash, int x, int y){
+    private JLabel clientNameCash(String ClientName, int ClientCash, int x, int y){
         JLabel clientNameCash = new JLabel();
         clientNameCash.setBounds(x,y,100,30);
         clientNameCash.setForeground(Color.WHITE);
@@ -917,21 +908,21 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         clientNameCash.setText("<html><body align='center'>" + ClientName + "<br />(" + ClientCash +")</body></html>");
         return clientNameCash;
     }
-    public JLabel Dealer(int x, int y){
+    private JLabel Dealer(int x, int y){
         ImageIcon back = new ImageIcon(getClass().getResource("/poker/GUI/img/Dealer.png"));
         Dealer = new JLabel(back);
         Dealer.setBounds(x,y,25,20);
         return Dealer;
     }
-    public JLabel showPot(){
+    private JLabel showPot(){
     	showPot.setForeground(Color.WHITE);
     	showPot.setHorizontalAlignment( SwingConstants.CENTER );
 		showPot.setText("POT: " + model.getPot());
 		showPot.setBounds(415,300,70,20);
     	return showPot;
     }
-    
-    public JLabel showTable(String card, int x, int y){
+
+    private JLabel showTable(String card, int x, int y){
     	
         ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
         JLabel showTable = new JLabel(cardImg1);
@@ -941,6 +932,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     // TableWindow variables description ENDs
+
 
     // LoginWindow variables description STARTs
 
@@ -1026,6 +1018,4 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         displayCashSlider.setText(String.valueOf("" + CashCurrent));
         
     }
-
-
 }
