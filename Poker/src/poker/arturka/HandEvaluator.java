@@ -19,8 +19,10 @@ public class HandEvaluator {
 
 	/**
 	 * Creates an instance of an HandEvaluator object.
+	 * 
 	 * @param playersLeft
-	 * Players that are currently in game and whose hands need to be evaluated.
+	 *            Players that are currently in game and whose hands need to be
+	 *            evaluated.
 	 */
 	public HandEvaluator(List<Player> playersLeft) {
 		playersToEvaluate = playersLeft;
@@ -28,11 +30,11 @@ public class HandEvaluator {
 	}
 
 	/**
-	 * Gets List<PlayerHand> of evaluated players in ranking order starting with 0.
-	 * If more then one player has the same getPosition() value, 
-	 * then the pot should be split between them.
-	 * @return
-	 * Returns the evaluated and sorted List<PlayerHand>.
+	 * Gets List<PlayerHand> of evaluated players in ranking order starting with
+	 * 0. If more then one player has the same getPosition() value, then the pot
+	 * should be split between them.
+	 * 
+	 * @return Returns the evaluated and sorted List<PlayerHand>.
 	 */
 	public List<PlayerHand> getPlayerHandEvaluation() {
 		List<PlayerHand> playerRanking = new ArrayList<PlayerHand>();
@@ -47,12 +49,12 @@ public class HandEvaluator {
 	}
 
 	/**
-	 * Sorts List<PlayerHand> list by player hand positions.
-	 * Then assigns sequential player hand ranks to position variable.
+	 * Sorts List<PlayerHand> list by player hand positions. Then assigns
+	 * sequential player hand ranks to position variable.
+	 * 
 	 * @param playerRanking
-	 * List of ranked players.
-	 * @return
-	 * List of sorted player hand list.
+	 *            List of ranked players.
+	 * @return List of sorted player hand list.
 	 */
 	private List<PlayerHand> sortPlayerPositions(List<PlayerHand> playerRanking) {
 		for (int i = 0; i < playerRanking.size() - 1; i++) {
@@ -76,6 +78,14 @@ public class HandEvaluator {
 		return playerRanking;
 	}
 
+	/**
+	 * Creates a two dimension Card array, marking those fields that the player
+	 * has. This approach seems to be more resource efficient.
+	 * 
+	 * @param hand
+	 *            Current player hand cards.
+	 * @return Table of current user hand.
+	 */
 	private Card[][] createHandTable(Card[] hand) {
 		Card[][] tempHand = new Card[Suit.values().length][Rank.values().length];
 		for (Card card : hand) {
@@ -84,6 +94,15 @@ public class HandEvaluator {
 		return tempHand;
 	}
 
+	/**
+	 * At first assigns hand ordinal to PlayerHand.position variables. Then
+	 * sorts the player hand list by player hard ordinal so that the strongest
+	 * cards are closer to the start of list. Then compares hands of the same
+	 * kind depending on kicker, highCard, handScore.
+	 * 
+	 * @return List of player hands with updated positions comparing to other
+	 *         hands.
+	 */
 	private List<PlayerHand> sortEvaluatedPlayers() {
 		List<PlayerHand> playerPositions = new ArrayList<PlayerHand>();
 		// Adds hands to a position list.
@@ -155,6 +174,17 @@ public class HandEvaluator {
 		return playerPositions;
 	}
 
+	/**
+	 * After comparison of two similar hands, one hand remains at the same
+	 * position but all other player hand positions that follow, need to be
+	 * incremented by 1.
+	 * 
+	 * @param playerPositions
+	 *            List of current player position after hands.
+	 * @param entry
+	 *            Currently compared PlayerHand object, this object position
+	 *            needs to stay the same as before.
+	 */
 	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
 			PlayerHand entry) {
 		for (PlayerHand playerHand : playerPositions) {
@@ -166,10 +196,27 @@ public class HandEvaluator {
 		}
 	}
 
+	/**
+	 * Gets the specified player hand.
+	 * 
+	 * @param player
+	 *            Player that holds the needed hand.
+	 * @return Hand of enumerator hand that describes the current user card
+	 *         combination.
+	 */
 	private Hand getPlayerHand(Player player) {
 		return getHand(player.getHand());
 	}
 
+	/**
+	 * Evaluates through all the possible combinations and returns Hand type
+	 * once requirements are met. If no combination is found, then the return
+	 * value is HIGH_CARD and which is the highest ranked card of players hand.
+	 * 
+	 * @param hand
+	 *            Cards that player has of current moot.
+	 * @return Player hand type.
+	 */
 	public Hand getHand(Card[] hand) {
 		currentHand = sortHand(hand);
 		combination = createHandTable(hand);
@@ -197,6 +244,14 @@ public class HandEvaluator {
 		}
 	}
 
+	/**
+	 * Checks through all the table, starting from the highest ranked fields
+	 * looking for a combination of two pairs.
+	 * 
+	 * @param combination2
+	 *            Table of players cards.
+	 * @return Evaluation of whether the hand has Two Pair combination.
+	 */
 	private boolean handIsTwoPair(Card[][] combination2) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
@@ -221,6 +276,14 @@ public class HandEvaluator {
 		return false;
 	}
 
+	/**
+	 * Checks through all the table, starting from the highest ranked fields
+	 * looking for a combination Straight where 5 cards will be in row.
+	 * 
+	 * @param combination2
+	 *            Table of players cards.
+	 * @return Evaluation of whether the hand has Straight combination.
+	 */
 	private boolean handIsStraight(Card[][] combination2) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
@@ -255,6 +318,14 @@ public class HandEvaluator {
 		return false;
 	}
 
+	/**
+	 * Checks through all the table, iterating through the suits, looking for a
+	 * card count higher then 5.
+	 * 
+	 * @param combination2
+	 *            Table of players cards.
+	 * @return Evaluation of whether the hand has Flush combination.
+	 */
 	private boolean handIsFlush(Card[][] combination2) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
@@ -278,6 +349,15 @@ public class HandEvaluator {
 		return false;
 	}
 
+	/**
+	 * Checks through all the table, looking for a Three Of A Kind and a Two
+	 * Pair combination, starting from the highest ranks. handScore is evaluated
+	 * only by Three Of A Kind cards.
+	 * 
+	 * @param combination2
+	 *            Table of players cards.
+	 * @return Evaluation of whether the hand has Full House combination.
+	 */
 	private boolean handIsFullHouse(Card[][] combination2) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
@@ -314,6 +394,16 @@ public class HandEvaluator {
 		return false;
 	}
 
+	/**
+	 * Creates a duplicate table, so that any actions that are made to the
+	 * content of the table wouldn't affect further evaluation.
+	 * 
+	 * @param temp
+	 *            Empty table that will store original tables values.
+	 * @param combination2
+	 *            Original player hand table.
+	 * @return Copy of the original player hand table.
+	 */
 	private Card[][] cloneTable(Card[][] temp, Card[][] combination2) {
 		for (int i = 0; i < Rank.values().length; i++) {
 			for (int j = 0; j < Suit.values().length; j++) {
@@ -323,6 +413,19 @@ public class HandEvaluator {
 		return temp;
 	}
 
+	/**
+	 * Checks through all the table looking for a specified amount of similar
+	 * cards. Additional condition is provided if a method is called for Full
+	 * House combination evaluation.
+	 * 
+	 * @param combination2
+	 *            Table of player hand cards.
+	 * @param count
+	 *            Count of how many cards should be similar.
+	 * @param b
+	 *            Condition if a method is called not for Full House evaluation.
+	 * @return Evaluation of whether the hand has Similar card combination.
+	 */
 	private boolean handIsSameKind(Card[][] combination2, int count, boolean b) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
@@ -351,6 +454,14 @@ public class HandEvaluator {
 		return false;
 	}
 
+	/**
+	 * Checks through all the table, looking for a 5 cards in a row of the same
+	 * suit.
+	 * 
+	 * @param combination2
+	 *            Table of players cards.
+	 * @return Evaluation of whether the hand has Straight Flush combination.
+	 */
 	private boolean handIsStraightFlush(Card[][] combination2) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
@@ -376,6 +487,14 @@ public class HandEvaluator {
 		return false;
 	}
 
+	/**
+	 * Checks through all the table, looking for a 5 cards in a row of the same
+	 * suit where the first card rank is ACE.
+	 * 
+	 * @param combination2
+	 *            Table of players cards.
+	 * @return Evaluation of whether the hand has Royal Flush combination.
+	 */
 	private boolean handIsRoyalFlush(Card[][] combination2) {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
@@ -399,6 +518,14 @@ public class HandEvaluator {
 		return false;
 	}
 
+	/**
+	 * Sorts the array of player cards by Card rank ordinal. The highest rank
+	 * card will be at the begging of the array.
+	 * 
+	 * @param hand
+	 *            Array of player cards.
+	 * @return Sorted array of player cards.
+	 */
 	private Card[] sortHand(Card[] hand) {
 		for (int i = 1; i < hand.length; i++) {
 			if (hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
@@ -411,6 +538,15 @@ public class HandEvaluator {
 		return hand;
 	}
 
+	/**
+	 * Evaluates the score of player card combination. The higher the rank of
+	 * the cards, the higher the score of the combination. Is used to determine
+	 * which players hand is stronger if the hands are of the same type. Assigns
+	 * score to the PlayerHand handScore variable.
+	 * 
+	 * @param cards
+	 *            List of player cards which score needs to be evaluated.
+	 */
 	private void evaluateScore(List<Card> cards) {
 		int score = 0;
 		for (Card card : cards) {
@@ -419,6 +555,9 @@ public class HandEvaluator {
 		playerHand.setHandScore(score);
 	}
 
+	/**
+	 * Assigns value of the kicker (if necessary) and List<Card> playerHand.
+	 */
 	private void setPlayerHand() {
 		Card[] temp = new Card[CARDS_TO_EVALUATE];
 		for (int i = 0; i < CARDS_TO_EVALUATE; i++) {
@@ -430,8 +569,11 @@ public class HandEvaluator {
 				temp[i] = scoreCards.get(i);
 		}
 		temp = sortHand(temp);
+		if (temp != null && playerHand != null)
+			playerHand.setPlayerHand(temp);
 	}
 
+	/* Private instance variables. */
 	private List<Player> playersToEvaluate;
 	private HashMap<Player, PlayerHand> evaluatedPlayers;
 	private Card[][] combination;

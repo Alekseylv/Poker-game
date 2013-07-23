@@ -18,6 +18,7 @@ public class PlayerHand {
 	public PlayerHand(Player player) {
 		/* Constructor initialized instance variables. */
 		this.player = player;
+		playerHand = new ArrayList<Card>();
 		kicker = null;
 		highCard = null;
 		handScore = 0;
