@@ -30,7 +30,9 @@ public class ClientModel extends Observable {
 	private State state;
 	private List<ClientSidePlayer> players;	
 	private int id;
+	private int blind;
 	
+
 	/**
 	 * Constructs a model from the open connection
 	 * @param conn
@@ -42,6 +44,18 @@ public class ClientModel extends Observable {
 		this.fieldcards = new Card[]{null, null, null, null, null};
 		this.state = State.READY;
 		this.players = new ArrayList<ClientSidePlayer>();
+	}
+	
+	
+	public void setBlind(int amount) {
+		blind = amount;
+		
+		setChanged();
+        notifyObservers(blind);
+	}
+	
+	public int getBlind() {
+		return blind;
 	}
 	
 	/**

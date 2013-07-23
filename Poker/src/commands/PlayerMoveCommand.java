@@ -1,5 +1,6 @@
 package commands;
 
+import message.data.ClientTurn;
 import message.data.PlayerMove;
 import client.ClientController;
 import client.ClientModel;
@@ -25,7 +26,11 @@ public class PlayerMoveCommand implements Command {
 	}
 	
 	public void execute(ClientModel model, ClientController controller) {
-		ClientSidePlayer player = model.getPlayer(move.id);
-		player.setBetTurnCash(move.currentBet, move.turn, move.moneyLeft);
+		if(move.turn == ClientTurn.BLIND && move.currentBet > model.getBlind()) {
+			model.setBlind(move.currentBet);
+		}
+		
+		model.getPlayer(move.id).setBetTurnCash(move.currentBet,
+													move.turn, move.moneyLeft);
 	}
 }

@@ -10,7 +10,6 @@ public class NewGameCommand implements Command {
 	
 	public void execute(ClientModel model, ClientController controller) {
 		model.changeState(State.PLAYING);
-
 	}
 
 }

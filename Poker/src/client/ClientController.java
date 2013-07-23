@@ -77,7 +77,7 @@ public class ClientController implements Observer {
                 view.statePlaying();
             }
         } else if(arg instanceof Integer) {
-            ///
+            // id or Blind has changed
         } else if(arg instanceof List) {
         	view.placePlayers(model.getPlayerList());  
         }
