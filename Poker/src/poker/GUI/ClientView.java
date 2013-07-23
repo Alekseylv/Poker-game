@@ -151,10 +151,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         callButton.setVisible(false);
         displayCashSlider.setVisible(false);
     }
-    public void stateEnded(){
-        Broadcast.setVisible(true);
-        Broadcast.setText("|PLAYER| has won |CASH||");
-    }
 
     public void tableCards(){
         int count = -1;
@@ -178,89 +174,17 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
     }
-    public void getWinners(ArrayList<SendWinnerListCommand.Tuple> list){
-        int id = 0;
-        int offSet = 0;
-        int newCash;
-
-        for(SendWinnerListCommand.Tuple player : list){
-
-            if(player != null){
-
-                id = player.id - 1;
-                newCash = player.cash;
-
-                offSet = 9 - model.getID();
-                switch (id){
-                    case 0:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-                    case 1:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-                    case 2:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-                    case 3:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-                    case 4:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-                    case 5:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-                    case 6:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-                    case 7:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-                    case 8:
-                        if(arrayPlayersNickCash[id] != null){
-                            TableWindow.remove(arrayPlayersNickCash[id]);
-                        }
-                        arrayPlayersNickCash[id] = clientNameCash(model.getPlayer(player.id).getNick(), newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
-                        TableWindow.add(arrayPlayersNickCash[id]);
-                        break;
-
+    public void emptyTableCards(){
+           if(showTableCards[0] != null){
+            for(int i = 0; i < showTableCards.length; i++){
+                if(showTableCards[i] != null){
+                    TableWindow.remove(showTableCards[i]);
                 }
             }
-        }
+           }
     }
-    
+
+
     private int getLocation(int id, String what, char axis){
     	
     	ArrayList<Coordinates> PlayerLocation = new ArrayList<Coordinates>();
@@ -507,7 +431,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                 }
-                    TableWindow.add(Dealer(getLocation((model.getDealer() + 1 + offSet)%9,Deal,x),getLocation((model.getDealer() + 1 + offSet)%9,Deal,y)));
+                    TableWindow.add(Dealer(getLocation((model.getDealer() + 2 + offSet)%9,Deal,x),getLocation((model.getDealer() + 2 + offSet)%9,Deal,y)));
                 }
             }
     }
@@ -525,7 +449,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
                 switch (id){
                     case 0:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -541,7 +468,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 1:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -557,7 +487,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 2:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -573,7 +506,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 3:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -589,7 +525,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 4:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -605,7 +544,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 5:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -621,7 +563,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 6:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -636,7 +581,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
                         break;
                     case 7:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -652,7 +600,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersCards[id][1]);
                         break;
                     case 8:
-
+                        if(arrayPlayersCards[id][0] != null && arrayPlayersCards[id][1] != null){
+                            TableWindow.remove(arrayPlayersCards[id][0]);
+                            TableWindow.remove(arrayPlayersCards[id][1]);
+                        }
                         if(model.getID()  == id){
 
                             myCards = fromCardToString(model.getCards(id));
@@ -762,7 +713,17 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
         return output;
     }
+    private ArrayList<String> fromCardToInvisible(Card[] cards ){
+        ArrayList<String> output=new ArrayList<String>();
+        String fileName;
+        for(Card card:cards){
 
+                fileName = "invisibleCard";
+                output.add(fileName);
+
+        }
+        return output;
+    }
     // Methods for CONTROLLER ENDs
 
 

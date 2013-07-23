@@ -43,6 +43,7 @@ public class Server {
 	//										CONNECTION_LIMIT, serverAddress);
 			
 			server = new ServerSocket(PORT, CONNECTION_LIMIT, serverAddress);
+            // SHOW FRAME WITH PORT AND SERVERADRESS
 			while (true) {
 				gameRoom = new Room(roomID++);
 				// Keeps track of player count in currently created room.

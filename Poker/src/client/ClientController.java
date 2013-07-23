@@ -79,7 +79,9 @@ public class ClientController implements Observer {
         } else if(arg instanceof Integer) {
             // id or Blind has changed
         } else if(arg instanceof List) {
-        	view.placePlayers(model.getPlayerList());  
+
+        	view.placePlayers(model.getPlayerList());
+            view.emptyTableCards();
         }
 			
 			
@@ -122,7 +124,7 @@ public class ClientController implements Observer {
 
                     break;
                 case BLIND:
-                	view.displayBroadcast().setText(model.getPlayer(model.getDealer() + 1).getNick() + (model.getDealer() + 1)%(model.getPlayerList().size()) + " is on a BIG BLIND");
+                	view.displayBroadcast().setText(model.getPlayer(model.getDealer()).getNick() + (model.getDealer() + 1)%(model.getPlayerList().size()) + " is on a BIG BLIND");
 
                     break;
                 default:
