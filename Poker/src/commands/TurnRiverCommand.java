@@ -49,7 +49,7 @@ public class TurnRiverCommand implements Command {
 				break;
 			}
 		}
-		
+		model.bet.setOldMaxBet(model.getMaxBet());
 		model.changeFieldCards(fieldcards);
 	}
 }

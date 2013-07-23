@@ -28,7 +28,10 @@ public class PlayerMoveCommand implements Command {
 	public void execute(ClientModel model, ClientController controller) {
 		if(move.turn == ClientTurn.BLIND && move.currentBet > model.getBlind()) {
 			model.setBlind(move.currentBet);
+		} else if(model.bet.getBet() < move.currentBet - model.bet.getOldMaxBet()){
+			model.bet.setBet(move.currentBet - model.bet.getOldMaxBet());
 		}
+		
 		
 		model.getPlayer(move.id).setBetTurnCash(move.currentBet,
 													move.turn, move.moneyLeft);

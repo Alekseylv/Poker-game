@@ -3,7 +3,9 @@ package client;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
+import tests.ModelTests;
 import message.data.ClientResponse;
 import message.data.ClientTurn;
 import message.data.Card;
@@ -31,7 +33,35 @@ public class ClientModel extends Observable {
 	private List<ClientSidePlayer> players;	
 	private int id;
 	private int blind;
+	public final Bet bet;
 	
+	public class Bet extends Observable{
+		
+		private int bet;
+		private int oldMaxBet;
+		
+		public void setBet(int bet) {			
+			this.bet = bet;
+			
+			setChanged();
+	        notifyObservers(bet);
+		}
+		
+		public int getBet() {
+			return bet;
+		}	
+		
+		public void setOldMaxBet(int maxBet) {
+			oldMaxBet = maxBet;
+			bet = 0;
+		}
+		
+		public int getOldMaxBet() {
+			return oldMaxBet;
+		}
+		
+		
+	}
 
 	/**
 	 * Constructs a model from the open connection
@@ -44,11 +74,13 @@ public class ClientModel extends Observable {
 		this.fieldcards = new Card[]{null, null, null, null, null};
 		this.state = State.READY;
 		this.players = new ArrayList<ClientSidePlayer>();
+		this.bet = new Bet();
 	}
 	
 	
 	public void setBlind(int amount) {
 		blind = amount;
+		this.bet.setBet(amount);
 		
 		setChanged();
         notifyObservers(blind);

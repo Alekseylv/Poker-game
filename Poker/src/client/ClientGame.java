@@ -47,6 +47,7 @@ public class ClientGame implements Runnable {
 		this.controller = new ClientController(this.model, this.view);
 		
 		model.addObserver(this.controller);
+		model.bet.addObserver(controller);
 	}
 	
 	/**
