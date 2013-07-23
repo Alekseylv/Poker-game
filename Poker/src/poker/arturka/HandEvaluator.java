@@ -151,7 +151,23 @@ public class HandEvaluator {
 							i--;
 						} else if (prev.getHandScore() > entry.getHandScore()) {
 							incrementFollowingPlayers(playerPositions, prev);
+						} 
+						// new added start
+						else {
+							if (entry.getHand().equals(Hand.FULL_HOUSE)) {
+								if (prev.getHandScore2() < entry.getHandScore2()) {
+									incrementFollowingPlayers(playerPositions, entry);
+									playerPositions.set(
+											i - 1,
+											playerPositions.set(i,
+													playerPositions.get(i - 1)));
+									i--;
+								} else if (prev.getHandScore2() > entry.getHandScore2()) {
+									incrementFollowingPlayers(playerPositions, prev);
+								}
+							}
 						}
+						// new added end
 					} else if (entry.getHand().equals(Hand.ROYAL_FLUSH)) {
 						// do nothing, because it is the strongest hand
 						// empty so that shouldn't write many evaluations in
@@ -166,6 +182,18 @@ public class HandEvaluator {
 								i--;
 							} else if (prev.getKicker().getRank().ordinal() > entry
 									.getKicker().getRank().ordinal()) {
+								incrementFollowingPlayers(playerPositions, prev);
+							}
+						}
+						if (entry.getHand().equals(Hand.TWO_PAIR)) {
+							if (prev.getHandScore2() < entry.getHandScore2()) {
+								incrementFollowingPlayers(playerPositions, entry);
+								playerPositions.set(
+										i - 1,
+										playerPositions.set(i,
+												playerPositions.get(i - 1)));
+								i--;
+							} else if (prev.getHandScore2() > entry.getHandScore2()) {
 								incrementFollowingPlayers(playerPositions, prev);
 							}
 						}
@@ -266,17 +294,22 @@ public class HandEvaluator {
 		Card[][] temp = new Card[Suit.values().length][Rank.values().length];
 		temp = cloneTable(temp, combination2);
 		int skCount = 0;
+		int pairCount = 0;
 		for (int i = Rank.values().length - 1; i > -1; i--) {
 			scoreCards = new ArrayList<Card>();
 			for (int j = 0; j < Suit.values().length; j++) {
-				if (temp[Suit.values().length - j - 1][i] != null) {
+				if (temp[j][i] != null) {
 					if (skCount < 2)
-						scoreCards.add(temp[Suit.values().length - j - 1][i]);
+						scoreCards.add(temp[j][i]);
 					skCount++;
 				}
-				if (skCount == TWO_PAIR_COUNT) {
-					evaluateScore(scoreCards);
-					setPlayerHand();
+				if (skCount == TWO_PAIR_COUNT && pairCount == 0) {
+					pairCount++;
+					evaluateScore(scoreCards, 1);
+					//setPlayerHand();
+					//return true;
+				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1) {
+					evaluateScore(scoreCards, 2);
 					return true;
 				}
 			}
@@ -314,7 +347,7 @@ public class HandEvaluator {
 					}
 				}
 				if (sCount == 4) {
-					evaluateScore(scoreCards);
+					evaluateScore(scoreCards, 1);
 					setPlayerHand();
 					return true;
 				}
@@ -348,7 +381,7 @@ public class HandEvaluator {
 					fCount++;
 				}
 				if (fCount == 4) {
-					evaluateScore(scoreCards);
+					evaluateScore(scoreCards, 1);
 					setPlayerHand();
 					return true;
 				}
@@ -386,7 +419,7 @@ public class HandEvaluator {
 					for (int j2 = 0; j2 < Suit.values().length; j2++) {
 						temp[j2][i] = null;
 					}
-					evaluateScore(scoreCards);
+					evaluateScore(scoreCards, 1);
 					lineCleared = true;
 					threeOfAKind = true;
 				}
@@ -451,7 +484,7 @@ public class HandEvaluator {
 				}
 				if (skCount == count) {
 					if (b) {
-						evaluateScore(scoreCards);
+						evaluateScore(scoreCards, 1);
 						setPlayerHand();
 					}
 					return true;
@@ -486,7 +519,7 @@ public class HandEvaluator {
 						scoreCards.add(temp[i][j - 1]);
 				}
 				if (sfCount == 4) {
-					evaluateScore(scoreCards);
+					evaluateScore(scoreCards, 1);
 					setPlayerHand();
 					return true;
 				}
@@ -517,7 +550,7 @@ public class HandEvaluator {
 					rfCount++;
 				}
 				if (rfCount == 5) {
-					evaluateScore(scoreCards);
+					evaluateScore(scoreCards, 1);
 					setPlayerHand();
 					return true;
 				}
@@ -557,12 +590,17 @@ public class HandEvaluator {
 	 * @param cards
 	 *            List of player cards which score needs to be evaluated.
 	 */
-	private void evaluateScore(List<Card> cards) {
+	private void evaluateScore(List<Card> cards, int id) {
 		int score = 0;
 		for (Card card : cards) {
 			score += card.getRank().ordinal();
 		}
-		playerHand.setHandScore(score);
+		if (id == 1)
+			playerHand.setHandScore(score);
+		else {
+			System.out.println(cards.get(0).getRank() + " " + cards.get(1).getRank());
+			playerHand.setHandScore2(score);
+		}
 	}
 
 	/**

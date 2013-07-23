@@ -22,7 +22,16 @@ public class PlayerHand {
 		kicker = null;
 		highCard = null;
 		handScore = 0;
+		handScore2 = 0;
 		setPosition(0);
+	}
+
+	public int getHandScore2() {
+		return Integer.valueOf(handScore2);
+	}
+
+	public void setHandScore2(int handScore2) {
+		this.handScore2 = handScore2;
 	}
 
 	/**
@@ -183,6 +192,7 @@ public class PlayerHand {
 	/* Private instance variables */
 	private List<Card> playerHand;
 	private int handScore;
+	private int handScore2;
 	private Hand hand;
 	private Card highCard;
 	private Card kicker;
