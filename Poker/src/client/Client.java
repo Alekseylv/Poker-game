@@ -23,6 +23,10 @@ public class Client {
 	
 	public static void main(String args[]) {
 		
+	}
+	
+	public static void start(String name) {
+		
 		try {
 			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);
 						
