@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import poker.GUI.Login;
 
 
 /**
@@ -20,9 +21,10 @@ public class Client {
 	 * 
 	 * @param args (is ignored)
 	 */
-	
+    private static Login login;
+
 	public static void main(String args[]) {
-		
+       login = new Login();
 	}
 	
 	public static void start(String name) {
