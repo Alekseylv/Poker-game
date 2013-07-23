@@ -17,6 +17,7 @@ public class HandEvaluatorTest {
 		Player p3 = new Player(3);
 		Player p4 = new Player(4);
 		Player p5 = new Player(5);
+		Player p6 = new Player(6);
 
 		Card c1 = new Card(Suit.HEARTS, Rank.JACK);
 		Card c2 = new Card(Suit.SPADES, Rank.JACK);
@@ -67,13 +68,24 @@ public class HandEvaluatorTest {
 		Card c77777 = new Card(Suit.CLUBS, Rank.SIX);
 		Card[] playerHand5 = { c11111, c22222, c33333, c44444, c55555, c66666, c77777 };
 		p5.hand = playerHand5;
+		
+		Card c111111 = new Card(Suit.HEARTS, Rank.ACE);
+		Card c222222 = new Card(Suit.SPADES, Rank.JACK);
+		Card c333333 = new Card(Suit.DIAMONDS, Rank.TEN);
+		Card c444444 = new Card(Suit.CLUBS, Rank.NINE);
+		Card c555555 = new Card(Suit.HEARTS, Rank.SIX);
+		Card c666666 = new Card(Suit.SPADES, Rank.SIX);
+		Card c777777 = new Card(Suit.CLUBS, Rank.SIX);
+		Card[] playerHand6 = { c111111, c222222, c333333, c444444, c555555, c666666, c777777 };
+		p6.hand = playerHand6;
 
 		List<Player> players = new ArrayList<Player>();
 		players.add(p1);
 		players.add(p2);
 		players.add(p3);
 		players.add(p4);
-		players.add(p5);
+		//players.add(p5);
+		//players.add(p6);
 		HandEvaluator evaluator = new HandEvaluator(players);
 		List<PlayerHand> playerPositions = evaluator
 				.getPlayerHandEvaluation();
