@@ -86,7 +86,7 @@ public class HandEvaluatorTest {
 		players.add(p4);
 		players.add(p5);
 		players.add(p6);
-		HandEvaluator evaluator = new HandEvaluator(players);
+		HandEvaluator evaluator = new HandEvaluator(players, null);
 		List<PlayerHand> playerPositions = evaluator
 				.getPlayerHandEvaluation();
 		for (PlayerHand entry : playerPositions) {

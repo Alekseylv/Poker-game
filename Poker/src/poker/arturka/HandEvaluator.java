@@ -16,6 +16,7 @@ public class HandEvaluator {
 	private static final int THREE_OF_A_KIND_COUNT = 3;
 	private static final int TWO_PAIR_COUNT = 2;
 	private static final int ONE_PAIR_COUNT = 2;
+	private static final int CARD_COUNT = 7;
 
 	/**
 	 * Creates an instance of an HandEvaluator object.
@@ -23,10 +24,13 @@ public class HandEvaluator {
 	 * @param playersLeft
 	 *            Players that are currently in game and whose hands need to be
 	 *            evaluated.
+	 * @param tableCards
+	 *            Additional player cards that are on the table.
 	 */
-	public HandEvaluator(List<Player> playersLeft) {
+	public HandEvaluator(List<Player> playersLeft, List<Card> tableCards) {
 		playersToEvaluate = playersLeft;
 		evaluatedPlayers = new HashMap<Player, PlayerHand>();
+		this.tableCards = tableCards;
 	}
 
 	/**
@@ -205,7 +209,13 @@ public class HandEvaluator {
 	 *         combination.
 	 */
 	private Hand getPlayerHand(Player player) {
-		return getHand(player.getHand());
+		Card[] temp = new Card[CARD_COUNT];
+		for (int i = 0; i < temp.length; i++) {
+			temp[i] = tableCards.get(i);
+		}
+		temp[CARD_COUNT - 1] = player.getHand()[0];
+		temp[CARD_COUNT - 2] = player.getHand()[1];
+		return getHand(temp);
 	}
 
 	/**
@@ -580,4 +590,5 @@ public class HandEvaluator {
 	private Card[] currentHand;
 	private PlayerHand playerHand;
 	private List<Card> scoreCards;
+	private List<Card> tableCards;
 }
