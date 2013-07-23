@@ -48,6 +48,7 @@ public class ClientGame implements Runnable {
 		
 		model.addObserver(this.controller);
 		model.bet.addObserver(controller);
+        model.changeState(State.READY);
 	}
 	
 	/**

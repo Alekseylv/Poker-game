@@ -3,7 +3,9 @@ package poker.arturka;
 import commands.*;
 import message.data.*;
 import poker.server.Room;
+import poker.server.Tuple2;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ public class Game implements Runnable {
     private int state;
     private Room room;
     private boolean endGame;
+    private HandEvaluator evaluator;
 
     public Game(Room room){
         deck=new Deck();
@@ -27,8 +30,8 @@ public class Game implements Runnable {
         table=new ArrayList<Card>();
         state=0;
         this.room=room;
-        for(int id: room.getUsers()){
-            players.addPlayer(id);
+        for(Tuple2 tuple: room.getUsers()){
+            players.addPlayer(tuple.id,tuple.nick);
         }
         endGame=true;
     }
@@ -37,15 +40,148 @@ public class Game implements Runnable {
         if (!endGame) {
             List<SendWinnerListCommand.Tuple> winners =new ArrayList<SendWinnerListCommand.Tuple>();
             if (players.playersLeft().size()>1){
+                evaluator=new HandEvaluator(players.playersLeft());
                 // Changes from List<Player> to HashMap, to evaluate if pot should be split
-                HashMap<Integer, PlayerHand> bestPlayers=players.getBestPlayers();
+                List<PlayerHand> bestPlayers=evaluator.getPlayerHandEvaluation();
                 int i=0;
-                Player currentWinner;
-                while(players.getPot()>0){
-                    currentWinner=bestPlayers.get(i++).getPlayer();
-                    int betsForWinner=players.fetchBets(currentWinner.getBet());
-                    currentWinner.giveCash(betsForWinner);
-                    winners.add(new SendWinnerListCommand.Tuple(currentWinner.getId(),betsForWinner));
+                int betsForWinner;
+                PlayerHand currentWinnerHand;
+                PlayerHand anotherWinnerHand;
+                PlayerHand thirdWinnerHand;
+                boolean twoTie=false;
+                boolean threeTie=false;
+                currentWinnerHand=bestPlayers.get(i);
+                if (bestPlayers.size()>=i+3){
+                    anotherWinnerHand=bestPlayers.get(i + 1);
+                    thirdWinnerHand=bestPlayers.get(i + 2);
+                    if(currentWinnerHand.getPosition()==anotherWinnerHand.getPosition()
+                            &&currentWinnerHand.getPosition()==thirdWinnerHand.getPosition()){
+                        int curVAno=currentWinnerHand.getPlayer().getBet()-anotherWinnerHand.getPlayer().getBet();
+                        int curVThi=currentWinnerHand.getPlayer().getBet()-thirdWinnerHand.getPlayer().getBet();
+                        int anoVThi=anotherWinnerHand.getPlayer().getBet()-thirdWinnerHand.getPlayer().getBet();
+
+                        if(curVAno==0&&curVThi==0){
+                            //Case when all player have same bets
+                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet())/3;
+                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(), betsForWinner));
+                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                        }else if(curVAno<0&&curVThi<0){
+                            //Case when current has smallest bet
+                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
+                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                            if (anoVThi<0){
+                                betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
+                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else if(anoVThi==0){
+                                betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet())/2;
+                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else{
+                                betsForWinner=players.fetchBets(thirdWinnerHand.getPlayer().getBet());
+                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            }
+                        }else if(curVAno>0&&anoVThi<0){
+                            //Case when another has smallest bet
+                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
+                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            if (curVThi<0){
+                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
+                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else if(curVThi==0){
+                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
+                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else{
+                                betsForWinner=players.fetchBets(thirdWinnerHand.getPlayer().getBet());
+                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            }
+                        }else if(curVThi>0&&anoVThi>0){
+                            //Case when third has smallest bet
+                            betsForWinner=players.fetchBets(thirdWinnerHand.getPlayer().getBet());
+                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            if (curVAno<0){
+                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
+                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else if(curVAno==0){
+                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
+                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else{
+                                betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
+                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            }
+                        }else if(curVAno==0){
+                            //Case when current and another have same bets
+                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
+                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            betsForWinner=players.fetchBets(thirdWinnerHand.getPlayer().getBet());
+                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                        }else if(curVThi==0){
+                            //Case when current and third have same bets
+                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
+                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
+                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                        }else if(anoVThi==0){
+                            //Case when another and third have same bets
+                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet())/2;
+                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
+                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                        }
+                    }
+                }
+                if(bestPlayers.size()>=i+2){
+                    anotherWinnerHand=bestPlayers.get(i+1);
+                    if(currentWinnerHand.getPosition()==anotherWinnerHand.getPosition()){
+                        int curVAno=currentWinnerHand.getPlayer().getBet()-anotherWinnerHand.getPlayer().getBet();
+                        if (curVAno<0){
+                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
+                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                        }else if(curVAno==0){
+                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
+                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                        }else{
+                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
+                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                        }
+                    }
                 }
             }else if(players.playersLeft().size()>0){
                 players.playersLeft().get(0).giveCash(players.getPot());

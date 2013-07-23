@@ -39,11 +39,11 @@ public class OfflineClientTests {
 		gameThread.start();
 		
 		List <Player>someList = new ArrayList<Player>();
-		Player player = new Player(1);
+		Player player = new Player(1,"bob");
 		player.toggleDealer();
 		
 		someList.add(player);
-		someList.add(new Player(2));
+		someList.add(new Player(2,"bob"));
 		
 		this.que.addTask(new SetIDCommand(1));
 		this.que.addTask(new SendPlayerListCommand(someList));

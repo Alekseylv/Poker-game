@@ -32,7 +32,7 @@ public class PlayersTest {
         id2=2;
         idm1=-1;
         cash1=1234;
-        player1 = new Player(333);
+        player1 = new Player(333,"bob");
         player1.setCash(cash1);
         player1.toggleDealer();
     }
@@ -45,19 +45,19 @@ public class PlayersTest {
     @Test
     public void testAddPlayer() throws Exception {
         Players players=new Players();
-        Player check = players.addPlayer(idm1);
+        Player check = players.addPlayer(idm1,"bob");
         Assert.assertNull(check);
 
-        check = players.addPlayer(id1);
+        check = players.addPlayer(id1,"bob");
         Assert.assertNotNull(check);
         Assert.assertEquals(players.getPlayerById(id1), check);
         Assert.assertNull(players.getPlayerById(id2));
 
-        Player check2 = players.addPlayer(id2);
+        Player check2 = players.addPlayer(id2,"bob");
         Assert.assertNotNull(players.getPlayerById(id2));
         Assert.assertEquals(players.getPlayerById(id2), check2);
 
-        players.addPlayer(id2);
+        players.addPlayer(id2,"bob");
         Assert.assertEquals(players.getPlayersList().size(), 2);
     }
 
@@ -67,18 +67,18 @@ public class PlayersTest {
         Player check = players.removePlayer(id1);
         Assert.assertNull(check);
 
-        players.addPlayer(id1);
+        players.addPlayer(id1,"bob");
         Assert.assertNotNull(players.getPlayerById(id1));
 
         players.removePlayer(id1);
         Assert.assertNull(players.getPlayerById(id1));
 
-        check = players.addPlayer(id1);
+        check = players.addPlayer(id1,"bob");
         Player check1 = players.removePlayer(id1);
         Assert.assertEquals(check,check1);
 
-        players.addPlayer(id1);
-        players.addPlayer(id2);
+        players.addPlayer(id1,"bob");
+        players.addPlayer(id2,"bob");
         players.removePlayer(id1);
         Assert.assertNull(players.getPlayerById(id1));
         Assert.assertNotNull(players.getPlayerById(id2));
@@ -89,11 +89,11 @@ public class PlayersTest {
         Players players=new Players();
         Assert.assertNull(players.getRandomPlayer());
 
-        Player check = players.addPlayer(id1);
+        Player check = players.addPlayer(id1,"bob");
         Assert.assertNotNull(players.getRandomPlayer());
         Assert.assertEquals(players.getRandomPlayer(), check);
 
-        players.addPlayer(id2);
+        players.addPlayer(id2,"bob");
         Assert.assertNotNull(players.getRandomPlayer());
 
         Player check2=players.getRandomPlayer();
@@ -105,11 +105,11 @@ public class PlayersTest {
         Players players=new Players();
         Assert.assertNull(players.getNextPlayer(player1));
 
-        Player check = players.addPlayer(id1);
+        Player check = players.addPlayer(id1,"bob");
         Assert.assertNotNull(players.getNextPlayer(check));
         Assert.assertEquals(players.getNextPlayer(check), check);
 
-        Player check2 = players.addPlayer(id2);
+        Player check2 = players.addPlayer(id2,"bob");
         Assert.assertNotNull(players.getNextPlayer(check));
         Assert.assertEquals(players.getNextPlayer(check), check2);
         Assert.assertEquals(players.getNextPlayer(check2), check);
@@ -124,11 +124,11 @@ public class PlayersTest {
         Player check=players.getDealer();
         Assert.assertNull(check);
 
-        check=players.addPlayer(id1);
+        check=players.addPlayer(id1,"bob");
         Assert.assertNotNull(players.getDealer());
         Assert.assertEquals(players.getDealer(), check);
 
-        Player check1 = players.addPlayer(id2);
+        Player check1 = players.addPlayer(id2,"bob");
         Assert.assertEquals(players.getDealer(),check);
 
         check.toggleDealer();
@@ -143,14 +143,14 @@ public class PlayersTest {
         Player check=players.nextDealer();
         Assert.assertNull(check);
 
-        players.addPlayer(id1);
+        players.addPlayer(id1,"bob");
         check=players.nextDealer();
         Assert.assertNotNull(check);
         Assert.assertNotNull(players.getDealer());
         Assert.assertTrue(check.isDealer());
         Assert.assertEquals(check,players.getDealer());
 
-        Player check1=players.addPlayer(id2);
+        Player check1=players.addPlayer(id2,"bob");
         Assert.assertFalse(check1.isDealer());
 
         Player check2=players.nextDealer();
@@ -169,8 +169,8 @@ public class PlayersTest {
         Players players=new Players();
         Assert.assertEquals(players.getPot(),0);
 
-        Player check=players.addPlayer(id1);
-        Player check1=players.addPlayer(id2);
+        Player check=players.addPlayer(id1,"bob");
+        Player check1=players.addPlayer(id2,"bob");
         check.bet(101);
         check1.bet(10);
         Assert.assertEquals(players.getPot(),111);
@@ -181,13 +181,13 @@ public class PlayersTest {
         Players players=new Players();
         Assert.assertEquals(players.playersLeft().size(),0);
 
-        Player check=players.addPlayer(id1);
+        Player check=players.addPlayer(id1,"bob");
         Assert.assertEquals(players.playersLeft().size(),1);
         ArrayList<Player> checkList=new ArrayList<Player>();
         checkList.add(check);
         Assert.assertEquals(players.playersLeft(),checkList);
 
-        Player check1=players.addPlayer(id2);
+        Player check1=players.addPlayer(id2,"bob");
         Assert.assertEquals(players.playersLeft().size(),2);
 
         checkList.add(check1);
@@ -204,13 +204,13 @@ public class PlayersTest {
         Players players=new Players();
         Assert.assertEquals(players.getPlayersList().size(),0);
 
-        Player check=players.addPlayer(id1);
+        Player check=players.addPlayer(id1,"bob");
         Assert.assertEquals(players.getPlayersList().size(),1);
         ArrayList<Player> checkList=new ArrayList<Player>();
         checkList.add(check);
         Assert.assertEquals(players.getPlayersList(),checkList);
 
-        Player check1=players.addPlayer(id2);
+        Player check1=players.addPlayer(id2,"bob");
         Assert.assertEquals(players.getPlayersList().size(),2);
 
         checkList.add(check1);
@@ -226,11 +226,11 @@ public class PlayersTest {
         Players players=new Players();
         Assert.assertEquals(players.getSafeList(player1).size(),0);
 
-        Player check=players.addPlayer(id1);
+        Player check=players.addPlayer(id1,"bob");
         Assert.assertEquals(players.getSafeList(check).size(),1);
         Assert.assertTrue(players.getSafeList(player1).get(0).equals(check));
 
-        Player check1=players.addPlayer(id2);
+        Player check1=players.addPlayer(id2,"bob");
         Assert.assertEquals(players.getSafeList(player1).size(),2);
         Assert.assertTrue(players.getSafeList(player1).get(0).equals(check));
         Assert.assertTrue(players.getSafeList(player1).get(1).equals(check1));
@@ -262,8 +262,8 @@ public class PlayersTest {
         int limit2=15;
         Assert.assertEquals(players.fetchBets(limit1),0);
 
-        Player check = players.addPlayer(id1);
-        Player check1 = players.addPlayer(id2);
+        Player check = players.addPlayer(id1,"bob");
+        Player check1 = players.addPlayer(id2,"bob");
         check.setBet(0);
         check1.setBet(20);
         Assert.assertEquals(players.fetchBets(limit2),15);
@@ -288,11 +288,11 @@ public class PlayersTest {
         Players players=new Players();
         Assert.assertNull(players.getPlayerById(id1));
 
-        Player check=players.addPlayer(id1);
+        Player check=players.addPlayer(id1,"bob");
         Assert.assertNotNull(players.getPlayerById(id1));
         Assert.assertEquals(players.getPlayerById(id1),check);
 
-        Player check1=players.addPlayer(id2);
+        Player check1=players.addPlayer(id2,"bob");
         Assert.assertNotNull(players.getPlayerById(id2));
         Assert.assertNotNull(players.getPlayerById(id1));
         Assert.assertEquals(players.getPlayerById(id2),check1);

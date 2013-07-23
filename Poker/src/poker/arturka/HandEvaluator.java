@@ -17,11 +17,23 @@ public class HandEvaluator {
 	private static final int TWO_PAIR_COUNT = 2;
 	private static final int ONE_PAIR_COUNT = 2;
 
+	/**
+	 * Creates an instance of an HandEvaluator object.
+	 * @param playersLeft
+	 * Players that are currently in game and whose hands need to be evaluated.
+	 */
 	public HandEvaluator(List<Player> playersLeft) {
 		playersToEvaluate = playersLeft;
 		evaluatedPlayers = new HashMap<Player, PlayerHand>();
 	}
 
+	/**
+	 * Gets List<PlayerHand> of evaluated players in ranking order starting with 0.
+	 * If more then one player has the same getPosition() value, 
+	 * then the pot should be split between them.
+	 * @return
+	 * Returns the evaluated and sorted List<PlayerHand>.
+	 */
 	public List<PlayerHand> getPlayerHandEvaluation() {
 		List<PlayerHand> playerRanking = new ArrayList<PlayerHand>();
 		for (Player player : playersToEvaluate) {
@@ -34,6 +46,14 @@ public class HandEvaluator {
 		return playerRanking;
 	}
 
+	/**
+	 * Sorts List<PlayerHand> list by player hand positions.
+	 * Then assigns sequential player hand ranks to position variable.
+	 * @param playerRanking
+	 * List of ranked players.
+	 * @return
+	 * List of sorted player hand list.
+	 */
 	private List<PlayerHand> sortPlayerPositions(List<PlayerHand> playerRanking) {
 		for (int i = 0; i < playerRanking.size() - 1; i++) {
 			if (playerRanking.get(i).getPosition() > playerRanking.get(i + 1)
@@ -151,7 +171,6 @@ public class HandEvaluator {
 	}
 
 	public Hand getHand(Card[] hand) {
-		// In method calls have to set scoreCards!
 		currentHand = sortHand(hand);
 		combination = createHandTable(hand);
 		if (handIsRoyalFlush(combination))
