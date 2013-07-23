@@ -1,5 +1,8 @@
 package poker.server;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -7,8 +10,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.net.ssl.SSLServerSocketFactory;
+import javax.swing.*;
 
-public class Server {
+public class Server extends JFrame{
 
 	/* Private instance constants */
 	private static final int PORT = 9999;
@@ -22,7 +26,15 @@ public class Server {
 	 */
 	private static int roomID = 1;
 	private static boolean waitingTimeExceeded = false;
-
+	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
+	/*
+	 * GUI Variables
+	 */
+	private static JFrame showServerInfo = new JFrame();
+	private static JLabel serverIP = new JLabel();
+	private static JLabel serverPort = new JLabel();
+	
 	/**
 	 * Starts a 'ServerSocket' with specified 'PORT', 'CONNECTION_LIMIT', 'serverAddress'.
 	 * Handles client connections, starts a client connection on a new thread and creates 
@@ -43,7 +55,21 @@ public class Server {
 	//										CONNECTION_LIMIT, serverAddress);
 			
 			server = new ServerSocket(PORT, CONNECTION_LIMIT, serverAddress);
-            // SHOW FRAME WITH PORT AND SERVERADRESS
+            
+			// GUI IMPLEMENTATION'S START
+			showServerInfo.setLayout(new FlowLayout());
+			showServerInfo.setSize(240, 100);
+			showServerInfo.setLocation(screenSize.width / 2 - showServerInfo.getSize().width / 2, screenSize.height / 2 - showServerInfo.getSize().height / 2);
+			showServerInfo.setResizable(false);
+			showServerInfo.setVisible(true);
+			showServerInfo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			showServerInfo.setTitle("Server info");
+			showServerInfo.getContentPane().setLayout(null);
+			
+			showServerInfo.add(serverIP(), null);
+			showServerInfo.add(serverPort(), null);
+			// GUI IMPLEMENTATION'S END
+			
 			while (true) {
 				gameRoom = new Room(roomID++);
 				// Keeps track of player count in currently created room.
@@ -72,6 +98,23 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * GUI Labels initialization 
+	 */
+	
+	 private static JLabel serverIP(){
+		 serverIP.setBounds(10, 15, 150, 25);
+		 serverIP.setText("Server IP: " + serverAddress);
+		 serverIP.setVisible(true);
+		 return serverIP;
+	    }
+	 private static JLabel serverPort(){
+		 serverPort.setBounds(10, 50, 150, 25);
+		 serverPort.setText("Server port: " + PORT);
+		 serverPort.setVisible(true);
+		 return serverPort;
+	    }
+	
 	
 	/** 
 	 * Sets waitingTimeExceeded value, which determines whether more player connections should be accepted.

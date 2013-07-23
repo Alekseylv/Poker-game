@@ -18,7 +18,7 @@ public class Login extends JFrame implements ActionListener, ItemListener {
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public Client client;
 
-    public Login() throws UnknownHostException{
+    public Login(){
 
         LoginWindow.setLayout(new FlowLayout());
         LoginWindow.setSize(240, 200);
