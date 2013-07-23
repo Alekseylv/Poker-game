@@ -39,7 +39,7 @@ public class PlayerHand {
 			this.playerHand.add(card);
 		}
 	}
-	
+
 	public void setPlayerHand(List<Card> playerHand) {
 		if (playerHand != null)
 			this.playerHand.addAll(playerHand);
@@ -76,7 +76,7 @@ public class PlayerHand {
 	public Hand setHand(Hand hand) {
 		return this.hand = hand;
 	}
-	
+
 	public int getPosition() {
 		return Integer.valueOf(position);
 	}
