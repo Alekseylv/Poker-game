@@ -19,8 +19,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     // TableWindow variables
     private JFrame TableWindow = new JFrame();
-    private JLabel displayNick = new JLabel();
-    private JLabel displayCash = new JLabel();
     private JButton foldButton = new JButton();
     private JButton raiseButton = new JButton();
     private JButton checkButton = new JButton();
@@ -175,13 +173,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
     public void emptyTableCards(){
-           if(showTableCards[0] != null){
+           
             for(int i = 0; i < showTableCards.length; i++){
                 if(showTableCards[i] != null){
                     TableWindow.remove(showTableCards[i]);
                 }
             }
-           }
+           
     }
 
 
@@ -260,10 +258,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 		return 0;
 	
     }
-    public void setNums(){
+    public void setNums(int newBet){
         int toRaise = 0;
-        if(model.getBlind() * 2 < model.getMaxBet()){
-            toRaise = model.getMaxBet();
+        if(model.getBlind() * 2 < newBet){
+            toRaise = newBet;
         } else {
             toRaise = model.getBlind() * 2;
 
@@ -431,7 +429,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                 }
-                    TableWindow.add(Dealer(getLocation((model.getDealer() + 2 + offSet)%9,Deal,x),getLocation((model.getDealer() + 2 + offSet)%9,Deal,y)));
+                    TableWindow.add(Dealer(getLocation((model.getDealer() + 1 + offSet)%9,Deal,x),getLocation((model.getDealer() + 1 + offSet)%9,Deal,y)));
                 }
             }
     }
@@ -713,17 +711,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
         return output;
     }
-    private ArrayList<String> fromCardToInvisible(Card[] cards ){
-        ArrayList<String> output=new ArrayList<String>();
-        String fileName;
-        for(Card card:cards){
-
-                fileName = "invisibleCard";
-                output.add(fileName);
-
-        }
-        return output;
-    }
+  
     // Methods for CONTROLLER ENDs
 
 
