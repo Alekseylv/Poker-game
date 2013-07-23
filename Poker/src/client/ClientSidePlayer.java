@@ -23,7 +23,7 @@ public class ClientSidePlayer extends Player {
 	 *  server side player to construct from
 	 */
 	public ClientSidePlayer(Player player) {
-		super(player.getId());
+		super(player.getId(),player.getNick());
 		super.setBet(player.getBet());
 		super.setCash(player.getCash());
 		Card[] hand = player.getHand();

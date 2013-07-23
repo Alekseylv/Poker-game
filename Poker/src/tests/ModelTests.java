@@ -34,11 +34,11 @@ public class ModelTests {
 		this.playlist2 = new ArrayList<ClientSidePlayer>();
 		
 		for(int i: iter(4)) {
-			playlist1.add(new ClientSidePlayer(new Player(i)));
+			playlist1.add(new ClientSidePlayer(new Player(i,"bob")));
 		}
 		
 		for(int i: iter(5, 12)) {
-			playlist2.add(new ClientSidePlayer(new Player(i)));
+			playlist2.add(new ClientSidePlayer(new Player(i,"bob")));
 		}
 		
 		playlist1.get(0).toggleDealer();
