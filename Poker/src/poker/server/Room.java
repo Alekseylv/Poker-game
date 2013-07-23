@@ -95,6 +95,9 @@ public class Room implements Runnable {
 					line = "Player" + id;
 				}
 				
+				if(line == null) {
+					line = "Player" + id;
+				}
 				user = new Tuple2(id, line);
 				users.add(user);
 			} catch (IOException e) {
