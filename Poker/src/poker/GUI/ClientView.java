@@ -18,12 +18,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     
     // LoginWindow variables
-    private JFrame LoginWindow = new JFrame();
-    private String PlayerName;
-    private JLabel labelName = new JLabel();
-    private JLabel warning = new JLabel();
-    private JTextField textName = new JTextField();
-    private JButton buttonConnect = new JButton();
+//    private JFrame LoginWindow = new JFrame();
+//    private String PlayerName;
+//    private JLabel labelName = new JLabel();
+//    private JLabel warning = new JLabel();
+//    private JTextField textName = new JTextField();
+//    private JButton buttonConnect = new JButton();
     // LoginWindow variables end
 
     // TableWindow variables
@@ -64,26 +64,26 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         this.model = model;
 
         // LoginWindow appearance
-        LoginWindow.setLayout(new FlowLayout());
-        LoginWindow.setSize(240, 120);
-        LoginWindow.setLocation(screenSize.width / 2 - LoginWindow.getSize().width / 2, screenSize.height / 2 - LoginWindow.getSize().height / 2);
-        LoginWindow.setResizable(false);
-        LoginWindow.setVisible(true);
-        LoginWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        LoginWindow.setTitle("Login");
-        LoginWindow.getContentPane().setLayout(null);
-
-        LoginWindow.add(labelName(), null);
-        LoginWindow.add(textName(), null);
-        LoginWindow.add(buttonConnect(), null);
-        LoginWindow.add(warning(), null);
+//        LoginWindow.setLayout(new FlowLayout());
+//        LoginWindow.setSize(240, 120);
+//        LoginWindow.setLocation(screenSize.width / 2 - LoginWindow.getSize().width / 2, screenSize.height / 2 - LoginWindow.getSize().height / 2);
+//        LoginWindow.setResizable(false);
+//        LoginWindow.setVisible(true);
+//        LoginWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        LoginWindow.setTitle("Login");
+//        LoginWindow.getContentPane().setLayout(null);
+//
+//        LoginWindow.add(labelName(), null);
+//        LoginWindow.add(textName(), null);
+//        LoginWindow.add(buttonConnect(), null);
+//        LoginWindow.add(warning(), null);
 
 
         // TableWindow appearance
         TableWindow.setSize(900, 630);
         TableWindow.setLocation(((screenSize.width / 2) - (TableWindow.getSize().width / 2)), screenSize.height / 2 - TableWindow.getSize().height / 2);
         TableWindow.setResizable(false);
-        TableWindow.setVisible(false);
+        TableWindow.setVisible(true);
         TableWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         TableWindow.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/poker/GUI/img/pokerTableNew.jpg"))));
         TableWindow.setTitle("Poker Client");
@@ -204,42 +204,81 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
     public void getWinners(ArrayList<SendWinnerListCommand.Tuple> list){
-        int id;
+        int id = 0;
+        int offSet = 0;
         int newCash;
 
         for(SendWinnerListCommand.Tuple player : list){
+
             if(player != null){
 
-                id = player.id;
+                id = player.id - 1;
                 newCash = player.cash;
 
+                offSet = 9 - model.getID();
                 switch (id){
                     case 0:
-                        arrayPlayersNickCash[id] = clientNameCash("Player0", newCash, 230, 510);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 1:
-                        arrayPlayersNickCash[id] = clientNameCash("Player1", newCash, 30, 420);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 2:
-                        arrayPlayersNickCash[id] = clientNameCash("Player2", newCash, 30, 110);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 3:
-                        arrayPlayersNickCash[id] = clientNameCash("Player3", newCash, 250, 20);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 4:
-                        arrayPlayersNickCash[id] = clientNameCash("Player4", newCash, 540, 20);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 5:
-                        arrayPlayersNickCash[id] = clientNameCash("Player5", newCash, 760, 110);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 6:
-                        arrayPlayersNickCash[id] = clientNameCash("Player6", newCash, 760, 420);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 7:
-                        arrayPlayersNickCash[id] = clientNameCash("Player7", newCash, 570, 510);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 8:
-                        arrayPlayersNickCash[id] = clientNameCash("Player8", newCash, 403, 515);
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash("Player" + id, newCash, getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        TableWindow.add(arrayPlayersNickCash[id]);
                         break;
 
                 }
@@ -330,7 +369,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
     public void setNewPot(){   
-    	showPot.setText("POT: " + model.getPot());
+    	showPot.setText("POT: $" + model.getPot());
     }
     public void setNewCash(ArrayList<ClientSidePlayer> list){
         int id = 0;
@@ -484,7 +523,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                 }
-                    TableWindow.add(Dealer(getLocation((model.getDealer() + 1 + offSet)%9,Deal,x),getLocation((model.getDealer() + 1 + offSet)%9,Deal,y)));
+                    TableWindow.add(Dealer(getLocation((model.getDealer() + 1)%9,Deal,x),getLocation((model.getDealer() + 1)%9,Deal,y)));
                 }
             }
     }
@@ -638,6 +677,14 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
                 }
 
+            }
+        }
+    }
+    public void broadcastWinner(ArrayList<SendWinnerListCommand.Tuple> list){
+
+        for(SendWinnerListCommand.Tuple player : list){
+            if(player != null){
+                displayBroadcast().setText("Player" + (player.id - 1) + " has won $" + player.cash);
             }
         }
     }
@@ -805,7 +852,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         displayCashSlider.setHorizontalAlignment( SwingConstants.RIGHT );
 
         displayCashSlider.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        displayCashSlider.setText("" + CashSlider.getValue());
+        displayCashSlider.setText("$" + CashSlider.getValue());
         return displayCashSlider;
     }
     private JButton potSizeSlider(){
@@ -905,7 +952,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         clientNameCash.setBounds(x,y,100,30);
         clientNameCash.setForeground(Color.WHITE);
         clientNameCash.setHorizontalAlignment( SwingConstants.CENTER );
-        clientNameCash.setText("<html><body align='center'>" + ClientName + "<br />(" + ClientCash +")</body></html>");
+        clientNameCash.setText("<html><body align='center'>" + ClientName + "<br />($" + ClientCash +")</body></html>");
         return clientNameCash;
     }
     private JLabel Dealer(int x, int y){
@@ -917,7 +964,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private JLabel showPot(){
     	showPot.setForeground(Color.WHITE);
     	showPot.setHorizontalAlignment( SwingConstants.CENTER );
-		showPot.setText("POT: " + model.getPot());
+		showPot.setText("POT: $" + model.getPot());
 		showPot.setBounds(415,300,70,20);
     	return showPot;
     }
@@ -936,36 +983,36 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     // LoginWindow variables description STARTs
 
-    private JLabel labelName(){
-        labelName.setBounds(10, 15, 90, 25);
-        labelName.setText("Your name: ");
-        return labelName;
-    }
-    private JLabel warning(){
-        warning.setHorizontalAlignment( SwingConstants.CENTER );
-        warning.setText("<html><body align='center'>Name must be between 3 and 15 characters long!</body></html>");
-        warning.setVisible(false);
-        return warning;
-    }
-    private JTextField textName(){
-        textName.setBounds(100, 15, 120, 25);       
-		    textName.addKeyListener(new KeyAdapter() {public void keyPressed(KeyEvent e) {
-		       	if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-		       		buttonConnect.doClick();
-		       	}
-		    }
-        }
-    );
-        return textName;
-    }
-    private JButton buttonConnect(){
-        buttonConnect = new JButton();
-        buttonConnect.setActionCommand("connect");
-        buttonConnect.setBounds(70, 50, 100, 25);
-        buttonConnect.setText("Connect");
-        buttonConnect.addActionListener(this);
-        return buttonConnect;
-    }
+//    private JLabel labelName(){
+//        labelName.setBounds(10, 15, 90, 25);
+//        labelName.setText("Your name: ");
+//        return labelName;
+//    }
+//    private JLabel warning(){
+//        warning.setHorizontalAlignment( SwingConstants.CENTER );
+//        warning.setText("<html><body align='center'>Name must be between 3 and 15 characters long!</body></html>");
+//        warning.setVisible(false);
+//        return warning;
+//    }
+//    private JTextField textName(){
+//        textName.setBounds(100, 15, 120, 25);
+//		    textName.addKeyListener(new KeyAdapter() {public void keyPressed(KeyEvent e) {
+//		       	if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//		       		buttonConnect.doClick();
+//		       	}
+//		    }
+//        }
+//    );
+//        return textName;
+//    }
+//    private JButton buttonConnect(){
+//        buttonConnect = new JButton();
+//        buttonConnect.setActionCommand("connect");
+//        buttonConnect.setBounds(70, 50, 100, 25);
+//        buttonConnect.setText("Connect");
+//        buttonConnect.addActionListener(this);
+//        return buttonConnect;
+//    }
     // LoginWindow variables description ENDs
 
     public void actionPerformed(ActionEvent e) {
@@ -992,20 +1039,21 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         	CashSlider.setValue(CashSlider.getValue() + model.getMaxBet());
         } else if("MinusSlider".equals(e.getActionCommand())){
         	CashSlider.setValue(CashSlider.getValue() - model.getMaxBet());
-        } else if("connect".equals(e.getActionCommand())){
-            if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
-                // SERVER CONNECTION IMPLEMENTATION
-                PlayerName = textName.getText();
-                displayNick.setText(PlayerName);
-                TableWindow.setVisible(true);
-                LoginWindow.dispose();
-                
-            } else {
-                LoginWindow.setSize(240, 150);
-                warning.setBounds(5, 85, 220, 30);
-                warning.setVisible(true);
-            }
         }
+//        else if("connect".equals(e.getActionCommand())){
+//            if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
+//                // SERVER CONNECTION IMPLEMENTATION
+//                PlayerName = textName.getText();
+//                displayNick.setText(PlayerName);
+//                TableWindow.setVisible(true);
+//                LoginWindow.dispose();
+//
+//            } else {
+//                LoginWindow.setSize(240, 150);
+//                warning.setBounds(5, 85, 220, 30);
+//                warning.setVisible(true);
+//            }
+//        }
     }
     @Override
     public void stateChanged(ChangeEvent e) {

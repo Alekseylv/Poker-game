@@ -47,7 +47,8 @@ public class ClientController implements Observer {
 
 
     public void sendViewWinners(List<Tuple> list) {
-        view.getWinners((ArrayList<Tuple>) list);
+        //view.getWinners((ArrayList<Tuple>) list);
+        view.broadcastWinner((ArrayList<Tuple>) list);
     }
 
     /**
@@ -81,7 +82,7 @@ public class ClientController implements Observer {
                 view.stateEnded();
             }
         } else if(arg instanceof Integer) {
-        	// something gonna be here
+            ///
         } else if(arg instanceof List) {
         	view.placePlayers(model.getPlayerList());  
         }
@@ -106,7 +107,7 @@ public class ClientController implements Observer {
 		if(arg instanceof ClientTurn) {
             switch(player.getLastTurn()){
                 case CALL:
-                    view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for " + (model.getPlayerBet(player.getId())));
+                    view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for $" + (model.getPlayerBet(player.getId())));
 
                     break;
                 case CHECK:
@@ -122,7 +123,7 @@ public class ClientController implements Observer {
 
                     break;
                 case RAISE:
-                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has raised " + (model.getPlayerBet(player.getId())));
+                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has raised $" + (model.getPlayerBet(player.getId())));
 
                     break;
                 case BLIND:
@@ -138,7 +139,9 @@ public class ClientController implements Observer {
 
 		}   else if(arg instanceof Card) {
             view.giveCards(model.getPlayerList());
-        }	
+        }	 else if(arg instanceof Integer) {
+            view.setNewCash(model.getPlayerList());
+        }
 	}
 	
 	
