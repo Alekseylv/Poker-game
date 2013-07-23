@@ -84,8 +84,8 @@ public class HandEvaluatorTest {
 		players.add(p2);
 		players.add(p3);
 		players.add(p4);
-		//players.add(p5);
-		//players.add(p6);
+		players.add(p5);
+		players.add(p6);
 		HandEvaluator evaluator = new HandEvaluator(players);
 		List<PlayerHand> playerPositions = evaluator
 				.getPlayerHandEvaluation();
