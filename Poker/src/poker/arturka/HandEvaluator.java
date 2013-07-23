@@ -151,19 +151,22 @@ public class HandEvaluator {
 							i--;
 						} else if (prev.getHandScore() > entry.getHandScore()) {
 							incrementFollowingPlayers(playerPositions, prev);
-						} 
+						}
 						// new added start
 						else {
 							if (entry.getHand().equals(Hand.FULL_HOUSE)) {
-								if (prev.getHandScore2() < entry.getHandScore2()) {
-									incrementFollowingPlayers(playerPositions, entry);
-									playerPositions.set(
-											i - 1,
-											playerPositions.set(i,
+								if (prev.getHandScore2() < entry
+										.getHandScore2()) {
+									incrementFollowingPlayers(playerPositions,
+											entry);
+									playerPositions
+											.set(i - 1, playerPositions.set(i,
 													playerPositions.get(i - 1)));
 									i--;
-								} else if (prev.getHandScore2() > entry.getHandScore2()) {
-									incrementFollowingPlayers(playerPositions, prev);
+								} else if (prev.getHandScore2() > entry
+										.getHandScore2()) {
+									incrementFollowingPlayers(playerPositions,
+											prev);
 								}
 							}
 						}
@@ -187,13 +190,15 @@ public class HandEvaluator {
 						}
 						if (entry.getHand().equals(Hand.TWO_PAIR)) {
 							if (prev.getHandScore2() < entry.getHandScore2()) {
-								incrementFollowingPlayers(playerPositions, entry);
+								incrementFollowingPlayers(playerPositions,
+										entry);
 								playerPositions.set(
 										i - 1,
 										playerPositions.set(i,
 												playerPositions.get(i - 1)));
 								i--;
-							} else if (prev.getHandScore2() > entry.getHandScore2()) {
+							} else if (prev.getHandScore2() > entry
+									.getHandScore2()) {
 								incrementFollowingPlayers(playerPositions, prev);
 							}
 						}
@@ -306,8 +311,8 @@ public class HandEvaluator {
 				if (skCount == TWO_PAIR_COUNT && pairCount == 0) {
 					pairCount++;
 					evaluateScore(scoreCards, 1);
-					//setPlayerHand();
-					//return true;
+					// setPlayerHand();
+					// return true;
 				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1) {
 					evaluateScore(scoreCards, 2);
 					return true;
@@ -474,24 +479,23 @@ public class HandEvaluator {
 		temp = cloneTable(temp, combination2);
 		int skCount = 0;
 		for (int i = Rank.values().length - 1; i > -1; i--) {
-			if (b)
-				scoreCards = new ArrayList<Card>();
+			scoreCards = new ArrayList<Card>();
 			for (int j = 0; j < Suit.values().length; j++) {
 				if (temp[j][i] != null) {
-					if (b)
-						scoreCards.add(temp[j][i]);
+					scoreCards.add(temp[j][i]);
 					skCount++;
 				}
 				if (skCount == count) {
 					if (b) {
 						evaluateScore(scoreCards, 1);
 						setPlayerHand();
+					} else {
+						evaluateScore(scoreCards, 2);
 					}
 					return true;
 				}
 			}
-			if (b)
-				scoreCards = null;
+			scoreCards = null;
 			skCount = 0;
 		}
 		return false;
@@ -598,7 +602,8 @@ public class HandEvaluator {
 		if (id == 1)
 			playerHand.setHandScore(score);
 		else {
-			System.out.println(cards.get(0).getRank() + " " + cards.get(1).getRank());
+			System.out.println(cards.get(0).getRank() + " "
+					+ cards.get(1).getRank());
 			playerHand.setHandScore2(score);
 		}
 	}
