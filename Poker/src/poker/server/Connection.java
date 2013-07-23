@@ -6,7 +6,7 @@ import java.net.Socket;
 
 import message.data.ClientResponse;
 
-public class Connection implements Runnable {
+public class Connection {
 
 	/* Private constants. */
 	// Time limit for user to respond, otherwise client 'Socket' will be timed out.
@@ -18,9 +18,6 @@ public class Connection implements Runnable {
 		in = new ObjectInputStream(client.getInputStream());
 	}
 
-	public void run() {
-
-	}
 
 	/*
 	 * Sends to a client 'Command' object by which client response type

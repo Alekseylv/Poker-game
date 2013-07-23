@@ -28,6 +28,7 @@ public class Room implements Runnable {
 		// Stores player ID's and their 'Connection' object.
 		connections = new HashMap<Integer, Connection>();
 		this.roomID = roomID;
+		this.idNickList = new ArrayList<Tuple2>();
 		System.out.println("Room with ID: " + roomID + " created!");
 	}
 
@@ -64,6 +65,25 @@ public class Room implements Runnable {
 	 * in HashMaps.
 	 */
 	public void addUser(Socket client) throws IOException {
+		Tuple2 user;
+		client.setSoTimeout(100);
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+				client.getInputStream()));
+		String line = null;
+		try {
+			line = in.readLine();
+		} catch (IOException e) {
+			line = "Player" + clientSessionID;
+		}
+		
+		System.out.println(line);
+		
+		if(line == null) {
+			line = "Player" + clientSessionID;
+		}
+		user = new Tuple2(clientSessionID, line);
+		this.idNickList.add(user);
+		
 		clientConnection = new Connection(client);
 		// Stores current clients output stream.
 		clientStreams.put(clientSessionID,
@@ -71,41 +91,14 @@ public class Room implements Runnable {
 		// Stores client socket.
 		connections.put(clientSessionID++, clientConnection);
 		// Starts each new client 'Connection' on a separate thread.
-		Thread t = new Thread(clientConnection);
-		t.start();
 		System.out.println("Player (ID:" + (clientSessionID - 1)
 				+ ") added to the room (ID: " + roomID + ")");
 	}
 
 	/* Returns the list of all known clients in this room. */
 	public List<Tuple2> getUsers() {
-		List<Tuple2> users = new ArrayList<Tuple2>();
-		// Iterates through every known user ID in 'connections' HashMap.
-		Tuple2 user;
-		for (Integer id : connections.keySet()) {
-			BufferedReader in;
-			try {
-				connections.get(id).getClient().setSoTimeout(100);
-				in = new BufferedReader(new InputStreamReader(
-						connections.get(id).getClient().getInputStream()));
-				String line = null;
-				try {
-					line = in.readLine();
-				} catch (IOException e) {
-					line = "Player" + id;
-				}
-				
-				if(line == null) {
-					line = "Player" + id;
-				}
-				user = new Tuple2(id, line);
-				users.add(user);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return users;
+		
+		return this.idNickList;
 	}
 
 	/* Gets client input as a serialized object. */
@@ -170,6 +163,7 @@ public class Room implements Runnable {
 	/* Instance variables. */
 	public int roomID;
 	private HashMap<Integer, Connection> connections;
+	private List<Tuple2> idNickList;
 	private Game pokerGame;
 	private Connection clientConnection;
 	private ObjectOutputStream out;
