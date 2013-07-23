@@ -201,7 +201,7 @@ public class HandEvaluator {
 	}
 
 	/**
-	 * Gets the specified player hand.
+	 * Gets the specified player hand and adds table cards to it.
 	 * 
 	 * @param player
 	 *            Player that holds the needed hand.

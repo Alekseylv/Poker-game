@@ -166,18 +166,6 @@ public class Players {
     }
 
     /**
-     * Outputs a List of players by the strength of their hand.
-     * @return List of players, null if none.
-     */
-	public HashMap<Integer, PlayerHand> getBestPlayers() {
-		HandEvaluator evaluator = new HandEvaluator(playersLeft());
-		HashMap<Integer, PlayerHand> playerHandRanking =  (HashMap<Integer, PlayerHand>) evaluator.getPlayerHandEvaluation();
-		if (!playerHandRanking.entrySet().isEmpty())
-			return playerHandRanking;
-		return null;
-	}
-
-    /**
      * Subtracts money from player bets, that ar smaller than given.
      * Checks all the players, if their bet is smaller than bet parameter takes it all,
      * if it is bigger than bet subtracts bet parameter from it.
