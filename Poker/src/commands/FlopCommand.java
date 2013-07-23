@@ -32,6 +32,7 @@ public class FlopCommand implements Command {
 
 	public void execute(ClientModel model, ClientController controller) {
 		Card[] fieldcards = {card1, card2, card3, null, null};
+		model.bet.setOldMaxBet(model.getMaxBet());
 		model.changeFieldCards(fieldcards);	
 	}
 	

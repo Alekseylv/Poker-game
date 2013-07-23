@@ -33,7 +33,9 @@ public class Client {
 		
 		try {
 			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);
-			(new PrintWriter(socket.getOutputStream())).println(name);
+			PrintWriter out = new PrintWriter(socket.getOutputStream());
+			out.println(name);
+			out.flush();
 						
 			TaskQueue que = new TaskQueue();
 			Conn conn = new Conn(socket, socket.getOutputStream());

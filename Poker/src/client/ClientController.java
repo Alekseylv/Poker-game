@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import client.ClientModel.Bet;
 import message.data.ClientTurn;
 import commands.SendWinnerListCommand.Tuple;
-
 import poker.GUI.ClientView;
 import message.data.Card;
 
@@ -63,7 +63,6 @@ public class ClientController implements Observer {
     public void update(ClientModel model, Object arg) {
         if(arg instanceof Card[] ) {
            view.tableCards();
-           view.setNewPot();
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
                 view.stateReady();
@@ -129,7 +128,7 @@ public class ClientController implements Observer {
                 default:
                 	break;
                 }
-
+            view.setNewPot();
             view.setNewCash(model.getPlayerList());
             view.setNums();
 
@@ -140,6 +139,9 @@ public class ClientController implements Observer {
         }
 	}
 	
+	public void update(Bet bet, Object arg) {
+		//Bet was updated
+	}
 	
 	/**
 	 * Dispatches changes to appropriate handlers
@@ -149,6 +151,8 @@ public class ClientController implements Observer {
 			this.update((ClientSidePlayer) obj, arg);
 		} else if(obj instanceof ClientModel) {
 			this.update((ClientModel) obj, arg);
+		} else if(obj instanceof Bet) {
+			this.update((Bet)obj, arg);
 		} else {
 			System.out.println("Not a valid object" + obj);
 		}

@@ -44,11 +44,11 @@ public class FakeServer implements Runnable {
 			
 			List <Command>que = new ArrayList<Command>();
 			List <Player>someList = new ArrayList<Player>();
-			Player player = new Player(1);
+			Player player = new Player(1,"bob");
 			player.toggleDealer();
 			
 			someList.add(player);
-			someList.add(new Player(2));
+			someList.add(new Player(2,"bob"));
 			
 			que.add(new SetIDCommand(1));
 			que.add(new SendPlayerListCommand(someList));

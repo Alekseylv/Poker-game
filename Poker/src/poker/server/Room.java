@@ -85,9 +85,20 @@ public class Room implements Runnable {
 		for (Integer id : connections.keySet()) {
 			BufferedReader in;
 			try {
+				connections.get(id).getClient().setSoTimeout(100);
 				in = new BufferedReader(new InputStreamReader(
 						connections.get(id).getClient().getInputStream()));
-				user = new Tuple2(id, in.readLine());
+				String line = null;
+				try {
+					line = in.readLine();
+				} catch (IOException e) {
+					line = "Player" + id;
+				}
+				
+				if(line == null) {
+					line = "Player" + id;
+				}
+				user = new Tuple2(id, line);
 				users.add(user);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
