@@ -10,7 +10,5 @@ public enum State {
 	READY,
 	INPUTCHECK,
 	INPUTCALL,
-	PLAYING,
-	ENDED;
-	
+	PLAYING,	
 }

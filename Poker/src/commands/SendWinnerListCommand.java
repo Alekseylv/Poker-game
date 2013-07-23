@@ -5,6 +5,7 @@ import java.util.List;
 
 import client.ClientController;
 import client.ClientModel;
+import client.State;
 
 /**
  * Sends information about winners and the amount of cash the have won
