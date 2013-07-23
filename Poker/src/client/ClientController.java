@@ -61,9 +61,7 @@ public class ClientController implements Observer {
      */
 
     public void update(ClientModel model, Object arg) {
-        int count = 0;
         if(arg instanceof Card[] ) {
-
            view.tableCards();
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
@@ -77,9 +75,6 @@ public class ClientController implements Observer {
             }
             if(model.getState() == State.PLAYING){
                 view.statePlaying();
-            }
-            if(model.getState() == State.ENDED){
-                view.stateEnded();
             }
         } else if(arg instanceof Integer) {
             ///
