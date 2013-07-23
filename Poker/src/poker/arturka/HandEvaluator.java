@@ -83,7 +83,7 @@ public class HandEvaluator {
 			entry = playerPositions.get(i);
 			if (prev != null) {
 				prev = playerPositions.get(i - 1);
-				if (prev.getPosition() == entry.getPosition()) {
+				if (prev.getHand() == entry.getHand()) {
 					if (entry.getHand().equals(Hand.HIGH_HAND)) {
 						if (((PlayerHand) prev).getHighCard().getRank()
 								.ordinal() < entry.getHighCard().getRank()
@@ -103,7 +103,6 @@ public class HandEvaluator {
 						if (prev.getHandScore() < entry.getHandScore()) {
 							incrementFollowingPlayers(playerPositions, entry);
 							playerPositions.set(i - 1, playerPositions.set(i, playerPositions.get(i - 1)));
-							i--;
 							i--;
 						} else if (prev.getHandScore() == entry.getHandScore()) {
 						} else {
