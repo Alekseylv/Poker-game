@@ -31,6 +31,26 @@ public class HandEvaluator {
 			evaluatedPlayers.put(player, playerHand);
 		}
 		playerRanking = sortEvaluatedPlayers();
+		playerRanking = sortPlayerPositions(playerRanking);
+		return playerRanking;
+	}
+
+	private List<PlayerHand> sortPlayerPositions(List<PlayerHand> playerRanking) {
+		for (int i = 0; i < playerRanking.size() - 1; i++) {
+			if(playerRanking.get(i).getPosition() > playerRanking.get(i + 1).getPosition()) {
+				playerRanking.set(i, playerRanking.set(i + 1, playerRanking.get(i)));
+				i--;
+			}
+		}
+		int position = 0;
+		for (int i = 0; i < playerRanking.size() - 1; i++) {
+			if (playerRanking.get(i).getPosition() != playerRanking.get(i + 1).getPosition())
+				playerRanking.get(i).setPosition(position++);
+			else
+				playerRanking.get(i).setPosition(position);
+			if (i + 1 == playerRanking.size() - 1)
+				playerRanking.get(i + 1).setPosition(position);
+		}
 		return playerRanking;
 	}
 
@@ -62,7 +82,8 @@ public class HandEvaluator {
 		for (int i = 0; i < playerPositions.size(); i++) {
 			entry = playerPositions.get(i);
 			if (prev != null) {
-				if (prev.getPosition() == entry.getPosition()) {
+				prev = playerPositions.get(i - 1);
+				if (prev.getHand() == entry.getHand()) {
 					if (entry.getHand().equals(Hand.HIGH_HAND)) {
 						if (((PlayerHand) prev).getHighCard().getRank()
 								.ordinal() < entry.getHighCard().getRank()
@@ -81,6 +102,7 @@ public class HandEvaluator {
 							|| entry.getHand().equals(Hand.STRAIGHT)) {
 						if (prev.getHandScore() < entry.getHandScore()) {
 							incrementFollowingPlayers(playerPositions, entry);
+							playerPositions.set(i - 1, playerPositions.set(i, playerPositions.get(i - 1)));
 							i--;
 						} else if (prev.getHandScore() == entry.getHandScore()) {
 						} else {
@@ -102,7 +124,6 @@ public class HandEvaluator {
 						}
 					}
 				}
-				prev = entry;
 			} else {
 				prev = entry;
 			}
@@ -113,17 +134,12 @@ public class HandEvaluator {
 	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
 			PlayerHand entry) {
 		for (PlayerHand playerHand : playerPositions) {
-			if (playerHand.getHand().equals(entry.getHand())
-					|| playerHand.getHand().ordinal() > entry.getHand()
+			if (playerHand.getHand().ordinal() >= entry.getHand()
 							.ordinal()) {
 				if (!playerHand.equals(entry)) {
 					playerHand.setPosition(playerHand.getPosition() + 1);
 				}
 			}
-			/*
-			 * if(playerHand.getPosition() > entry)
-			 * playerHand.setPosition(playerHand.getPosition() + 1);
-			 */
 		}
 	}
 
