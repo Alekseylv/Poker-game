@@ -63,6 +63,7 @@ public class ClientController implements Observer {
     public void update(ClientModel model, Object arg) {
         if(arg instanceof Card[] ) {
            view.tableCards();
+           view.setNewPot();
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
                 view.stateReady();
@@ -128,7 +129,7 @@ public class ClientController implements Observer {
                 default:
                 	break;
                 }
-            view.setNewPot();
+
             view.setNewCash(model.getPlayerList());
             view.setNums();
 
