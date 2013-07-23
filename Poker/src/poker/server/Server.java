@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.net.ssl.SSLServerSocketFactory;
+
 public class Server {
 
 	/* Private instance constants */
@@ -21,7 +23,7 @@ public class Server {
 	private static int roomID = 1;
 	private static boolean waitingTimeExceeded = false;
 
-	/*
+	/**
 	 * Starts a 'ServerSocket' with specified 'PORT', 'CONNECTION_LIMIT', 'serverAddress'.
 	 * Handles client connections, starts a client connection on a new thread and creates 
 	 * game rooms, that get a separate thread aswell. Once client gets connected - he gets
@@ -37,6 +39,9 @@ public class Server {
 			// Assigns localhost address to 'serverAddress'.
 			serverAddress = InetAddress.getLocalHost();
 			// Initializes 'ServerSocket'.
+	//		server = SSLServerSocketFactory.getDefault().createServerSocket(PORT,
+	//										CONNECTION_LIMIT, serverAddress);
+			
 			server = new ServerSocket(PORT, CONNECTION_LIMIT, serverAddress);
 			while (true) {
 				gameRoom = new Room(roomID++);
@@ -67,12 +72,14 @@ public class Server {
 		}
 	}
 	
-	/* Sets waitingTimeExceeded value, which determines whether more player connections should be accepted. */
+	/** 
+	 * Sets waitingTimeExceeded value, which determines whether more player connections should be accepted.
+	 */
 	public static void setWaitingTimeExceeded(boolean state) {
 		waitingTimeExceeded = state;
 	}
 
-	/* 
+	/** 
 	 * Once minimum player count requirement is met, separate thread is started
 	 * which interrupts server.accept() method by creating another client connection once
 	 * 'WAITING_TIMOUT' delay has come to an end.
