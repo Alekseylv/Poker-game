@@ -74,12 +74,9 @@ public class Login extends JFrame implements ActionListener {
         System.out.println(e.getActionCommand());
         if("connect".equals(e.getActionCommand())){
             if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
-                // SERVER CONNECTION IMPLEMENTATION
-
                 PlayerName = textName.getText();
-                client.start(PlayerName);
                 LoginWindow.dispose();
-
+                Client.start(PlayerName);
             } else {
                 LoginWindow.setSize(240, 150);
                 warning.setBounds(5, 85, 220, 30);
