@@ -190,6 +190,7 @@ public class Game implements Runnable {
 //        }
         players.getDealer();
         while(true){
+            state=0;
             room.Broadcast(new FlopCommand(null,null,null));
             room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.TURN));
             room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.RIVER));
