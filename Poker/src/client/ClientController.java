@@ -102,27 +102,27 @@ public class ClientController implements Observer {
 		if(arg instanceof ClientTurn) {
             switch(player.getLastTurn()){
                 case CALL:
-                    view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has called for $" + (model.getPlayerBet(player.getId())));
+                    view.displayBroadcast().setText(player.getNick() + " has called for $" + (model.getPlayerBet(player.getId())));
 
                     break;
                 case CHECK:
-                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has checked");
+                	view.displayBroadcast().setText(player.getNick() + " has checked");
 
                     break;
                 case EXIT:
-                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has gone offline");
+                	view.displayBroadcast().setText(player.getNick() + " has gone offline");
 
                     break;
                 case FOLD:
-                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has folded");
+                	view.displayBroadcast().setText(player.getNick() + " has folded");
 
                     break;
                 case RAISE:
-                	view.displayBroadcast().setText("Player" + (player.getId() - 1) + " has raised $" + (model.getPlayerBet(player.getId())));
+                	view.displayBroadcast().setText(player.getNick() + " has raised $" + (model.getPlayerBet(player.getId())));
 
                     break;
                 case BLIND:
-                	view.displayBroadcast().setText("Player" + (model.getDealer() + 1)%(model.getPlayerList().size()) + " is on a BIG BLIND");
+                	view.displayBroadcast().setText(model.getPlayer(model.getDealer() + 1).getNick() + (model.getDealer() + 1)%(model.getPlayerList().size()) + " is on a BIG BLIND");
 
                     break;
                 default:
@@ -140,6 +140,8 @@ public class ClientController implements Observer {
 	}
 	
 	public void update(Bet bet, Object arg) {
+
+
 		//Bet was updated
 	}
 	

@@ -223,11 +223,11 @@ public class Game implements Runnable {
 //            players.addPlayer(id);
 //        }
         players.getDealer();
-        for(Player player:players.getPlayersList()){
-            room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
-            System.out.println("Send to: "+player.getId()+" SEND PLAYER LIST");
-        }
-        while(players.playersLeft().size()>1){
+        while(true){
+            for(Player player:players.getPlayersList()){
+                room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
+                System.out.println("Send to: "+player.getId()+" SEND PLAYER LIST");
+            }
             endGame=false;
             deck.shuffleDeck();
             for(Player currentPlayer: players.getPlayersList()){
