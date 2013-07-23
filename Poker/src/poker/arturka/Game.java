@@ -36,13 +36,53 @@ public class Game implements Runnable {
         endGame=false;
     }
 
+    private void triariaSolver(PlayerHand smallest,PlayerHand hand,PlayerHand hand2,List<SendWinnerListCommand.Tuple> winners){
+        int betsForWinner;
+        betsForWinner=players.fetchBets(smallest.getPlayer().getBet());
+        smallest.getPlayer().giveCash(betsForWinner);
+        winners.add(new SendWinnerListCommand.Tuple(smallest.getPlayer().getId(),betsForWinner));
+        if (hand.getPlayer().getBet()<hand2.getPlayer().getBet()){
+            betsForWinner=players.fetchBets(hand.getPlayer().getBet());
+            hand.getPlayer().giveCash(betsForWinner);
+            winners.add(new SendWinnerListCommand.Tuple(hand.getPlayer().getId(), betsForWinner));
+            betsForWinner=players.fetchBets(hand2.getPlayer().getBet());
+            hand2.getPlayer().giveCash(betsForWinner);
+            winners.add(new SendWinnerListCommand.Tuple(hand2.getPlayer().getId(),betsForWinner));
+        }else if(hand.getPlayer().getBet()==hand2.getPlayer().getBet()){
+            betsForWinner=players.fetchBets(hand.getPlayer().getBet())/2;
+            hand.getPlayer().giveCash(betsForWinner);
+            hand2.getPlayer().giveCash(betsForWinner);
+            winners.add(new SendWinnerListCommand.Tuple(hand.getPlayer().getId(),betsForWinner));
+            winners.add(new SendWinnerListCommand.Tuple(hand2.getPlayer().getId(),betsForWinner));
+        }else{
+            betsForWinner=players.fetchBets(hand2.getPlayer().getBet());
+            hand2.getPlayer().giveCash(betsForWinner);
+            winners.add(new SendWinnerListCommand.Tuple(hand2.getPlayer().getId(),betsForWinner));
+            betsForWinner=players.fetchBets(hand.getPlayer().getBet());
+            hand.getPlayer().giveCash(betsForWinner);
+            winners.add(new SendWinnerListCommand.Tuple(hand.getPlayer().getId(), betsForWinner));
+        }
+    }
+
+    private void duariaSolver(PlayerHand equal1, PlayerHand equal2, PlayerHand biggest, List<SendWinnerListCommand.Tuple> winners){
+        int betsForWinner;
+        betsForWinner=players.fetchBets(equal1.getPlayer().getBet())/2;
+        equal1.getPlayer().giveCash(betsForWinner);
+        equal2.getPlayer().giveCash(betsForWinner);
+        winners.add(new SendWinnerListCommand.Tuple(equal1.getPlayer().getId(),betsForWinner));
+        winners.add(new SendWinnerListCommand.Tuple(equal2.getPlayer().getId(),betsForWinner));
+        betsForWinner=players.fetchBets(biggest.getPlayer().getBet());
+        biggest.getPlayer().giveCash(betsForWinner);
+        winners.add(new SendWinnerListCommand.Tuple(biggest.getPlayer().getId(),betsForWinner));
+    }
+
     private void endGame(){
         System.out.println("ENTER ENDGAME");
         if (!endGame) {
             System.out.println("ENTER IF ENDGAME");
             List<SendWinnerListCommand.Tuple> winners =new ArrayList<SendWinnerListCommand.Tuple>();
             if (players.playersLeft().size()>1){
-                evaluator=new HandEvaluator(players.playersLeft());
+                evaluator=new HandEvaluator(players.playersLeft(), table);
                 List<PlayerHand> bestPlayers=evaluator.getPlayerHandEvaluation();
                 int i=0;
                 int betsForWinner;
@@ -70,94 +110,22 @@ public class Game implements Runnable {
                             winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
                         }else if(curVAno<0&&curVThi<0){
                             System.out.println("Case when current has smallest bet");
-                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
-                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                            if (anoVThi<0){
-                                betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
-                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                            }else if(anoVThi==0){
-                                betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet())/2;
-                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
-                            }else{
-                                betsForWinner=players.fetchBets(thirdWinnerHand.getPlayer().getBet());
-                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
-                            }
+                            triariaSolver(currentWinnerHand,anotherWinnerHand,thirdWinnerHand,winners);
                         }else if(curVAno>0&&anoVThi<0){
                             System.out.println("Case when another has smallest bet");
-                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
-                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                            if (curVThi<0){
-                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
-                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                            }else if(curVThi==0){
-                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
-                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
-                            }else{
-                                betsForWinner=players.fetchBets(thirdWinnerHand.getPlayer().getBet());
-                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
-                            }
+                            triariaSolver(anotherWinnerHand,currentWinnerHand,thirdWinnerHand,winners);
                         }else if(curVThi>0&&anoVThi>0){
                             System.out.println("Case when third has smallest bet");
-                            betsForWinner=players.fetchBets(thirdWinnerHand.getPlayer().getBet());
-                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
-                            if (curVAno<0){
-                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
-                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                            }else if(curVAno==0){
-                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
-                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                            }else{
-                                betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
-                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                            }
+                            triariaSolver(thirdWinnerHand,anotherWinnerHand,currentWinnerHand,winners);
                         }else if(curVAno==0){
                             System.out.println("Case when current and another have same bets");
-                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
-                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                            betsForWinner=players.fetchBets(thirdWinnerHand.getPlayer().getBet());
-                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            duariaSolver(currentWinnerHand,anotherWinnerHand,thirdWinnerHand,winners);
                         }else if(curVThi==0){
                             System.out.println("Case when current and third have same bets");
-                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
-                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
-                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
-                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            duariaSolver(currentWinnerHand,thirdWinnerHand,anotherWinnerHand,winners);
                         }else if(anoVThi==0){
                             System.out.println("Case when another and third have same bets");
-                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet())/2;
-                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
-                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
-                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                            duariaSolver(thirdWinnerHand,anotherWinnerHand,currentWinnerHand,winners);
                         }
                     }
                 }
