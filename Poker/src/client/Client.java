@@ -26,7 +26,12 @@ public class Client {
     private static Login login;
 
 	public static void main(String args[]) {
-       login = new Login();
+       try {
+		login = new Login();
+	} catch (UnknownHostException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	}
 	
 	public static void start(String name) {
