@@ -1,6 +1,8 @@
 package poker.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -48,8 +50,8 @@ public class Room implements Runnable {
 			try {
 				// Assigns current client output stream and uses it later on.
 				out = clientStreams.get(id);
-                System.out.println(id);
-                out.writeObject(new SetIDCommand(id));
+				System.out.println(id);
+				out.writeObject(new SetIDCommand(id));
 				out.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -57,12 +59,15 @@ public class Room implements Runnable {
 		}
 	}
 
-	/* Adds a client to current game room, client socket and output are stored in HashMaps. */
+	/*
+	 * Adds a client to current game room, client socket and output are stored
+	 * in HashMaps.
+	 */
 	public void addUser(Socket client) throws IOException {
 		clientConnection = new Connection(client);
 		// Stores current clients output stream.
-		clientStreams.put(clientSessionID, new ObjectOutputStream(client
-						.getOutputStream()));
+		clientStreams.put(clientSessionID,
+				new ObjectOutputStream(client.getOutputStream()));
 		// Stores client socket.
 		connections.put(clientSessionID++, clientConnection);
 		// Starts each new client 'Connection' on a separate thread.
@@ -78,7 +83,9 @@ public class Room implements Runnable {
 		// Iterates through every known user ID in 'connections' HashMap.
 		Tuple2 user;
 		for (Integer id : connections.keySet()) {
-			user = new Tuple2(id, (String) connections.get(id).in.readObject());
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					connections.get(id).getClient().getInputStream()));
+			user = new Tuple2(id, in.readLine());
 			users.add(user);
 		}
 		return users;
@@ -86,7 +93,8 @@ public class Room implements Runnable {
 
 	/* Gets client input as a serialized object. */
 	public Object getClientMove(int clientSessionID) {
-		// Evaluates if client with specified ID is in list and if connection is established.
+		// Evaluates if client with specified ID is in list and if connection is
+		// established.
 		if (connections.containsKey(clientSessionID)
 				&& connections.get(clientSessionID).getClient().isConnected()) {
 			// Returns the client response.
@@ -97,14 +105,18 @@ public class Room implements Runnable {
 
 	/* Removes a user from 'connections' HashMap. */
 	public void removeUser(int clientSessionID) {
-		// Evaluates if specified client ID can be found and if connection is established.
+		// Evaluates if specified client ID can be found and if connection is
+		// established.
 		if (connections.containsKey(clientSessionID)
 				&& connections.get(clientSessionID).getClient().isConnected()) {
 			connections.remove(clientSessionID);
 		}
 	}
 
-	/* Sends to a client 'Command' type object and if expected returns client input. */
+	/*
+	 * Sends to a client 'Command' type object and if expected returns client
+	 * input.
+	 */
 	public ClientResponse sendToUser(int id, Command command) {
 		if (connections.containsKey(id)) {
 			try {
@@ -115,7 +127,8 @@ public class Room implements Runnable {
 				out.writeObject(command);
 				out.flush();
 				// Evaluates whether user input is needed.
-				if (command.getClass() == FRCallCommand.class || command.getClass() == FRCheckCommand.class)
+				if (command.getClass() == FRCallCommand.class
+						|| command.getClass() == FRCheckCommand.class)
 					return (ClientResponse) getClientMove(id);
 			} catch (IOException e) {
 				e.printStackTrace();
