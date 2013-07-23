@@ -1,5 +1,8 @@
 package poker.arturka;
 
+import message.data.Card;
+import message.data.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 

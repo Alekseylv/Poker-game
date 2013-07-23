@@ -6,7 +6,7 @@ import java.util.Observable;
 
 import message.data.ClientResponse;
 import message.data.ClientTurn;
-import poker.arturka.Card;
+import message.data.Card;
 
 /**
  * The model of the game, holds all necessary data for

@@ -1,7 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
-import static message.data.IterUtil.iter;
+import static tests.IterUtil.iter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +11,10 @@ import message.data.ClientTurn;
 import org.junit.Before;
 import org.junit.Test;
 
-import poker.arturka.Card;
-import poker.arturka.Player;
-import poker.arturka.Card.Rank;
-import poker.arturka.Card.Suit;
+import message.data.Card;
+import message.data.Player;
+import message.data.Card.Rank;
+import message.data.Card.Suit;
 import client.ClientModel;
 import client.ClientSidePlayer;
 import client.State;

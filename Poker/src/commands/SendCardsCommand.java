@@ -1,6 +1,6 @@
 package commands;
 
-import poker.arturka.Card;
+import message.data.Card;
 import client.ClientController;
 import client.ClientModel;
 

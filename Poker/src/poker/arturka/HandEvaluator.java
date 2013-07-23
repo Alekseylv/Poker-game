@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import poker.arturka.Card.Rank;
-import poker.arturka.Card.Suit;
-import poker.arturka.Hand;
+
+import message.data.Card;
+import message.data.Player;
+import message.data.Card.Rank;
+import message.data.Card.Suit;
 
 public class HandEvaluator {
 

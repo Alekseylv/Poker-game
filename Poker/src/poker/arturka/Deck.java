@@ -1,5 +1,7 @@
 package poker.arturka;
 
+import message.data.Card;
+
 import java.util.Random;
 
 /**

@@ -8,9 +8,7 @@ import javax.swing.event.*;
 import client.ClientModel;
 import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
-import poker.GUI.Coordinates;
-import poker.arturka.Card;
-import poker.arturka.Player;
+import message.data.Card;
 
 
 @SuppressWarnings("serial")

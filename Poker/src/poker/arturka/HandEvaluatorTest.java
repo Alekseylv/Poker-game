@@ -3,8 +3,10 @@ package poker.arturka;
 import java.util.ArrayList;
 import java.util.List;
 
-import poker.arturka.Card.Rank;
-import poker.arturka.Card.Suit;
+import message.data.Card;
+import message.data.Player;
+import message.data.Card.Rank;
+import message.data.Card.Suit;
 
 public class HandEvaluatorTest {
 

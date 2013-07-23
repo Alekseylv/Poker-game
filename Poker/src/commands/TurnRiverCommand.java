@@ -2,7 +2,7 @@ package commands;
 
 import client.ClientController;
 import client.ClientModel;
-import poker.arturka.Card;
+import message.data.Card;
 
 /**
  * Opens 4th or 5th card on the table depending on
