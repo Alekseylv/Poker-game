@@ -27,7 +27,7 @@ public class Timer implements Runnable {
 	}
 
 	private void startGame() {
-		simulateClientConnection();
+		//simulateClientConnection();
 	}
 
 	/* Simulates a client 'Socket' connection to interrupt the ServerSocket.accept() method. */
@@ -37,7 +37,7 @@ public class Timer implements Runnable {
 			// Sets 'waitingTimeExceeded to true so that new connection to this room weren't made.
 			Server.setWaitingTimeExceeded(true);
 			// Removes simulation connection from the game room.
-			currentRoom.removeUser(currentRoom.getUsers().size() - 1);
+			//currentRoom.removeUser(currentRoom.getUsers().size() - 1);
 			// Closes simulated client connection.
 			clientConnection.close();
 		} catch (UnknownHostException e) {
