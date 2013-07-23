@@ -12,12 +12,12 @@ public class HandEvaluatorTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Player p1 = new Player(1);
-		Player p2 = new Player(2);
-		Player p3 = new Player(3);
-		Player p4 = new Player(4);
-		Player p5 = new Player(5);
-		Player p6 = new Player(6);
+		Player p1 = new Player(1, "a");
+		Player p2 = new Player(2, "b");
+		Player p3 = new Player(3, "c");
+		Player p4 = new Player(4, "d");
+		Player p5 = new Player(5, "e");
+		Player p6 = new Player(6, "f");
 
 		Card c1 = new Card(Suit.HEARTS, Rank.JACK);
 		Card c2 = new Card(Suit.SPADES, Rank.JACK);
