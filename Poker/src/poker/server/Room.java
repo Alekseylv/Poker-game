@@ -73,11 +73,13 @@ public class Room implements Runnable {
 	}
 
 	/* Returns the list of all known clients in this room. */
-	public List<Integer> getUsers() {
-		List<Integer> users = new ArrayList<Integer>();
+	public List<Tuple2> getUsers() throws IOException, ClassNotFoundException {
+		List<Tuple2> users = new ArrayList<Tuple2>();
 		// Iterates through every known user ID in 'connections' HashMap.
+		Tuple2 user;
 		for (Integer id : connections.keySet()) {
-			users.add(id);
+			user = new Tuple2(id, (String) connections.get(id).in.readObject());
+			users.add(user);
 		}
 		return users;
 	}

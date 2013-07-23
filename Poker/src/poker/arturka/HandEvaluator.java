@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
 import message.data.Card;
 import message.data.Player;
 import message.data.Card.Rank;
@@ -37,14 +36,17 @@ public class HandEvaluator {
 
 	private List<PlayerHand> sortPlayerPositions(List<PlayerHand> playerRanking) {
 		for (int i = 0; i < playerRanking.size() - 1; i++) {
-			if(playerRanking.get(i).getPosition() > playerRanking.get(i + 1).getPosition()) {
-				playerRanking.set(i, playerRanking.set(i + 1, playerRanking.get(i)));
+			if (playerRanking.get(i).getPosition() > playerRanking.get(i + 1)
+					.getPosition()) {
+				playerRanking.set(i,
+						playerRanking.set(i + 1, playerRanking.get(i)));
 				i--;
 			}
 		}
 		int position = 0;
 		for (int i = 0; i < playerRanking.size() - 1; i++) {
-			if (playerRanking.get(i).getPosition() != playerRanking.get(i + 1).getPosition())
+			if (playerRanking.get(i).getPosition() != playerRanking.get(i + 1)
+					.getPosition())
 				playerRanking.get(i).setPosition(position++);
 			else
 				playerRanking.get(i).setPosition(position);
@@ -85,15 +87,12 @@ public class HandEvaluator {
 				prev = playerPositions.get(i - 1);
 				if (prev.getHand() == entry.getHand()) {
 					if (entry.getHand().equals(Hand.HIGH_HAND)) {
-						if (((PlayerHand) prev).getHighCard().getRank()
-								.ordinal() < entry.getHighCard().getRank()
-								.ordinal()) {
+						if (prev.getHighCard().getRank().ordinal() < entry
+								.getHighCard().getRank().ordinal()) {
 							incrementFollowingPlayers(playerPositions, entry);
 							i--;
-						} else if (((PlayerHand) prev).getHighCard().getRank()
-								.ordinal() == entry.getHighCard().getRank()
-								.ordinal()) {
-						} else {
+						} else if (prev.getHighCard().getRank().ordinal() > entry
+								.getHighCard().getRank().ordinal()) {
 							incrementFollowingPlayers(playerPositions, prev);
 						}
 					} else if (entry.getHand().equals(Hand.STRAIGHT_FLUSH)
@@ -102,10 +101,12 @@ public class HandEvaluator {
 							|| entry.getHand().equals(Hand.STRAIGHT)) {
 						if (prev.getHandScore() < entry.getHandScore()) {
 							incrementFollowingPlayers(playerPositions, entry);
-							playerPositions.set(i - 1, playerPositions.set(i, playerPositions.get(i - 1)));
+							playerPositions.set(
+									i - 1,
+									playerPositions.set(i,
+											playerPositions.get(i - 1)));
 							i--;
-						} else if (prev.getHandScore() == entry.getHandScore()) {
-						} else {
+						} else if (prev.getHandScore() > entry.getHandScore()) {
 							incrementFollowingPlayers(playerPositions, prev);
 						}
 					} else if (entry.getHand().equals(Hand.ROYAL_FLUSH)) {
@@ -113,14 +114,17 @@ public class HandEvaluator {
 						// empty so that shouldn't write many evaluations in
 						// next statement :)
 					} else {
-						if (prev.getKicker().getRank().ordinal() < entry
-								.getKicker().getRank().ordinal()) {
-							incrementFollowingPlayers(playerPositions, entry);
-							i--;
-						} else if (prev.getKicker().getRank().ordinal() == entry
-								.getKicker().getRank().ordinal()) {
-						} else {
-							incrementFollowingPlayers(playerPositions, prev);
+						if (prev.getKicker() != null
+								&& entry.getKicker() != null) {
+							if (prev.getKicker().getRank().ordinal() < entry
+									.getKicker().getRank().ordinal()) {
+								incrementFollowingPlayers(playerPositions,
+										entry);
+								i--;
+							} else if (prev.getKicker().getRank().ordinal() > entry
+									.getKicker().getRank().ordinal()) {
+								incrementFollowingPlayers(playerPositions, prev);
+							}
 						}
 					}
 				}
@@ -134,8 +138,7 @@ public class HandEvaluator {
 	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
 			PlayerHand entry) {
 		for (PlayerHand playerHand : playerPositions) {
-			if (playerHand.getHand().ordinal() >= entry.getHand()
-							.ordinal()) {
+			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()) {
 				if (!playerHand.equals(entry)) {
 					playerHand.setPosition(playerHand.getPosition() + 1);
 				}
