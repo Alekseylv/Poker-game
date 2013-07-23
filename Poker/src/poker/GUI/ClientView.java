@@ -61,10 +61,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.setContentPane(new JLabel(new ImageIcon(getClass().getResource("/poker/GUI/img/pokerTableNew.jpg"))));
         TableWindow.setTitle("Poker Client");
 
-
-
-//        TableWindow.add(displayNick(), null);
-//        TableWindow.add(displayCash(), null);
         TableWindow.add(foldButton(), null);
         TableWindow.add(checkButton(), null);
         TableWindow.add(callButton(), null);
@@ -105,7 +101,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     public void stateInputCheck(){
         checkButton.setVisible(true);
         callButton.setVisible(false);
-        foldButton.setEnabled(true);
+        foldButton.setEnabled(false);
         checkButton.setEnabled(true);
         callButton.setEnabled(true);
         raiseButton.setEnabled(true);

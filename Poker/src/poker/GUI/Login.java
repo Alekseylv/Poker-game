@@ -1,7 +1,6 @@
 package poker.GUI;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +13,7 @@ import java.net.UnknownHostException;
 
 import client.Client;
 
+@SuppressWarnings("serial")
 public class Login extends JFrame implements ActionListener, ItemListener {
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public Client client;
