@@ -210,7 +210,7 @@ public class HandEvaluator {
 	 */
 	private Hand getPlayerHand(Player player) {
 		Card[] temp = new Card[CARD_COUNT];
-		for (int i = 0; i < temp.length; i++) {
+		for (int i = 0; i < temp.length - 2; i++) {
 			temp[i] = tableCards.get(i);
 		}
 		temp[CARD_COUNT - 1] = player.getHand()[0];
