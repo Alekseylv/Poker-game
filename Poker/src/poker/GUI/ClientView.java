@@ -9,6 +9,9 @@ import client.ClientModel;
 import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
 import message.data.Card;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.JTextComponent;
 
 
 @SuppressWarnings("serial")
@@ -38,8 +41,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private JLabel[] showTableCards = new JLabel[5];
     private JTextArea Broadcast = new JTextArea(10, 11);
     private JScrollPane scroll = new JScrollPane(Broadcast);
+
     private JLabel Dealer = new JLabel();
     private JLabel showPot = new JLabel();
+    final JScrollPane scrollPane = new JScrollPane(Broadcast);
+
+
 
     // *** getLocation() method vars
     private String Card1 = "CardOne";
@@ -79,7 +86,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(PlusSizeSlider(), null);
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(scroll, null);
+        TableWindow.add(scrollPane, null);
         TableWindow.add(showPot(), null);
+
+
     }
 
     // Methods for CONTROLLER
@@ -656,62 +666,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             	output.add(fileName);
             	continue;
             }
-            switch (card.getRank()){
-                case TWO:
-                    fileName = "2_of_";
-                    break;
-                case THREE:
-                    fileName = "3_of_";
-                    break;
-                case FOUR:
-                    fileName = "4_of_";
-                    break;
-                case FIVE:
-                    fileName = "5_of_";
-                    break;
-                case SIX:
-                    fileName = "6_of_";
-                    break;
-                case SEVEN:
-                    fileName = "7_of_";
-                    break;
-                case EIGHT:
-                    fileName = "8_of_";
-                    break;
-                case NINE:
-                    fileName = "9_of_";
-                    break;
-                case TEN:
-                    fileName = "10_of_";
-                    break;
-                case JACK:
-                    fileName = "jack_of_";
-                    break;
-                case QUEEN:
-                    fileName = "queen_of_";
-                    break;
-                case KING:
-                    fileName = "king_of_";
-                    break;
-                case ACE:
-                    fileName = "ace_of_";
-                    break;
-            }
-            switch (card.getSuit()){
-                case DIAMONDS:
-                    fileName+="diamonds";
-                    break;
-                case HEARTS:
-                    fileName+="hearts";
-                    break;
-                case CLUBS:
-                    fileName+="clubs";
-                    break;
-                case SPADES:
-                    fileName+="spades";
-                    break;
-            }
-            output.add(fileName);
+            output.add(card.toString());
         }
         return output;
     }
@@ -724,62 +679,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             	output.add(cardSymbol);
             	continue;
             }
-            switch (card.getRank()){
-                case TWO:
-                    cardSymbol = "2";
-                    break;
-                case THREE:
-                    cardSymbol = "3";
-                    break;
-                case FOUR:
-                    cardSymbol = "4";
-                    break;
-                case FIVE:
-                    cardSymbol = "5";
-                    break;
-                case SIX:
-                    cardSymbol = "6";
-                    break;
-                case SEVEN:
-                    cardSymbol = "7";
-                    break;
-                case EIGHT:
-                    cardSymbol = "8";
-                    break;
-                case NINE:
-                    cardSymbol = "9";
-                    break;
-                case TEN:
-                    cardSymbol = "10";
-                    break;
-                case JACK:
-                    cardSymbol = "J";
-                    break;
-                case QUEEN:
-                    cardSymbol = "Q";
-                    break;
-                case KING:
-                    cardSymbol = "K";
-                    break;
-                case ACE:
-                    cardSymbol = "A";
-                    break;
-            }
-            switch (card.getSuit()){
-                case DIAMONDS:
-                    cardSymbol+="♦";
-                    break;
-                case HEARTS:
-                    cardSymbol+="♥";
-                    break;
-                case CLUBS:
-                    cardSymbol+="♣";
-                    break;
-                case SPADES:
-                    cardSymbol+="♠";
-                    break;
-            }
-            output.add(cardSymbol);
+            output.add(card.toSymbol());
         }
         return output;
     }
@@ -790,15 +690,23 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     // TableWindow variables description STARTs
 
     public JTextArea displayBroadcast(){
+
         String text = Broadcast.getText();
+
+        DefaultCaret caret = (DefaultCaret)Broadcast.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        Broadcast.setCaretPosition(Broadcast.getDocument().getLength());
+
         Broadcast.setText(text);
         Broadcast.setAutoscrolls(true);
 
-        Broadcast.setBounds(350, 565, 200, 20);
-        Broadcast.setForeground(Color.WHITE);
-        Broadcast.setBounds(25, 25, 200, 50);
+        Broadcast.setBounds(300, 570, 300, 40);
         Broadcast.setForeground(Color.WHITE);
         Broadcast.setBackground(Color.GRAY);
+        Broadcast.setEditable(false);
+        Broadcast.setEnabled(true);
+        Broadcast.setVisible(true);
+
 
         Broadcast.setEnabled(false);
         scroll.setVisible(true);

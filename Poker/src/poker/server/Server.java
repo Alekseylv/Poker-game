@@ -34,7 +34,9 @@ public class Server extends JFrame{
 	private static JFrame showServerInfo = new JFrame();
 	private static JLabel serverIP = new JLabel();
 	private static JLabel serverPort = new JLabel();
-	
+    private static JTextField serverIPtext = new JTextField();
+    private static JTextField serverPortText = new JTextField();
+
 	/**
 	 * Starts a 'ServerSocket' with specified 'PORT', 'CONNECTION_LIMIT', 'serverAddress'.
 	 * Handles client connections, starts a client connection on a new thread and creates 
@@ -58,7 +60,7 @@ public class Server extends JFrame{
             
 			// GUI IMPLEMENTATION'S START
 			showServerInfo.setLayout(new FlowLayout());
-			showServerInfo.setSize(180, 110);
+			showServerInfo.setSize(250, 110);
 			showServerInfo.setLocation(screenSize.width / 2 - showServerInfo.getSize().width / 2, screenSize.height / 2 - showServerInfo.getSize().height / 2);
 			showServerInfo.setResizable(false);
 			showServerInfo.setVisible(true);
@@ -68,6 +70,8 @@ public class Server extends JFrame{
             showServerInfo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			showServerInfo.add(serverIP(), null);
 			showServerInfo.add(serverPort(), null);
+            showServerInfo.add(serverIPtext(), null);
+            showServerInfo.add(serverPortText(), null);
 			// GUI IMPLEMENTATION'S END
 			
 			while (true) {
@@ -103,17 +107,31 @@ public class Server extends JFrame{
 	 */
 	
 	 private static JLabel serverIP(){
-		 serverIP.setBounds(15, 10, 150, 25);
-		 serverIP.setText("Server IP:  " + serverAddress.getHostAddress());
+		 serverIP.setBounds(15, 10, 100, 25);
+		 serverIP.setText("Server IP: ");
 		 serverIP.setVisible(true);
 		 return serverIP;
 	    }
 	 private static JLabel serverPort(){
-		 serverPort.setBounds(15, 45, 150, 25);
-		 serverPort.setText("Server port:  " + PORT);
+		 serverPort.setBounds(15, 45, 100, 25);
+		 serverPort.setText("Server port:");
 		 serverPort.setVisible(true);
 		 return serverPort;
 	    }
+    private static JTextField serverIPtext(){
+        serverIPtext.setBounds(125, 10, 110, 25);
+        serverIPtext.setText("" + serverAddress.getHostAddress());
+        serverIPtext.setEditable(false);
+        serverIPtext.setVisible(true);
+        return serverIPtext;
+    }
+    private static JTextField serverPortText(){
+        serverPortText.setBounds(125, 45, 110, 25);
+        serverPortText.setText("" + PORT);
+        serverPortText.setEditable(false);
+        serverPortText.setVisible(true);
+        return serverPortText;
+    }
 	
 	
 	/** 
