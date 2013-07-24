@@ -34,17 +34,6 @@ public class HandEvaluator {
 	}
 
 	/**
-	 * Returns a copy of table cards for player hand evaluation.
-	 * 
-	 * @return Copy of the current table cards.
-	 */
-	public List<Card> getTableCards() {
-		List<Card> temp = new ArrayList<Card>();
-		temp.addAll(tableCards);
-		return temp;
-	}
-
-	/**
 	 * Gets List<PlayerHand> of evaluated players in ranking order starting with
 	 * 0. If more then one player has the same getPosition() value, then the pot
 	 * should be split between them.
@@ -190,8 +179,7 @@ public class HandEvaluator {
 					} else {
 						if (prev.getKicker() != null
 								&& entry.getKicker() != null) {
-							System.out.println(prev.getKicker().getRank()
-									+ " vs " + entry.getKicker().getRank());
+							System.out.println(prev.getKicker().getRank() + " vs " + entry.getKicker().getRank());
 							if (prev.getKicker().getRank().ordinal() < entry
 									.getKicker().getRank().ordinal()) {
 								incrementFollowingPlayers(playerPositions,
@@ -332,8 +320,7 @@ public class HandEvaluator {
 					evaluateScore(scoreCards, 1);
 					// setPlayerHand();
 					// return true;
-				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1
-						&& firstPairLineLeft) {
+				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1 && firstPairLineLeft) {
 					evaluateScore(scoreCards, 2);
 					return true;
 				}
@@ -598,12 +585,12 @@ public class HandEvaluator {
 	private Card[] sortHand(Card[] hand) {
 		Card temp = null;
 		for (int i = 1; i < hand.length; i++) {
-			if (hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
+			if(hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
 				temp = hand[i];
-				hand[i] = hand[i - 1];
-				hand[i - 1] = temp;
-				if (i > 1)
-					i -= 2;
+				hand[i] = hand[i-1];
+				hand[i-1]=temp;
+				if(i>1)
+					i-=2;
 			}
 		}
 		return hand;
@@ -645,20 +632,21 @@ public class HandEvaluator {
 				temp.add(currentHand[i]);
 			}
 		}/*
-		 * for (Card c: temp) { System.out.println(c.getRank()); }
-		 */
+		for (Card c: temp) {
+			System.out.println(c.getRank());
+		}*/
 		if (temp != null && playerHand != null)
 			playerHand.setPlayerHand(temp);
 		boolean kickerSet = false;
-		for (Card card : temp) {
-			// System.out.println(card.getRank());
+		for (Card card: temp) {
+			//System.out.println(card.getRank());
 			if (!scoreCards.contains(card) && !kickerSet) {
 				playerHand.setKicker(card);
 				kickerSet = true;
 			}
 		}
-		// System.out.println("Kicker: " + playerHand.getKicker().getRank());
-		// System.out.println("------------");
+		//System.out.println("Kicker: " + playerHand.getKicker().getRank());
+		//System.out.println("------------");
 	}
 
 	/* Private instance variables. */
@@ -668,5 +656,5 @@ public class HandEvaluator {
 	private Card[] currentHand;
 	private PlayerHand playerHand;
 	private List<Card> scoreCards;
-	public List<Card> tableCards;
+	private List<Card> tableCards;
 }

@@ -42,7 +42,6 @@ public class Game implements Runnable {
         for(PlayerHand hand:hands){
             hand.getPlayer().giveCash(betsForWinner);
             winners.add(new SendWinnerListCommand.Tuple(hand.getPlayer().getId(), betsForWinner));
-            System.out.println("COMBO DUMP//PLAYER ID:"+hand.getPlayer().getId()+" NICK:"+hand.getPlayer().getNick()+" WON ("+betsForWinner+"$) WITH "+hand.getHand());
         }
 
     }
@@ -53,7 +52,7 @@ public class Game implements Runnable {
             moneyDispenser(hand);
             moneyDispenser(hand2);
         }else if(hand.getPlayer().getBet()==hand2.getPlayer().getBet()){
-            moneyDispenser(hand, hand2);
+            moneyDispenser(hand,hand2);
         }else{
             moneyDispenser(hand2);
             moneyDispenser(hand);
@@ -61,7 +60,7 @@ public class Game implements Runnable {
     }
 
     private void duariaSolver(PlayerHand equal1, PlayerHand equal2, PlayerHand biggest){
-        moneyDispenser(equal1, equal2);
+        moneyDispenser(equal1,equal2);
         moneyDispenser(biggest);
     }
 
@@ -90,7 +89,7 @@ public class Game implements Runnable {
 
                             if(curVAno==0&&curVThi==0){
                                 System.out.println("Case when all player have same bets");
-                                moneyDispenser(currentWinnerHand, anotherWinnerHand, thirdWinnerHand);
+                                moneyDispenser(currentWinnerHand,anotherWinnerHand,thirdWinnerHand);
                             }else if(curVAno<0&&curVThi<0){
                                 System.out.println("Case when current has smallest bet");
                                 triariaSolver(currentWinnerHand,anotherWinnerHand,thirdWinnerHand);
@@ -121,7 +120,7 @@ public class Game implements Runnable {
                             if (curVAno<0){
                                 moneyDispenser(currentWinnerHand);
                             }else if(curVAno==0){
-                                moneyDispenser(currentWinnerHand, anotherWinnerHand);
+                                moneyDispenser(currentWinnerHand,anotherWinnerHand);
                             }else{
                                 moneyDispenser(anotherWinnerHand);
                             }
@@ -181,7 +180,7 @@ public class Game implements Runnable {
             room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.RIVER));
             for(Player player:players.getPlayersList()){
                 room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
-                System.out.println("COMMAND TO ID:"+player.getId()+" NICK:"+player.getNick()+" SEND PLAYER LIST");
+                System.out.println("Send to: "+player.getId()+" SEND PLAYER LIST");
             }
             endGame=false;
             deck.shuffleDeck();
@@ -189,25 +188,25 @@ public class Game implements Runnable {
                 currentPlayer.unFold();
                 currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
                 room.sendToUser(currentPlayer.getId(),new SendCardsCommand(currentPlayer.getId(),currentPlayer.getHand()[0],currentPlayer.getHand()[1]));
-                System.out.println("COMMAND TO ID:"+currentPlayer.getId()+" NICK:"+currentPlayer.getNick()+" HAND "+currentPlayer.handToSymbol());
+                System.out.println("Send to: "+currentPlayer.getId()+" HAND");
             }
             Player oldDealer=players.nextDealer();
             room.Broadcast(new ChangeDealersCommand(oldDealer.getId(),players.getDealer().getId()));
-            System.out.println("BROADCAST ID:"+players.getDealer().getId()+" NICK:"+players.getDealer().getNick()+" NEW DEALER");
+            System.out.println("BROADCAST NEW DEALER");
             Player nextPlayer=players.getNextPlayer(players.getDealer());
             if (!nextPlayer.bet(blind/2)){
                 nextPlayer.bet(nextPlayer.getCash());
             }
             raiseBet(nextPlayer.getBet());
             room.Broadcast(new PlayerMoveCommand(new PlayerMove(nextPlayer.getId(),ClientTurn.BLIND,nextPlayer.getBet(),nextPlayer.getCash())));
-            System.out.println("BROADCAST ID:"+nextPlayer.getId()+" NICK:"+nextPlayer.getNick()+" SMALL BLIND ("+blind/2+"$)");
+            System.out.println("BROADCAST SMALL BLIND");
             nextPlayer=players.getNextPlayer(nextPlayer);
             if (!nextPlayer.bet(blind)){
                 nextPlayer.bet(nextPlayer.getCash());
             }
             raiseBet(nextPlayer.getBet());
             room.Broadcast(new PlayerMoveCommand(new PlayerMove(nextPlayer.getId(),ClientTurn.BLIND,nextPlayer.getBet(),nextPlayer.getCash())));
-            System.out.println("BROADCAST ID:"+nextPlayer.getId()+" NICK:"+nextPlayer.getNick()+" BIG BLIND ("+blind+"$)");
+            System.out.println("BROADCAST BIG BLIND");
             Player firstBetter=players.getNextPlayer(nextPlayer);
             Player better=firstBetter;
             ClientResponse move;
@@ -216,42 +215,42 @@ public class Game implements Runnable {
                     if(!better.hasFolded()&&better.getCash()>0){
                         if(better.getBet()==maxBet){
                             move = room.sendToUser(better.getId(),new FRCheckCommand());
-                            System.out.println("COMMAND TO ID: "+better.getId()+" NICK:"+better.getNick()+" DO CHECK");
+                            System.out.println("Send to: "+better.getId()+" DO CHECK");
                         }else{
                             move = room.sendToUser(better.getId(),new FRCallCommand());
-                            System.out.println("COMMAND TO ID: "+better.getId()+" NICK:"+better.getNick()+" DO CALL");
+                            System.out.println("Send to: "+better.getId()+" DO CALL");
                         }
                         if (move==null){
                             move=new ClientResponse(ClientTurn.EXIT,1);
                         }
-                        System.out.println("RESPONSE FROM ID:"+better.getId()+" NICK:"+better.getNick()+" TURN MADE:"+move.turn+(move.turn==ClientTurn.RAISE?"("+better.getBet()+"$)":""));
+                        System.out.println("Player: "+better.getId()+" has made turn "+move.turn);
                         switch(move.turn){
                             case FOLD:
                                 better.Fold();
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.FOLD,better.getBet(),better.getCash())));
-//                                System.out.println("BROADCAST FOLD");
+                                System.out.println("BROADCAST FOLD");
                                 break;
                             case CHECK:
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.CHECK,better.getBet(),better.getCash())));
-//                                System.out.println("BROADCAST CHECK");
+                                System.out.println("BROADCAST CHECK");
                                 break;
                             case CALL:
                                 better.bet(maxBet-better.getBet());
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.CALL,better.getBet(),better.getCash())));
-//                                System.out.println("BROADCAST CALL");
+                                System.out.println("BROADCAST CALL");
                                 break;
                             case RAISE:
                                 better.bet(move.getBet());
                                 raiseBet(better.getBet());
                                 firstBetter=better;
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.RAISE,better.getBet(),better.getCash())));
-                                System.out.println("BROADCAST RAISE ("+better.getBet()+"$)");
+                                System.out.println("BROADCAST RAISE");
                                 break;
                             case EXIT:
                                 better.Fold();
                                 better.toggleInGame();
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.EXIT,better.getBet(),better.getCash())));
-//                                System.out.println("BROADCAST FOLD");
+                                System.out.println("BROADCAST FOLD");
                                 room.removeUser(better.getId());
                                 players.removePlayer(better.getId());
                         }
@@ -268,22 +267,22 @@ public class Game implements Runnable {
                             table.add(deck.getTopCard());
                             table.add(deck.getTopCard());
                             table.add(deck.getTopCard());
-                            room.Broadcast(new FlopCommand(table.get(0), table.get(1), table.get(2)));
-                            System.out.println("BROADCAST FLOP " + table.get(0).toSymbol() + " " + table.get(1).toSymbol() + " " + table.get(2).toSymbol());
+                            room.Broadcast(new FlopCommand(table.get(0),table.get(1),table.get(2)));
+                            System.out.println("BROADCAST FLOP");
                             state++;
                             break;
                         case 1:
                             deck.getTopCard();
                             table.add(deck.getTopCard());
                             room.Broadcast(new TurnRiverCommand(table.get(3), TurnRiverCommand.RorT.TURN));
-                            System.out.println("BROADCAST TURN "+table.get(3).toSymbol());
+                            System.out.println("BROADCAST TURN");
                             state++;
                             break;
                         case 2:
                             deck.getTopCard();
                             table.add(deck.getTopCard());
                             room.Broadcast(new TurnRiverCommand(table.get(4), TurnRiverCommand.RorT.RIVER));
-                            System.out.println("BROADCAST RIVER "+table.get(4).toSymbol());
+                            System.out.println("BROADCAST RIVER");
                             state++;
                             break;
                         default:
