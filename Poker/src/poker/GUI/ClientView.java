@@ -651,62 +651,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             	output.add(fileName);
             	continue;
             }
-            switch (card.getRank()){
-                case TWO:
-                    fileName = "2_of_";
-                    break;
-                case THREE:
-                    fileName = "3_of_";
-                    break;
-                case FOUR:
-                    fileName = "4_of_";
-                    break;
-                case FIVE:
-                    fileName = "5_of_";
-                    break;
-                case SIX:
-                    fileName = "6_of_";
-                    break;
-                case SEVEN:
-                    fileName = "7_of_";
-                    break;
-                case EIGHT:
-                    fileName = "8_of_";
-                    break;
-                case NINE:
-                    fileName = "9_of_";
-                    break;
-                case TEN:
-                    fileName = "10_of_";
-                    break;
-                case JACK:
-                    fileName = "jack_of_";
-                    break;
-                case QUEEN:
-                    fileName = "queen_of_";
-                    break;
-                case KING:
-                    fileName = "king_of_";
-                    break;
-                case ACE:
-                    fileName = "ace_of_";
-                    break;
-            }
-            switch (card.getSuit()){
-                case DIAMONDS:
-                    fileName+="diamonds";
-                    break;
-                case HEARTS:
-                    fileName+="hearts";
-                    break;
-                case CLUBS:
-                    fileName+="clubs";
-                    break;
-                case SPADES:
-                    fileName+="spades";
-                    break;
-            }
-            output.add(fileName);
+            output.add(card.toString());
         }
         return output;
     }
@@ -719,62 +664,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             	output.add(cardSymbol);
             	continue;
             }
-            switch (card.getRank()){
-                case TWO:
-                    cardSymbol = "2";
-                    break;
-                case THREE:
-                    cardSymbol = "3";
-                    break;
-                case FOUR:
-                    cardSymbol = "4";
-                    break;
-                case FIVE:
-                    cardSymbol = "5";
-                    break;
-                case SIX:
-                    cardSymbol = "6";
-                    break;
-                case SEVEN:
-                    cardSymbol = "7";
-                    break;
-                case EIGHT:
-                    cardSymbol = "8";
-                    break;
-                case NINE:
-                    cardSymbol = "9";
-                    break;
-                case TEN:
-                    cardSymbol = "10";
-                    break;
-                case JACK:
-                    cardSymbol = "J";
-                    break;
-                case QUEEN:
-                    cardSymbol = "Q";
-                    break;
-                case KING:
-                    cardSymbol = "K";
-                    break;
-                case ACE:
-                    cardSymbol = "A";
-                    break;
-            }
-            switch (card.getSuit()){
-                case DIAMONDS:
-                    cardSymbol+="♦";
-                    break;
-                case HEARTS:
-                    cardSymbol+="♥";
-                    break;
-                case CLUBS:
-                    cardSymbol+="♣";
-                    break;
-                case SPADES:
-                    cardSymbol+="♠";
-                    break;
-            }
-            output.add(cardSymbol);
+            output.add(card.toSymbol());
         }
         return output;
     }
