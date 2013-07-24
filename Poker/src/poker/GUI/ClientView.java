@@ -20,8 +20,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private ClientModel model;
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    
-    
+
     // TableWindow variables
     private JFrame TableWindow = new JFrame();
     private JButton foldButton = new JButton();
@@ -39,12 +38,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private JLabel[][] arrayPlayersCards = new JLabel[8][2];
     private JLabel[] arrayPlayersNickCash = new JLabel[9];
     private JLabel[] showTableCards = new JLabel[5];
-    private JTextArea Broadcast = new JTextArea(10, 11);
+    private JTextArea Broadcast = new JTextArea();
     private JScrollPane scroll = new JScrollPane(Broadcast);
 
     private JLabel Dealer = new JLabel();
     private JLabel showPot = new JLabel();
-    final JScrollPane scrollPane = new JScrollPane(Broadcast);
 
 
 
@@ -61,8 +59,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     public ClientView(ClientModel model) {
 
         this.model = model;
-        
-        scroll.setBounds(10, 11, 200, 100);
+
+        scroll.setBounds(300, 570, 300, 40);
 
         // TableWindow appearance
         TableWindow.setSize(900, 630);
@@ -86,7 +84,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(PlusSizeSlider(), null);
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(scroll, null);
-        TableWindow.add(scrollPane, null);
         TableWindow.add(showPot(), null);
 
 
@@ -170,16 +167,16 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         ArrayList<String> tableCards = fromCardToString(model.getFieldCards());
 
         for(String card : tableCards){
-        
+
             if(card != null){
                 count++;
                 newOffSetX = x + (count * offSetX);
                 showTableCards[count] = showTable(tableCards.get(count), newOffSetX, 180);
-                    for(int i = 0; i < showTableCards.length; i++){
-                        if(showTableCards[i] != null){
-                            TableWindow.add(showTableCards[i], null);
-                        }
+                for(int i = 0; i < showTableCards.length; i++){
+                    if(showTableCards[i] != null){
+                        TableWindow.add(showTableCards[i], null);
                     }
+                }
 
             }
         }
@@ -193,84 +190,84 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
 
-           
+
     }
 
 
     private int getLocation(int id, String what, char axis){
-    	
-    	ArrayList<Coordinates> PlayerLocation = new ArrayList<Coordinates>();
-    	ArrayList<Coordinates> CardOneLocation = new ArrayList<Coordinates>();
-    	ArrayList<Coordinates> CardTwoLocation = new ArrayList<Coordinates>();
-    	ArrayList<Coordinates> DealerLocation = new ArrayList<Coordinates>();
-    	
-	    	PlayerLocation.add(0, new Coordinates(230, 510));
-			PlayerLocation.add(1, new Coordinates(30, 420));
-			PlayerLocation.add(2, new Coordinates(30, 110));
-			PlayerLocation.add(3, new Coordinates(250, 20));
-			PlayerLocation.add(4, new Coordinates(540, 20));
-			PlayerLocation.add(5, new Coordinates(760, 110));
-			PlayerLocation.add(6, new Coordinates(760, 420));
-			PlayerLocation.add(7, new Coordinates(570, 510));
-			PlayerLocation.add(8, new Coordinates(400, 515));
-			
-			CardOneLocation.add(0, new Coordinates(260,435));
-			CardOneLocation.add(1, new Coordinates(60,345));
-			CardOneLocation.add(2, new Coordinates(60,155));
-			CardOneLocation.add(3, new Coordinates(280,65));
-			CardOneLocation.add(4, new Coordinates(570,65));
-			CardOneLocation.add(5, new Coordinates(790,165));
-			CardOneLocation.add(6, new Coordinates(790,345));
-			CardOneLocation.add(7, new Coordinates(600,435));
-			CardOneLocation.add(8, new Coordinates(420,410));
-			
-			CardTwoLocation.add(0, new Coordinates(250,430));
-			CardTwoLocation.add(1, new Coordinates(50,340));
-			CardTwoLocation.add(2, new Coordinates(50,150));
-			CardTwoLocation.add(3, new Coordinates(270,60));
-			CardTwoLocation.add(4, new Coordinates(560,60));
-			CardTwoLocation.add(5, new Coordinates(780,160));
-			CardTwoLocation.add(6, new Coordinates(780,340));
-			CardTwoLocation.add(7, new Coordinates(590,430));
-			CardTwoLocation.add(8, new Coordinates(410,405));
-			
-			DealerLocation.add(0, new Coordinates(280, 390));
-			DealerLocation.add(1, new Coordinates(130, 340));
-			DealerLocation.add(2, new Coordinates(130, 210));
-			DealerLocation.add(3, new Coordinates(300, 150));
-			DealerLocation.add(4, new Coordinates(555, 150));
-			DealerLocation.add(5, new Coordinates(740, 210));
-			DealerLocation.add(6, new Coordinates(740, 340));
-			DealerLocation.add(7, new Coordinates(575, 390));
-			DealerLocation.add(8, new Coordinates(455, 370));
-			
-		if(what == PlayerBar){
-			if(axis == x){
-			return PlayerLocation.get(id).axisX;
-			} else if (axis == y){
-			return PlayerLocation.get(id).axisY;	
-			}
-    	} else if(what == Card1){
-    		if(axis == x){
-    			return CardOneLocation.get(id).axisX;
-    			} else if (axis == y){
-    			return CardOneLocation.get(id).axisY;	
-    			}
-    	} else if(what == Card2){
-    		if(axis == x){
-    			return CardTwoLocation.get(id).axisX;
-    			} else if (axis == y){
-    			return CardTwoLocation.get(id).axisY;	
-    			}
-    	} else if(what == Deal){
-    		if(axis == x){
-    			return DealerLocation.get(id).axisX;
-    			} else if (axis == y){
-    			return DealerLocation.get(id).axisY;	
-    			}
-    	}
-		return 0;
-	
+
+        ArrayList<Coordinates> PlayerLocation = new ArrayList<Coordinates>();
+        ArrayList<Coordinates> CardOneLocation = new ArrayList<Coordinates>();
+        ArrayList<Coordinates> CardTwoLocation = new ArrayList<Coordinates>();
+        ArrayList<Coordinates> DealerLocation = new ArrayList<Coordinates>();
+
+        PlayerLocation.add(0, new Coordinates(230, 510));
+        PlayerLocation.add(1, new Coordinates(30, 420));
+        PlayerLocation.add(2, new Coordinates(30, 110));
+        PlayerLocation.add(3, new Coordinates(250, 20));
+        PlayerLocation.add(4, new Coordinates(540, 20));
+        PlayerLocation.add(5, new Coordinates(760, 110));
+        PlayerLocation.add(6, new Coordinates(760, 420));
+        PlayerLocation.add(7, new Coordinates(570, 510));
+        PlayerLocation.add(8, new Coordinates(400, 515));
+
+        CardOneLocation.add(0, new Coordinates(260,435));
+        CardOneLocation.add(1, new Coordinates(60,345));
+        CardOneLocation.add(2, new Coordinates(60,155));
+        CardOneLocation.add(3, new Coordinates(280,65));
+        CardOneLocation.add(4, new Coordinates(570,65));
+        CardOneLocation.add(5, new Coordinates(790,165));
+        CardOneLocation.add(6, new Coordinates(790,345));
+        CardOneLocation.add(7, new Coordinates(600,435));
+        CardOneLocation.add(8, new Coordinates(420,410));
+
+        CardTwoLocation.add(0, new Coordinates(250,430));
+        CardTwoLocation.add(1, new Coordinates(50,340));
+        CardTwoLocation.add(2, new Coordinates(50,150));
+        CardTwoLocation.add(3, new Coordinates(270,60));
+        CardTwoLocation.add(4, new Coordinates(560,60));
+        CardTwoLocation.add(5, new Coordinates(780,160));
+        CardTwoLocation.add(6, new Coordinates(780,340));
+        CardTwoLocation.add(7, new Coordinates(590,430));
+        CardTwoLocation.add(8, new Coordinates(410,405));
+
+        DealerLocation.add(0, new Coordinates(280, 390));
+        DealerLocation.add(1, new Coordinates(130, 340));
+        DealerLocation.add(2, new Coordinates(130, 210));
+        DealerLocation.add(3, new Coordinates(300, 150));
+        DealerLocation.add(4, new Coordinates(555, 150));
+        DealerLocation.add(5, new Coordinates(740, 210));
+        DealerLocation.add(6, new Coordinates(740, 340));
+        DealerLocation.add(7, new Coordinates(575, 390));
+        DealerLocation.add(8, new Coordinates(455, 370));
+
+        if(what == PlayerBar){
+            if(axis == x){
+                return PlayerLocation.get(id).axisX;
+            } else if (axis == y){
+                return PlayerLocation.get(id).axisY;
+            }
+        } else if(what == Card1){
+            if(axis == x){
+                return CardOneLocation.get(id).axisX;
+            } else if (axis == y){
+                return CardOneLocation.get(id).axisY;
+            }
+        } else if(what == Card2){
+            if(axis == x){
+                return CardTwoLocation.get(id).axisX;
+            } else if (axis == y){
+                return CardTwoLocation.get(id).axisY;
+            }
+        } else if(what == Deal){
+            if(axis == x){
+                return DealerLocation.get(id).axisX;
+            } else if (axis == y){
+                return DealerLocation.get(id).axisY;
+            }
+        }
+        return 0;
+
     }
     public void setNums(int newBet){
         int toRaise = 0;
@@ -286,81 +283,81 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
-    public void setNewPot(){   
-    	showPot.setText("POT: $" + model.getPot());
+    public void setNewPot(){
+        showPot.setText("POT: $" + model.getPot());
     }
     public void setNewCash(ArrayList<ClientSidePlayer> list){
         int id = 0;
         int offSet = 0;
         String nick;
-            for(ClientSidePlayer player : list){
-                if(player != null){
+        for(ClientSidePlayer player : list){
+            if(player != null){
 
-                	offSet = 9 - model.getID();
-                    id = player.getId() - 1;
-                    nick = player.getNick();
-                    switch (id){
+                offSet = 9 - model.getID();
+                id = player.getId() - 1;
+                nick = player.getNick();
+                switch (id){
                     case 0:
-                    	if(arrayPlayersNickCash[id] != null){
-                    	TableWindow.remove(arrayPlayersNickCash[id]);
-                    	}
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
                         arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 1:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
                         arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 2:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 3:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 4:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 5:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 6:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 7:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 8:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                 }
@@ -368,91 +365,91 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
 
-	public void placePlayers(ArrayList<ClientSidePlayer> list){
+    public void placePlayers(ArrayList<ClientSidePlayer> list){
         int id = 0;
         int offSet = 0;
         String nick;
-            for(ClientSidePlayer player : list){
-                if(player != null){
+        for(ClientSidePlayer player : list){
+            if(player != null){
 
-                	offSet = 9 - model.getID();
-                    id = player.getId() - 1;
-                    nick = player.getNick();
-                    switch (id){
+                offSet = 9 - model.getID();
+                id = player.getId() - 1;
+                nick = player.getNick();
+                switch (id){
                     case 0:
-                    	if(arrayPlayersNickCash[id] != null){
-                    	TableWindow.remove(arrayPlayersNickCash[id]);
-                    	}
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
                         arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 1:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
                         arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 2:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 3:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 4:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 5:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 6:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 7:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                     case 8:
-                    	if(arrayPlayersNickCash[id] != null){
-                        	TableWindow.remove(arrayPlayersNickCash[id]);
-                        	}
-                    	arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
+                        if(arrayPlayersNickCash[id] != null){
+                            TableWindow.remove(arrayPlayersNickCash[id]);
+                        }
+                        arrayPlayersNickCash[id] = clientNameCash(nick, model.getCash(id + 1), getLocation((id + offSet)%9,PlayerBar,x),getLocation((id + offSet)%9,PlayerBar,y));
                         TableWindow.add(arrayPlayersNickCash[id]);
                         break;
                 }
-                    TableWindow.add(Dealer(getLocation((model.getDealer() + 1 + offSet)%9,Deal,x),getLocation((model.getDealer() + 1 + offSet)%9,Deal,y)));
-                }
+                TableWindow.add(Dealer(getLocation((model.getDealer() + 1 + offSet)%9,Deal,x),getLocation((model.getDealer() + 1 + offSet)%9,Deal,y)));
             }
+        }
     }
 
     public void giveCards(ArrayList<ClientSidePlayer> list){
         int id = 0;
         int offSet = 0;
         ArrayList<String> myCards;
-        
+
         for(ClientSidePlayer player : list){
             if(player != null){
 
@@ -662,9 +659,9 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         String fileName="";
         for(Card card:cards){
             if(card == null){
-            	fileName = "invisibleCard";
-            	output.add(fileName);
-            	continue;
+                fileName = "invisibleCard";
+                output.add(fileName);
+                continue;
             }
             output.add(card.toString());
         }
@@ -675,15 +672,15 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         String cardSymbol="";
         for(Card card:cards){
             if(card == null){
-            	cardSymbol = "NULL";
-            	output.add(cardSymbol);
-            	continue;
+                cardSymbol = "NULL";
+                output.add(cardSymbol);
+                continue;
             }
             output.add(card.toSymbol());
         }
         return output;
     }
-  
+
     // Methods for CONTROLLER ENDs
 
 
@@ -764,7 +761,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         CashSlider.setMajorTickSpacing(0);
 //		CashSlider.setMinorTickSpacing((int)(Math.round((Cash / 20)/ 10.0) * 10)); // FORMULA
         CashSlider.setPaintTicks(true);
-        
+
         CashSlider.setBackground(Color.GRAY);
         CashSlider.setForeground(Color.WHITE);
         CashSlider.setSnapToTicks(false);
@@ -829,7 +826,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     private JButton PlusSizeSlider(){
-    	PlusSizeSlider.setActionCommand("PlusSlider");
+        PlusSizeSlider.setActionCommand("PlusSlider");
         PlusSizeSlider.setBounds(875, 560, 15, 15);
         PlusSizeSlider.setText("+");
         PlusSizeSlider.setForeground(Color.WHITE);
@@ -839,10 +836,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         PlusSizeSlider.setContentAreaFilled(false);
         PlusSizeSlider.setMargin(new Insets(0,0,0,0));
         PlusSizeSlider.addActionListener(this);
-        return PlusSizeSlider;	
+        return PlusSizeSlider;
     }
     private JButton MinusSizeSlider(){
-    	MinusSizeSlider.setActionCommand("MinusSlider");
+        MinusSizeSlider.setActionCommand("MinusSlider");
         MinusSizeSlider.setBounds(705, 560, 15, 15);
         MinusSizeSlider.setText("-");
         MinusSizeSlider.setForeground(Color.WHITE);
@@ -852,7 +849,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         MinusSizeSlider.setContentAreaFilled(false);
         MinusSizeSlider.setMargin(new Insets(0,0,0,0));
         MinusSizeSlider.addActionListener(this);
-        return MinusSizeSlider;	
+        return MinusSizeSlider;
     }
 
     private JLabel userCard1(int x, int y, String userCardOne){
@@ -890,15 +887,15 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return Dealer;
     }
     private JLabel showPot(){
-    	showPot.setForeground(Color.WHITE);
-    	showPot.setHorizontalAlignment( SwingConstants.CENTER );
-		showPot.setText("POT: $" + model.getPot());
-		showPot.setBounds(415,300,70,20);
-    	return showPot;
+        showPot.setForeground(Color.WHITE);
+        showPot.setHorizontalAlignment( SwingConstants.CENTER );
+        showPot.setText("POT: $" + model.getPot());
+        showPot.setBounds(415,300,70,20);
+        return showPot;
     }
 
     private JLabel showTable(String card, int x, int y){
-    	
+
         ImageIcon cardImg1 = new ImageIcon(getClass().getResource("/poker/GUI/img/cards/" + card + ".png"));
         JLabel showTable = new JLabel(cardImg1);
         showTable.setBounds(x,y,70,100);
@@ -911,7 +908,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
         if("raise".equals(e.getActionCommand())){
-           model.pressedRaise((int) Math.round(CashSlider.getValue() * 10.0) / 10);
+            model.pressedRaise((int) Math.round(CashSlider.getValue() * 10.0) / 10);
         } else if("check".equals(e.getActionCommand())){
             model.pressedCheck();
 
@@ -921,17 +918,17 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         } else if("fold".equals(e.getActionCommand())){
             model.pressedFold();
         } else if("1/3x".equals(e.getActionCommand())){
-        	CashSlider.setValue(model.getPot() / 3);
+            CashSlider.setValue(model.getPot() / 3);
         } else if("3x".equals(e.getActionCommand())){
-        	CashSlider.setValue(model.getPot() * 3);
+            CashSlider.setValue(model.getPot() * 3);
         } else if("pot".equals(e.getActionCommand())){
-        	CashSlider.setValue(model.getPot());
+            CashSlider.setValue(model.getPot());
         } else if("AllIn".equals(e.getActionCommand())){
-        	CashSlider.setValue(model.getCash(model.getID()));
+            CashSlider.setValue(model.getCash(model.getID()));
         } else if("PlusSlider".equals(e.getActionCommand())){
-        	CashSlider.setValue(CashSlider.getValue() + model.getMaxBet());
+            CashSlider.setValue(CashSlider.getValue() + model.getMaxBet());
         } else if("MinusSlider".equals(e.getActionCommand())){
-        	CashSlider.setValue(CashSlider.getValue() - model.getMaxBet());
+            CashSlider.setValue(CashSlider.getValue() - model.getMaxBet());
         }
 //
     }
@@ -944,6 +941,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             CashCurrent = model.getCash(model.getID());
         }
         displayCashSlider.setText(String.valueOf("" + CashCurrent));
-        
+
     }
 }

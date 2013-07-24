@@ -47,6 +47,10 @@ public class Server extends JFrame{
 	 */
 	
 	public static void main(String[] args) {
+		start(4);
+	}
+	
+	public static void start(int playerCount) {
 		server = null;
 		client = null;
 		try {

@@ -35,7 +35,7 @@ public class HandEvaluator {
 
 	public List<Card> getCurrentHand() {
 		List<Card> temp = new ArrayList<Card>();
-		for (Card card: currentHand) {
+		for (Card card : currentHand) {
 			temp.add(card);
 		}
 		return temp;
@@ -198,8 +198,6 @@ public class HandEvaluator {
 					} else {
 						if (prev.getKicker() != null
 								&& entry.getKicker() != null) {
-							System.out.println(prev.getKicker().getRank()
-									+ " vs " + entry.getKicker().getRank());
 							if (prev.getKicker().getRank().ordinal() < entry
 									.getKicker().getRank().ordinal()) {
 								incrementFollowingPlayers(playerPositions,
@@ -336,6 +334,7 @@ public class HandEvaluator {
 					skCount++;
 				}
 				if (skCount == TWO_PAIR_COUNT && pairCount == 0) {
+					System.out.println(temp[j][i].getRank());
 					pairCount++;
 					evaluateScore(scoreCards, 1);
 					// setPlayerHand();

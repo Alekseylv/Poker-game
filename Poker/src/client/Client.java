@@ -75,8 +75,8 @@ public class Client {
 	}
 	
 	
-	public static void startServer() {
-		Thread t1 = new Thread(new StartServer());
+	public static void startServer(int count) {
+		Thread t1 = new Thread(new StartServer(count));
 		t1.start();
 	}
 }
