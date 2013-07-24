@@ -49,6 +49,7 @@ public class ClientController implements Observer {
     public void sendViewWinners(List<Tuple> list) {
         //view.getWinners((ArrayList<Tuple>) list);
         view.broadcastWinner((ArrayList<Tuple>) list);
+
     }
 
     /**
@@ -62,7 +63,9 @@ public class ClientController implements Observer {
 
     public void update(ClientModel model, Object arg) {
         if(arg instanceof Card[] ) {
-           view.tableCards();
+            view.emptyTableCards();
+            view.tableCards();
+
         } else if(arg instanceof State) {
             if(model.getState() == State.READY){
                 view.stateReady();
@@ -136,6 +139,7 @@ public class ClientController implements Observer {
 
 		}   else if(arg instanceof Card) {
             view.giveCards(model.getPlayerList());
+
         }	 else if(arg instanceof Integer) {
             view.setNewCash(model.getPlayerList());
         }

@@ -151,8 +151,9 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         int x = 265;
         int offSetX = 75;
         int newOffSetX;
+
         ArrayList<String> tableCards = fromCardToString(model.getFieldCards());
-        
+
         for(String card : tableCards){
         
             if(card != null){
@@ -169,12 +170,14 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
     public void emptyTableCards(){
-           
-            for(int i = 0; i < showTableCards.length; i++){
-                if(showTableCards[i] != null){
-                    TableWindow.remove(showTableCards[i]);
-                }
+        for(int i = 0; i < showTableCards.length; i++){
+            if(showTableCards[i] != null){
+
+                TableWindow.remove(showTableCards[i]);
+                showTableCards[i] = null;
             }
+        }
+
            
     }
 
