@@ -695,12 +695,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         Broadcast.setText(text);
         Broadcast.setAutoscrolls(true);
 
-        Broadcast.setBounds(350, 565, 200, 20);
-        Broadcast.setForeground(Color.WHITE);
-        Broadcast.setBounds(25, 25, 200, 50);
+        Broadcast.setBounds(300, 570, 300, 40);
         Broadcast.setForeground(Color.WHITE);
         Broadcast.setBackground(Color.GRAY);
-        Broadcast.setCaretPosition(Broadcast.getDocument().getLength());
+        Broadcast.setEditable(false);
         Broadcast.setEnabled(true);
         Broadcast.setVisible(true);
 
