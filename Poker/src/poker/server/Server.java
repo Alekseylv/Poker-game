@@ -5,9 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.swing.*;
@@ -55,7 +57,16 @@ public class Server extends JFrame{
 		client = null;
 		try {
 			// Assigns localhost address to 'serverAddress'.
-			serverAddress = InetAddress.getByName(System.getenv("hostname"));
+			
+			
+			Enumeration<InetAddress> cookie = NetworkInterface.getNetworkInterfaces().nextElement().getInetAddresses();
+			
+			while(cookie.hasMoreElements()) {
+				serverAddress = cookie.nextElement();
+				if(serverAddress.isMCOrgLocal()) break;
+			}
+			
+			
 			// Initializes 'ServerSocket'.
 	//		server = SSLServerSocketFactory.getDefault().createServerSocket(PORT,
 	//										CONNECTION_LIMIT, serverAddress);
