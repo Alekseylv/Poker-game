@@ -106,28 +106,29 @@ public class ClientController implements Observer {
 	public void update(ClientSidePlayer player, Object arg) {
 		if(arg instanceof ClientTurn) {
             switch(player.getLastTurn()){
+
                 case CALL:
-                    view.displayBroadcast().setText(player.getNick() + " has called for $" + (model.getPlayerBet(player.getId())));
+                    view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " has called for $" + (model.getPlayerBet(player.getId())));
 
                     break;
                 case CHECK:
-                	view.displayBroadcast().setText(player.getNick() + " has checked");
+                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " has checked");
 
                     break;
                 case EXIT:
-                	view.displayBroadcast().setText(player.getNick() + " has gone offline");
+                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " has gone offline");
 
                     break;
                 case FOLD:
-                	view.displayBroadcast().setText(player.getNick() + " has folded");
+                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " has folded");
 
                     break;
                 case RAISE:
-                	view.displayBroadcast().setText(player.getNick() + " has raised $" + (model.getPlayerBet(player.getId())));
+                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " has raised $" + (model.getPlayerBet(player.getId())));
 
                     break;
                 case BLIND:
-                	view.displayBroadcast().setText(model.getPlayer(model.getDealer()).getNick() + " is on a BIG BLIND");
+                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + model.getPlayer(model.getDealer()).getNick() + " is on a BIG BLIND");
 
                     break;
                 default:

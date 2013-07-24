@@ -65,7 +65,7 @@ public class Server extends JFrame{
 			
 			showServerInfo.setTitle("Server");
 			showServerInfo.getContentPane().setLayout(null);
-			
+            showServerInfo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			showServerInfo.add(serverIP(), null);
 			showServerInfo.add(serverPort(), null);
 			// GUI IMPLEMENTATION'S END
