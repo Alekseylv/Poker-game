@@ -1,7 +1,6 @@
 package commands;
 
 import client.ClientController;
-import client.ClientGame;
 import client.ClientModel;
 
 /**
@@ -28,8 +27,8 @@ public class ChangeCashCommand implements Command {
 		this.newCash = newCash;
 	}
 	
-	public void execute(ClientGame game) {
-		game.model.getPlayer(id).setCash(newCash);
+	public void execute(ClientModel model, ClientController controller) {
+		model.getPlayer(id).setCash(newCash);
 	}
 
 }

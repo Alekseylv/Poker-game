@@ -80,7 +80,7 @@ public class ClientGame implements Runnable {
 				}
 			}
 
-		
+
 			
 		}
 	}

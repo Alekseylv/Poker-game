@@ -1,7 +1,6 @@
 package commands;
 
 import client.ClientController;
-import client.ClientGame;
 import client.ClientModel;
 
 /**
@@ -25,8 +24,8 @@ public class ChangeDealersCommand implements Command {
 		this.idOld = idOld;
 	}
 	
-	public void execute(ClientGame game) {
-		game.model.getPlayer(idOld).toggleDealer();
-		game.model.getPlayer(idNew).toggleDealer();
+	public void execute(ClientModel model, ClientController controller) {
+		model.getPlayer(idOld).toggleDealer();
+		model.getPlayer(idNew).toggleDealer();
 	}
 }
