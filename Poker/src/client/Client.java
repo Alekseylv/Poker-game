@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import poker.GUI.Login;
+import poker.server.StartServer;
 
 
 /**
@@ -59,8 +60,11 @@ public class Client {
 		}
 		
 		
-		
-		
+	}
+	
+	public static void startServer() {
+		Thread t1 = new Thread(new StartServer());
+		t1.start();
 	}
 }
 			
