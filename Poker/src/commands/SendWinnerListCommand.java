@@ -7,6 +7,7 @@ import client.ClientController;
 import client.ClientGame;
 import client.ClientModel;
 import client.State;
+import poker.arturka.Hand;
 
 /**
  * Sends information about winners and the amount of cash the have won
@@ -33,10 +34,12 @@ public class SendWinnerListCommand implements Command {
 	public static class Tuple implements Serializable{
 		public final int id;
 		public final int cash;
+        public final Hand hand;
 		
-		public Tuple(int id, int cash) {
+		public Tuple(int id, int cash,Hand hand) {
 			this.id = id;
 			this.cash = cash;
+            this.hand=hand;
 		}
 	}
 
