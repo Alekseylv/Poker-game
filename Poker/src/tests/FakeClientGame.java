@@ -12,7 +12,7 @@ public class FakeClientGame extends ClientGame {
 	private ClientView view;
 	
 	public FakeClientGame(Conn conn, TaskQueue queue) {
-		super(null);
+		super(null, queue);
 		this.controller = new EmptyController(null, null);
 		this.view = null;
 	}

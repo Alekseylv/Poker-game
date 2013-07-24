@@ -38,7 +38,7 @@ public class ClientGame implements Runnable {
 	 *  listened on by this thread
 	 */
 	
-	public ClientGame(Conn conn) {
+	public ClientGame(Conn conn, TaskQueue queue) {
 		
 		this.taskList = queue;
 		this.running = true;
