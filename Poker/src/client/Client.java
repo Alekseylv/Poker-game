@@ -40,15 +40,9 @@ public class Client {
 			TaskQueue que = new TaskQueue();
 			Conn conn = new Conn(socket, socket.getOutputStream());
 			
-			ServerListener listener = new ServerListener(
-					socket.getInputStream() , que);
-			ClientGame game = new ClientGame(conn, que);	
 			
-			Thread listenerThread = new Thread(listener);
-			Thread gameThread = new Thread(game);
-			
-			listenerThread.start();
-			gameThread.start();
+			ClientGame game = new ClientGame(conn);	
+			game.run();	
 						
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
