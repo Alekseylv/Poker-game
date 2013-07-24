@@ -1,9 +1,12 @@
 package poker.arturka;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+
 import message.data.Card;
 import message.data.Player;
 import message.data.Card.Rank;
@@ -179,10 +182,15 @@ public class HandEvaluator {
 					} else {
 						if (prev.getKicker() != null
 								&& entry.getKicker() != null) {
+							System.out.println(prev.getKicker().getRank() + " vs " + entry.getKicker().getRank());
 							if (prev.getKicker().getRank().ordinal() < entry
 									.getKicker().getRank().ordinal()) {
 								incrementFollowingPlayers(playerPositions,
 										entry);
+								playerPositions.set(
+										i - 1,
+										playerPositions.set(i,
+												playerPositions.get(i - 1)));
 								i--;
 							} else if (prev.getKicker().getRank().ordinal() > entry
 									.getKicker().getRank().ordinal()) {
@@ -579,13 +587,15 @@ public class HandEvaluator {
 	 * @return Sorted array of player cards.
 	 */
 	private Card[] sortHand(Card[] hand) {
-		Card prev = null;
-		for (int i = 0; i < hand.length; i++) {
-			if (prev != null && prev.getRank().ordinal() < hand[i].getRank().ordinal()) {
-				hand[i - 1] = hand[i];
-				hand[i] = prev;
+		Card temp = null;
+		for (int i = 1; i < hand.length; i++) {
+			if(hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
+				temp = hand[i];
+				hand[i] = hand[i-1];
+				hand[i-1]=temp;
+				if(i>1)
+					i-=2;
 			}
-			prev = hand[i];
 		}
 		return hand;
 	}
@@ -616,26 +626,19 @@ public class HandEvaluator {
 	 */
 	private void setPlayerHand() {
 		currentHand = sortHand(currentHand);
-		for (Card c: currentHand) {
-			//System.out.println(c.getRank());
-		}
 		List<Card> temp = new ArrayList<Card>();
 		for (int i = 0; i < scoreCards.size(); i++) {
 			temp.add(scoreCards.get(i));
 		}
 		int count = Integer.valueOf(CARDS_TO_EVALUATE);
-		for (int i = 0; i < count - 1; i++) {
+		for (int i = 0; i < count - scoreCards.size(); i++) {
 			if (!temp.contains(currentHand[i])) {
 				temp.add(currentHand[i]);
 			}
-		}
-		for (int i = 0; i < temp.size() - 1; i++) {
-			if (temp.get(i).getRank().ordinal() < temp.get(i + 1).getRank().ordinal()) {
-				temp.set(i + 1,	temp.set(i,	temp.get(i + 1)));
-				i--;
-			}
-				
-		}
+		}/*
+		for (Card c: temp) {
+			System.out.println(c.getRank());
+		}*/
 		if (temp != null && playerHand != null)
 			playerHand.setPlayerHand(temp);
 		boolean kickerSet = false;
@@ -646,7 +649,7 @@ public class HandEvaluator {
 				kickerSet = true;
 			}
 		}
-		//System.out.println(playerHand.getKicker().getRank());
+		//System.out.println("Kicker: " + playerHand.getKicker().getRank());
 		//System.out.println("------------");
 	}
 
