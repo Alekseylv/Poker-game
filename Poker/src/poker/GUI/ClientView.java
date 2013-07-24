@@ -34,7 +34,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private JLabel[][] arrayPlayersCards = new JLabel[8][2];
     private JLabel[] arrayPlayersNickCash = new JLabel[9];
     private JLabel[] showTableCards = new JLabel[5];
-    private JLabel Broadcast = new JLabel();
+    private JTextArea Broadcast = new JTextArea();
     private JLabel Dealer = new JLabel();
     private JLabel showPot = new JLabel();
 
@@ -716,12 +716,18 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     // TableWindow variables description STARTs
 
-    public JLabel displayBroadcast(){
-        
-        Broadcast.setText("Waiting for actions");
+    public JTextArea displayBroadcast(){
+        String text = Broadcast.getText();
+        Broadcast.setText(text);
+        Broadcast.setAutoscrolls(true);
+
         Broadcast.setBounds(350, 565, 200, 20);
         Broadcast.setForeground(Color.WHITE);
-        Broadcast.setHorizontalAlignment( SwingConstants.CENTER );
+        Broadcast.setBounds(25, 25, 200, 50);
+        Broadcast.setForeground(Color.WHITE);
+        Broadcast.setBackground(Color.GRAY);
+
+        Broadcast.setEnabled(false);
         Broadcast.setVisible(true);
         return Broadcast;
     }
