@@ -68,6 +68,7 @@ public class ClientGame implements Runnable {
 						e.printStackTrace();
 					}
 				} else {
+
 					task = taskList.getNextTask();
 					if(task != null) {
 						task.execute(this.model, this.controller);
@@ -77,7 +78,6 @@ public class ClientGame implements Runnable {
 					}
 				}
 			}
-		
 			
 		}
 	}

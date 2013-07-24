@@ -1,9 +1,12 @@
 package poker.arturka;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+
 import message.data.Card;
 import message.data.Player;
 import message.data.Card.Rank;
@@ -49,6 +52,7 @@ public class HandEvaluator {
 		}
 		playerRanking = sortEvaluatedPlayers();
 		playerRanking = sortPlayerPositions(playerRanking);
+		combination = null;
 		return playerRanking;
 	}
 
@@ -178,10 +182,15 @@ public class HandEvaluator {
 					} else {
 						if (prev.getKicker() != null
 								&& entry.getKicker() != null) {
+							System.out.println(prev.getKicker().getRank() + " vs " + entry.getKicker().getRank());
 							if (prev.getKicker().getRank().ordinal() < entry
 									.getKicker().getRank().ordinal()) {
 								incrementFollowingPlayers(playerPositions,
 										entry);
+								playerPositions.set(
+										i - 1,
+										playerPositions.set(i,
+												playerPositions.get(i - 1)));
 								i--;
 							} else if (prev.getKicker().getRank().ordinal() > entry
 									.getKicker().getRank().ordinal()) {
@@ -225,8 +234,7 @@ public class HandEvaluator {
 	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
 			PlayerHand entry) {
 		for (PlayerHand playerHand : playerPositions) {
-			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()
-					&& playerHand.getHandScore() < entry.getHandScore()) {
+			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()) {
 				if (!playerHand.equals(entry)) {
 					playerHand.setPosition(playerHand.getPosition() + 1);
 				}
@@ -301,6 +309,7 @@ public class HandEvaluator {
 		temp = cloneTable(temp, combination2);
 		int skCount = 0;
 		int pairCount = 0;
+		boolean firstPairLineLeft = false;
 		for (int i = Rank.values().length - 1; i > -1; i--) {
 			scoreCards = new ArrayList<Card>();
 			for (int j = 0; j < Suit.values().length; j++) {
@@ -314,11 +323,13 @@ public class HandEvaluator {
 					evaluateScore(scoreCards, 1);
 					// setPlayerHand();
 					// return true;
-				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1) {
+				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1 && firstPairLineLeft) {
 					evaluateScore(scoreCards, 2);
 					return true;
 				}
 			}
+			if (skCount == 2)
+				firstPairLineLeft = true;
 			scoreCards = null;
 			skCount = 0;
 		}
@@ -575,13 +586,14 @@ public class HandEvaluator {
 	 * @return Sorted array of player cards.
 	 */
 	private Card[] sortHand(Card[] hand) {
-		Card prev;
-		for (int i = 0; i < hand.length - 1; i++) {
-			if (hand[i].getRank().ordinal() < hand[i + 1].getRank().ordinal()) {
-				prev = hand[i];
-				hand[i] = hand[i + 1];
-				hand[i + 1] = prev;
-				i--;
+		Card temp = null;
+		for (int i = 1; i < hand.length; i++) {
+			if(hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
+				temp = hand[i];
+				hand[i] = hand[i-1];
+				hand[i-1]=temp;
+				if(i>1)
+					i-=2;
 			}
 		}
 		return hand;
@@ -613,26 +625,19 @@ public class HandEvaluator {
 	 */
 	private void setPlayerHand() {
 		currentHand = sortHand(currentHand);
-		for (Card c: currentHand) {
-			//System.out.println(c.getRank());
-		}
 		List<Card> temp = new ArrayList<Card>();
 		for (int i = 0; i < scoreCards.size(); i++) {
 			temp.add(scoreCards.get(i));
 		}
 		int count = Integer.valueOf(CARDS_TO_EVALUATE);
-		for (int i = 0; i < count - 1; i++) {
+		for (int i = 0; i < count - scoreCards.size(); i++) {
 			if (!temp.contains(currentHand[i])) {
 				temp.add(currentHand[i]);
 			}
-		}
-		for (int i = 0; i < temp.size() - 1; i++) {
-			if (temp.get(i).getRank().ordinal() < temp.get(i + 1).getRank().ordinal()) {
-				temp.set(i + 1,	temp.set(i,	temp.get(i + 1)));
-				i--;
-			}
-				
-		}
+		}/*
+		for (Card c: temp) {
+			System.out.println(c.getRank());
+		}*/
 		if (temp != null && playerHand != null)
 			playerHand.setPlayerHand(temp);
 		boolean kickerSet = false;
@@ -643,7 +648,7 @@ public class HandEvaluator {
 				kickerSet = true;
 			}
 		}
-		//System.out.println(playerHand.getKicker().getRank());
+		//System.out.println("Kicker: " + playerHand.getKicker().getRank());
 		//System.out.println("------------");
 	}
 
