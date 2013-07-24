@@ -87,73 +87,76 @@ public class Game implements Runnable {
                 PlayerHand currentWinnerHand;
                 PlayerHand anotherWinnerHand;
                 PlayerHand thirdWinnerHand;
-                currentWinnerHand=bestPlayers.get(i);
-                if (bestPlayers.size()>=i+3){
-                    anotherWinnerHand=bestPlayers.get(i + 1);
-                    thirdWinnerHand=bestPlayers.get(i + 2);
-                    if(currentWinnerHand.getPosition()==anotherWinnerHand.getPosition()
-                            &&currentWinnerHand.getPosition()==thirdWinnerHand.getPosition()){
-                        int curVAno=currentWinnerHand.getPlayer().getBet()-anotherWinnerHand.getPlayer().getBet();
-                        int curVThi=currentWinnerHand.getPlayer().getBet()-thirdWinnerHand.getPlayer().getBet();
-                        int anoVThi=anotherWinnerHand.getPlayer().getBet()-thirdWinnerHand.getPlayer().getBet();
+                while(players.getPot()>0){
+                    currentWinnerHand=bestPlayers.get(i);
+                    if (bestPlayers.size()>=i+3){
+                        anotherWinnerHand=bestPlayers.get(i + 1);
+                        thirdWinnerHand=bestPlayers.get(i + 2);
+                        if(currentWinnerHand.getPosition()==anotherWinnerHand.getPosition()
+                                &&currentWinnerHand.getPosition()==thirdWinnerHand.getPosition()){
+                            int curVAno=currentWinnerHand.getPlayer().getBet()-anotherWinnerHand.getPlayer().getBet();
+                            int curVThi=currentWinnerHand.getPlayer().getBet()-thirdWinnerHand.getPlayer().getBet();
+                            int anoVThi=anotherWinnerHand.getPlayer().getBet()-thirdWinnerHand.getPlayer().getBet();
 
-                        if(curVAno==0&&curVThi==0){
-                            System.out.println("Case when all player have same bets");
-                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet())/3;
-                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                            thirdWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(), betsForWinner));
-                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                            winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
-                        }else if(curVAno<0&&curVThi<0){
-                            System.out.println("Case when current has smallest bet");
-                            triariaSolver(currentWinnerHand,anotherWinnerHand,thirdWinnerHand,winners);
-                        }else if(curVAno>0&&anoVThi<0){
-                            System.out.println("Case when another has smallest bet");
-                            triariaSolver(anotherWinnerHand,currentWinnerHand,thirdWinnerHand,winners);
-                        }else if(curVThi>0&&anoVThi>0){
-                            System.out.println("Case when third has smallest bet");
-                            triariaSolver(thirdWinnerHand,anotherWinnerHand,currentWinnerHand,winners);
-                        }else if(curVAno==0){
-                            System.out.println("Case when current and another have same bets");
-                            duariaSolver(currentWinnerHand,anotherWinnerHand,thirdWinnerHand,winners);
-                        }else if(curVThi==0){
-                            System.out.println("Case when current and third have same bets");
-                            duariaSolver(currentWinnerHand,thirdWinnerHand,anotherWinnerHand,winners);
-                        }else if(anoVThi==0){
-                            System.out.println("Case when another and third have same bets");
-                            duariaSolver(thirdWinnerHand,anotherWinnerHand,currentWinnerHand,winners);
+                            if(curVAno==0&&curVThi==0){
+                                System.out.println("Case when all player have same bets");
+                                betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet())/3;
+                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                                thirdWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(), betsForWinner));
+                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                                winners.add(new SendWinnerListCommand.Tuple(thirdWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else if(curVAno<0&&curVThi<0){
+                                System.out.println("Case when current has smallest bet");
+                                triariaSolver(currentWinnerHand,anotherWinnerHand,thirdWinnerHand,winners);
+                            }else if(curVAno>0&&anoVThi<0){
+                                System.out.println("Case when another has smallest bet");
+                                triariaSolver(anotherWinnerHand,currentWinnerHand,thirdWinnerHand,winners);
+                            }else if(curVThi>0&&anoVThi>0){
+                                System.out.println("Case when third has smallest bet");
+                                triariaSolver(thirdWinnerHand,anotherWinnerHand,currentWinnerHand,winners);
+                            }else if(curVAno==0){
+                                System.out.println("Case when current and another have same bets");
+                                duariaSolver(currentWinnerHand,anotherWinnerHand,thirdWinnerHand,winners);
+                            }else if(curVThi==0){
+                                System.out.println("Case when current and third have same bets");
+                                duariaSolver(currentWinnerHand,thirdWinnerHand,anotherWinnerHand,winners);
+                            }else if(anoVThi==0){
+                                System.out.println("Case when another and third have same bets");
+                                duariaSolver(thirdWinnerHand,anotherWinnerHand,currentWinnerHand,winners);
+                            }
+                            i+=2;
                         }
                     }
-                }
-                if(bestPlayers.size()>=i+2){
-                    anotherWinnerHand=bestPlayers.get(i+1);
-                    if(currentWinnerHand.getPosition()==anotherWinnerHand.getPosition()){
-                        int curVAno=currentWinnerHand.getPlayer().getBet()-anotherWinnerHand.getPlayer().getBet();
-                        if (curVAno<0){
-                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
-                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                        }else if(curVAno==0){
-                            betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
-                            currentWinnerHand.getPlayer().giveCash(betsForWinner);
-                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
-                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
-                        }else{
-                            betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
-                            anotherWinnerHand.getPlayer().giveCash(betsForWinner);
-                            winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                    if(bestPlayers.size()>=i+2){
+                        anotherWinnerHand=bestPlayers.get(i+1);
+                        if(currentWinnerHand.getPosition()==anotherWinnerHand.getPosition()){
+                            int curVAno=currentWinnerHand.getPlayer().getBet()-anotherWinnerHand.getPlayer().getBet();
+                            if (curVAno<0){
+                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
+                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else if(curVAno==0){
+                                betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet())/2;
+                                currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
+                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            }else{
+                                betsForWinner=players.fetchBets(anotherWinnerHand.getPlayer().getBet());
+                                anotherWinnerHand.getPlayer().giveCash(betsForWinner);
+                                winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
+                            }
                         }
                     }
                 }
             }else if(players.playersLeft().size()>0){
-                players.playersLeft().get(0).giveCash(players.getPot());
-                winners.add(new SendWinnerListCommand.Tuple(players.playersLeft().get(0).getId(), players.getPot()));
+                    players.playersLeft().get(0).giveCash(players.getPot());
+                    winners.add(new SendWinnerListCommand.Tuple(players.playersLeft().get(0).getId(), players.getPot()));
             }else{
-                Thread.currentThread().interrupt();
-                return;
+                    Thread.currentThread().interrupt();
+                    return;
             }
             room.Broadcast(new SendWinnerListCommand(winners));
             System.out.println("BROADCAST WINNER");
@@ -191,6 +194,7 @@ public class Game implements Runnable {
         players.getDealer();
         while(true){
             state=0;
+            table.clear();
             room.Broadcast(new FlopCommand(null,null,null));
             room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.TURN));
             room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.RIVER));
