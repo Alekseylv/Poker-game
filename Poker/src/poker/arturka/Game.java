@@ -174,6 +174,7 @@ public class Game implements Runnable {
         players.getDealer();
         while(true){
             state=0;
+            maxBet=0;
             table.clear();
             room.Broadcast(new FlopCommand(null,null,null));
             room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.TURN));
@@ -256,7 +257,7 @@ public class Game implements Runnable {
                                 room.removeUser(better.getId());
                                 players.removePlayer(better.getId());
                         }
-                        if(players.playersLeft().size()<2){
+                        if(players.playersLeft().size()<2||players.playersHaveToMove().size()<2){
                             endGame();
                             break;
                         }

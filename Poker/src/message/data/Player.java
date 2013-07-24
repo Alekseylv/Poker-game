@@ -102,6 +102,9 @@ public class Player extends Observable implements Serializable {
     	return hand;
     }
 
+    public void setHand(Card[] hand) {
+    	this.hand=hand;
+    }
 
     public boolean isInGame() {
         return inGame;
