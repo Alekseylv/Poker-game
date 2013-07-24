@@ -37,8 +37,7 @@ public class Client {
 			out.println(name);
 			out.flush();
 						
-			TaskQueue que = new TaskQueue();
-			Conn conn = new Conn(socket, socket.getOutputStream());
+			Conn conn = new Conn(socket);
 			
 			
 			ClientGame game = new ClientGame(conn);	
@@ -53,10 +52,6 @@ public class Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 	}
 }
 			

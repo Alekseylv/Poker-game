@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 
 import commands.Command;
 import poker.GUI.ClientView;
+import tests.EmptyController;
 
 
 /**
@@ -41,6 +42,13 @@ public class ClientGame implements Runnable {
 	 *  The queue holding commands received from the server. Is being 
 	 *  listened on by this thread
 	 */
+	
+	public ClientGame() {
+		this.model = new ClientModel(null);
+		this.view = null;
+		this.controller = new EmptyController(null, null);
+				
+	}
 	
 	public ClientGame(Conn conn) {
 		
