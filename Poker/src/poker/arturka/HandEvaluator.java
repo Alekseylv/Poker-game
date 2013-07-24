@@ -225,7 +225,8 @@ public class HandEvaluator {
 	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
 			PlayerHand entry) {
 		for (PlayerHand playerHand : playerPositions) {
-			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()) {
+			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()
+					&& playerHand.getHandScore() < entry.getHandScore()) {
 				if (!playerHand.equals(entry)) {
 					playerHand.setPosition(playerHand.getPosition() + 1);
 				}
@@ -351,7 +352,7 @@ public class HandEvaluator {
 						}
 					}
 				}
-				if (sCount == 4) {
+				if (sCount == 5) {
 					evaluateScore(scoreCards, 1);
 					setPlayerHand();
 					return true;
@@ -574,11 +575,12 @@ public class HandEvaluator {
 	 * @return Sorted array of player cards.
 	 */
 	private Card[] sortHand(Card[] hand) {
-		for (int i = 1; i < hand.length; i++) {
-			if (hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
-				Card prev = hand[i - 1];
-				hand[i - 1] = hand[i];
-				hand[i] = prev;
+		Card prev;
+		for (int i = 0; i < hand.length - 1; i++) {
+			if (hand[i].getRank().ordinal() < hand[i + 1].getRank().ordinal()) {
+				prev = hand[i];
+				hand[i] = hand[i + 1];
+				hand[i + 1] = prev;
 				i--;
 			}
 		}
@@ -602,8 +604,6 @@ public class HandEvaluator {
 		if (id == 1)
 			playerHand.setHandScore(score);
 		else {
-			System.out.println(cards.get(0).getRank() + " "
-					+ cards.get(1).getRank());
 			playerHand.setHandScore2(score);
 		}
 	}
@@ -612,18 +612,39 @@ public class HandEvaluator {
 	 * Assigns value of the kicker (if necessary) and List<Card> playerHand.
 	 */
 	private void setPlayerHand() {
-		Card[] temp = new Card[CARDS_TO_EVALUATE];
-		for (int i = 0; i < CARDS_TO_EVALUATE; i++) {
-			if (i > scoreCards.size() - 1) {
-				if (i == scoreCards.size())
-					playerHand.setKicker(temp[i]);
-				temp[i] = currentHand[i - scoreCards.size()];
-			} else
-				temp[i] = scoreCards.get(i);
+		currentHand = sortHand(currentHand);
+		for (Card c: currentHand) {
+			//System.out.println(c.getRank());
 		}
-		temp = sortHand(temp);
+		List<Card> temp = new ArrayList<Card>();
+		for (int i = 0; i < scoreCards.size(); i++) {
+			temp.add(scoreCards.get(i));
+		}
+		int count = Integer.valueOf(CARDS_TO_EVALUATE);
+		for (int i = 0; i < count - 1; i++) {
+			if (!temp.contains(currentHand[i])) {
+				temp.add(currentHand[i]);
+			}
+		}
+		for (int i = 0; i < temp.size() - 1; i++) {
+			if (temp.get(i).getRank().ordinal() < temp.get(i + 1).getRank().ordinal()) {
+				temp.set(i + 1,	temp.set(i,	temp.get(i + 1)));
+				i--;
+			}
+				
+		}
 		if (temp != null && playerHand != null)
 			playerHand.setPlayerHand(temp);
+		boolean kickerSet = false;
+		for (Card card: temp) {
+			//System.out.println(card.getRank());
+			if (!scoreCards.contains(card) && !kickerSet) {
+				playerHand.setKicker(card);
+				kickerSet = true;
+			}
+		}
+		//System.out.println(playerHand.getKicker().getRank());
+		//System.out.println("------------");
 	}
 
 	/* Private instance variables. */
