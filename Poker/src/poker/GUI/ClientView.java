@@ -20,6 +20,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private ClientModel model;
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
+    
+    
     // TableWindow variables
     private JFrame TableWindow = new JFrame();
     private JButton foldButton = new JButton();
@@ -37,7 +39,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private JLabel[][] arrayPlayersCards = new JLabel[8][2];
     private JLabel[] arrayPlayersNickCash = new JLabel[9];
     private JLabel[] showTableCards = new JLabel[5];
-    private JTextArea Broadcast = new JTextArea();
+    private JTextArea Broadcast = new JTextArea(10, 11);
+    private JScrollPane scroll = new JScrollPane(Broadcast);
 
     private JLabel Dealer = new JLabel();
     private JLabel showPot = new JLabel();
@@ -58,6 +61,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     public ClientView(ClientModel model) {
 
         this.model = model;
+        
+        scroll.setBounds(10, 11, 200, 100);
 
         // TableWindow appearance
         TableWindow.setSize(900, 630);
@@ -80,7 +85,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(AllInSizeSlider(), null);
         TableWindow.add(PlusSizeSlider(), null);
         TableWindow.add(MinusSizeSlider(), null);
-        TableWindow.add(displayBroadcast(), null);
+        TableWindow.add(scroll, null);
         TableWindow.add(scrollPane, null);
         TableWindow.add(showPot(), null);
 
@@ -94,7 +99,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.repaint();
     }
     public void stateReady(){
-        Broadcast.setVisible(true);
+        scroll.setVisible(true);
         foldButton.setEnabled(false);
         raiseButton.setEnabled(false);
         checkButton.setEnabled(false);
@@ -703,6 +708,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         Broadcast.setVisible(true);
 
 
+        Broadcast.setEnabled(false);
+        scroll.setVisible(true);
         return Broadcast;
     }
     private JButton foldButton(){
