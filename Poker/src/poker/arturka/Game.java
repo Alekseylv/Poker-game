@@ -188,25 +188,25 @@ public class Game implements Runnable {
                 currentPlayer.unFold();
                 currentPlayer.giveCards(deck.getTopCard(),deck.getTopCard());
                 room.sendToUser(currentPlayer.getId(),new SendCardsCommand(currentPlayer.getId(),currentPlayer.getHand()[0],currentPlayer.getHand()[1]));
-                System.out.println("Send to: "+currentPlayer.getId()+" HAND");
+                System.out.println("Send to: "+currentPlayer.getId()+" HAND "+currentPlayer.handToSymbol());
             }
             Player oldDealer=players.nextDealer();
             room.Broadcast(new ChangeDealersCommand(oldDealer.getId(),players.getDealer().getId()));
-            System.out.println("BROADCAST NEW DEALER");
+            System.out.println("BROADCAST NEW DEALER ID: "+players.getDealer().getId());
             Player nextPlayer=players.getNextPlayer(players.getDealer());
             if (!nextPlayer.bet(blind/2)){
                 nextPlayer.bet(nextPlayer.getCash());
             }
             raiseBet(nextPlayer.getBet());
             room.Broadcast(new PlayerMoveCommand(new PlayerMove(nextPlayer.getId(),ClientTurn.BLIND,nextPlayer.getBet(),nextPlayer.getCash())));
-            System.out.println("BROADCAST SMALL BLIND");
+            System.out.println("BROADCAST SMALL BLIND ("+blind/2+"$) ID:"+nextPlayer.getId());
             nextPlayer=players.getNextPlayer(nextPlayer);
             if (!nextPlayer.bet(blind)){
                 nextPlayer.bet(nextPlayer.getCash());
             }
             raiseBet(nextPlayer.getBet());
             room.Broadcast(new PlayerMoveCommand(new PlayerMove(nextPlayer.getId(),ClientTurn.BLIND,nextPlayer.getBet(),nextPlayer.getCash())));
-            System.out.println("BROADCAST BIG BLIND");
+            System.out.println("BROADCAST BIG BLIND ("+blind+"$) ID:"+nextPlayer.getId());
             Player firstBetter=players.getNextPlayer(nextPlayer);
             Player better=firstBetter;
             ClientResponse move;
@@ -244,7 +244,7 @@ public class Game implements Runnable {
                                 raiseBet(better.getBet());
                                 firstBetter=better;
                                 room.Broadcast(new PlayerMoveCommand(new PlayerMove(better.getId(),ClientTurn.RAISE,better.getBet(),better.getCash())));
-                                System.out.println("BROADCAST RAISE");
+                                System.out.println("BROADCAST RAISE ("+better.getBet()+"$)");
                                 break;
                             case EXIT:
                                 better.Fold();
@@ -268,21 +268,21 @@ public class Game implements Runnable {
                             table.add(deck.getTopCard());
                             table.add(deck.getTopCard());
                             room.Broadcast(new FlopCommand(table.get(0),table.get(1),table.get(2)));
-                            System.out.println("BROADCAST FLOP");
+                            System.out.println("BROADCAST FLOP "+table.get(0).toSymbol()+" "+table.get(1).toSymbol()+" "+table.get(2).toSymbol());
                             state++;
                             break;
                         case 1:
                             deck.getTopCard();
                             table.add(deck.getTopCard());
                             room.Broadcast(new TurnRiverCommand(table.get(3), TurnRiverCommand.RorT.TURN));
-                            System.out.println("BROADCAST TURN");
+                            System.out.println("BROADCAST TURN "+table.get(3).toSymbol());
                             state++;
                             break;
                         case 2:
                             deck.getTopCard();
                             table.add(deck.getTopCard());
                             room.Broadcast(new TurnRiverCommand(table.get(4), TurnRiverCommand.RorT.RIVER));
-                            System.out.println("BROADCAST RIVER");
+                            System.out.println("BROADCAST RIVER "+table.get(4).toSymbol());
                             state++;
                             break;
                         default:
