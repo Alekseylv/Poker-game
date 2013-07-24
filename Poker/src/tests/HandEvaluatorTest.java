@@ -80,15 +80,41 @@ public class HandEvaluatorTest {
 	@Test
 	public void testHandEvaluator() {
 		assertEquals(tableCards, evaluator.getTableCards());
-		
 	}
 
 	@Test
 	public void testGetPlayerHandEvaluation() {
 		testDifferentHands();
 		testSimilarHands();
+		testHighCards();
 	}
 	
+	private void testHighCards() {
+		// TODO Auto-generated method stub
+		// Player 1
+		Player player1 = new Player(1, "Maksims");
+		Card p1c1 = new Card(Suit.HEARTS, Rank.FIVE);
+		Card p1c2 = new Card(Suit.HEARTS, Rank.FOUR);
+		player1.hand = new Card[] { p1c1, p1c2 };
+
+		// Player 2
+		Player player2 = new Player(2, "Arturs");
+		Card p2c1 = new Card(Suit.DIAMONDS, Rank.ACE);
+		Card p2c2 = new Card(Suit.SPADES, Rank.THREE);
+		player2.hand = new Card[] { p2c1, p2c2 };
+		List<Player> tempPlayers = new ArrayList<Player>();
+		tempPlayers.add(player1);
+		tempPlayers.add(player2);
+
+		evaluator = new HandEvaluator(tempPlayers, tableCards);
+		System.out.println(evaluator.getPlayerHandEvaluation().get(0).getHand());
+		System.out.println(evaluator.getPlayerHandEvaluation().get(1).getHand());
+		assertEquals(evaluator.getPlayerHandEvaluation().get(0).getPlayer()
+				.getId(), 2);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(1).getPlayer()
+				.getId(), 1);
+	}
+
 	private void testSimilarHands() {
 		testKickerComparison();
 		testHighScoreComparison();
@@ -99,17 +125,72 @@ public class HandEvaluatorTest {
 
 	private void testHighScore2Comparison() {
 		// TODO Auto-generated method stub
-		
+		// Player 1
+		Player player1 = new Player(1, "Maksims");
+		Card p1c1 = new Card(Suit.HEARTS, Rank.TEN);
+		Card p1c2 = new Card(Suit.HEARTS, Rank.QUEEN);
+		player1.hand = new Card[] { p1c1, p1c2 };
+
+		// Player 2
+		Player player2 = new Player(2, "Arturs");
+		Card p2c1 = new Card(Suit.DIAMONDS, Rank.JACK);
+		Card p2c2 = new Card(Suit.SPADES, Rank.QUEEN);
+		player2.hand = new Card[] { p2c1, p2c2 };
+		List<Player> tempPlayers = new ArrayList<Player>();
+		tempPlayers.add(player1);
+		tempPlayers.add(player2);
+
+		evaluator = new HandEvaluator(tempPlayers, tableCards);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(0).getPlayer()
+				.getId(), 2);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(1).getPlayer()
+				.getId(), 1);
 	}
 
 	private void testHighScoreComparison() {
 		// TODO Auto-generated method stub
-		
+		// Player 1
+		Player player1 = new Player(1, "Maksims");
+		Card p1c1 = new Card(Suit.CLUBS, Rank.THREE);
+		Card p1c2 = new Card(Suit.HEARTS, Rank.JACK);
+		player1.hand = new Card[] { p1c1, p1c2 };
+
+		// Player 2
+		Player player2 = new Player(2, "Arturs");
+		Card p2c1 = new Card(Suit.CLUBS, Rank.ACE);
+		Card p2c2 = new Card(Suit.SPADES, Rank.QUEEN);
+		player2.hand = new Card[] { p2c1, p2c2 };
+		List<Player> tempPlayers = new ArrayList<Player>();
+		tempPlayers.add(player1);
+		tempPlayers.add(player2);
+
+		evaluator = new HandEvaluator(tempPlayers, tableCards);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(0).getPlayer()
+				.getId(), 2);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(1).getPlayer()
+				.getId(), 1);
 	}
 
 	private void testKickerComparison() {
 		// TODO Auto-generated method stub
+		// Player 1
+		Player player1 = new Player(1, "Maksims");
+		Card p1c1 = new Card(Suit.CLUBS, Rank.THREE);
+		Card p1c2 = new Card(Suit.HEARTS, Rank.TEN);
+		player1.hand = new Card[] { p1c1, p1c2 };
+
+		// Player 2
+		Player player2 = new Player(2, "Arturs");
+		Card p2c1 = new Card(Suit.CLUBS, Rank.ACE);
+		Card p2c2 = new Card(Suit.SPADES, Rank.TEN);
+		player2.hand = new Card[] { p2c1, p2c2 };
+		List<Player> tempPlayers = new ArrayList<Player>();
+		tempPlayers.add(player1);
+		tempPlayers.add(player2);
 		
+		evaluator = new HandEvaluator(tempPlayers, tableCards);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(0).getPlayer().getId(), 2);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(1).getPlayer().getId(), 1);
 	}
 
 	private void testDifferentHands() {

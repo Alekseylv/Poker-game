@@ -16,13 +16,13 @@ public class HandEvaluatorTest {
 		Player p2 = new Player(2, "bob");
 		Player p3 = new Player(3, "bob");
 
-		Card c1 = new Card(Suit.SPADES, Rank.TEN);
-		Card c2 = new Card(Suit.CLUBS, Rank.FOUR);
-		Card c3 = new Card(Suit.HEARTS, Rank.SIX);
+		Card c1 = new Card(Suit.SPADES, Rank.KING);
+		Card c2 = new Card(Suit.CLUBS, Rank.QUEEN);
+		Card c3 = new Card(Suit.HEARTS, Rank.JACK);
 		Card c4 = new Card(Suit.DIAMONDS, Rank.FOUR);
 		Card c5 = new Card(Suit.DIAMONDS, Rank.EIGHT);
 
-		Card c6 = new Card(Suit.DIAMONDS, Rank.TWO);
+		Card c6 = new Card(Suit.DIAMONDS, Rank.ACE);
 		Card c7 = new Card(Suit.HEARTS, Rank.TEN);
 		Card[] playerHand = { c6, c7 };
 		p1.hand = playerHand;
