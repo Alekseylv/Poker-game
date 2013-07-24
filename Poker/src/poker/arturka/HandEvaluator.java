@@ -222,9 +222,11 @@ public class HandEvaluator {
 										playerPositions.set(i,
 												playerPositions.get(i - 1)));
 								i--;
-							}
-							else if (prev.getHandScore() == entry.getHandScore() && prev.getHandScore2() < entry.getHandScore2()) {
-								
+							} else if (prev.getHandScore() == entry
+									.getHandScore()
+									&& prev.getHandScore2() < entry
+											.getHandScore2()) {
+
 								incrementFollowingPlayers(playerPositions,
 										entry);
 								playerPositions.set(
@@ -242,16 +244,6 @@ public class HandEvaluator {
 			} else {
 				prev = entry;
 			}
-			System.out.println("Position: " + playerPositions.get(0).getPosition() 
-					+", Hand: "+playerPositions.get(0).getHand() 
-					+ ", SCORE: " + playerPositions.get(0).getHandScore());
-			System.out.println("Position: " + playerPositions.get(1).getPosition() 
-					+", Hand: "+playerPositions.get(1).getHand() 
-					+ ", SCORE: " + playerPositions.get(1).getHandScore());
-			System.out.println("Position: " + playerPositions.get(2).getPosition() 
-					+", Hand: "+playerPositions.get(2).getHand() 
-					+ ", SCORE: " + playerPositions.get(2).getHandScore());
-			System.out.println("------------------");
 		}
 		return playerPositions;
 	}
@@ -671,21 +663,16 @@ public class HandEvaluator {
 			if (!temp.contains(currentHand[i])) {
 				temp.add(currentHand[i]);
 			}
-		}/*
-		 * for (Card c: temp) { System.out.println(c.getRank()); }
-		 */
+		}
 		if (temp != null && playerHand != null)
 			playerHand.setPlayerHand(temp);
 		boolean kickerSet = false;
 		for (Card card : temp) {
-			// System.out.println(card.getRank());
 			if (!scoreCards.contains(card) && !kickerSet) {
 				playerHand.setKicker(card);
 				kickerSet = true;
 			}
 		}
-		// System.out.println("Kicker: " + playerHand.getKicker().getRank());
-		// System.out.println("------------");
 		playerHand.setPlayerHand(currentHand);
 	}
 
