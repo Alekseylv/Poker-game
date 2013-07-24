@@ -87,7 +87,7 @@ public class ClientGame implements Runnable {
 					continue;
 				} else {
 					task = (Command) token;
-					task.execute(this.model, this.controller);
+					task.execute(this);
 					System.out.println("Executed command");
 				} 	
 		}

@@ -37,21 +37,6 @@ public class ClientController implements Observer {
         this.view = view;
     }
 
-
-    /**
-     * Sends the view information about cash won by players
-     *
-     * @param list
-     * The list of player id's and cash they have won
-     */
-
-
-    public void sendViewWinners(List<Tuple> list) {
-        //view.getWinners((ArrayList<Tuple>) list);
-        view.broadcastWinner((ArrayList<Tuple>) list);
-
-    }
-
     /**
      * ClientModel change handler
      *

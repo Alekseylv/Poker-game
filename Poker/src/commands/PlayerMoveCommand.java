@@ -3,6 +3,7 @@ package commands;
 import message.data.ClientTurn;
 import message.data.PlayerMove;
 import client.ClientController;
+import client.ClientGame;
 import client.ClientModel;
 import client.ClientSidePlayer;
 
@@ -25,15 +26,15 @@ public class PlayerMoveCommand implements Command {
 		this.move = move;
 	}
 	
-	public void execute(ClientModel model, ClientController controller) {
-		if(move.turn == ClientTurn.BLIND && move.currentBet > model.getBlind()) {
-			model.setBlind(move.currentBet);
-		} else if(model.bet.getBet() < move.currentBet - model.bet.getOldMaxBet()){
-			model.bet.setBet(move.currentBet - model.bet.getOldMaxBet());
+	public void execute(ClientGame game) {
+		if(move.turn == ClientTurn.BLIND && move.currentBet > game.model.getBlind()) {
+			game.model.setBlind(move.currentBet);
+		} else if(game.model.bet.getBet() < move.currentBet - game.model.bet.getOldMaxBet()){
+			game.model.bet.setBet(move.currentBet - game.model.bet.getOldMaxBet());
 		}
 		
 		
-		model.getPlayer(move.id).setBetTurnCash(move.currentBet,
+		game.model.getPlayer(move.id).setBetTurnCash(move.currentBet,
 													move.turn, move.moneyLeft);
 	}
 }

@@ -1,9 +1,11 @@
 package commands;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientController;
+import client.ClientGame;
 import client.ClientModel;
 import client.State;
 
@@ -40,7 +42,7 @@ public class SendWinnerListCommand implements Command {
 	}
 
 	
-	public void execute(ClientModel model, ClientController controller) {	
-		controller.sendViewWinners(winnerList);
+	public void execute(ClientGame game) {	
+		game.view.broadcastWinner((ArrayList<Tuple>)winnerList);
 	}
 }

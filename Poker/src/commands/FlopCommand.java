@@ -2,6 +2,7 @@ package commands;
 
 import message.data.Card;
 import client.ClientController;
+import client.ClientGame;
 import client.ClientModel;
 
 /**
@@ -30,10 +31,10 @@ public class FlopCommand implements Command {
 	}
 	
 
-	public void execute(ClientModel model, ClientController controller) {
+	public void execute(ClientGame game) {
 		Card[] fieldcards = {card1, card2, card3, null, null};
-		model.bet.setOldMaxBet(model.getMaxBet());
-		model.changeFieldCards(fieldcards);	
+		game.model.bet.setOldMaxBet(game.model.getMaxBet());
+		game.model.changeFieldCards(fieldcards);	
 	}
 	
 }
