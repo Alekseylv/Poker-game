@@ -196,7 +196,7 @@ public class Login extends JFrame implements ActionListener, ItemListener {
 	            if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
 	                PlayerName = textName.getText();
 	                LoginWindow.dispose();
-	                Client.start(PlayerName);
+	                Client.start(PlayerName, null, null);
 	            } else {
 	                LoginWindow.setSize(240, 235);
 	                buttonConnect.setText("Connect");
