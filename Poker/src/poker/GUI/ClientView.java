@@ -9,6 +9,9 @@ import client.ClientModel;
 import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
 import message.data.Card;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.JTextComponent;
 
 
 @SuppressWarnings("serial")
@@ -35,8 +38,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private JLabel[] arrayPlayersNickCash = new JLabel[9];
     private JLabel[] showTableCards = new JLabel[5];
     private JTextArea Broadcast = new JTextArea();
+
     private JLabel Dealer = new JLabel();
     private JLabel showPot = new JLabel();
+    final JScrollPane scrollPane = new JScrollPane(Broadcast);
+
+
 
     // *** getLocation() method vars
     private String Card1 = "CardOne";
@@ -74,7 +81,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(PlusSizeSlider(), null);
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(displayBroadcast(), null);
+        TableWindow.add(scrollPane, null);
         TableWindow.add(showPot(), null);
+
+
     }
 
     // Methods for CONTROLLER
@@ -675,18 +685,24 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     // TableWindow variables description STARTs
 
     public JTextArea displayBroadcast(){
+
         String text = Broadcast.getText();
+
+        DefaultCaret caret = (DefaultCaret)Broadcast.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        Broadcast.setCaretPosition(Broadcast.getDocument().getLength());
+
         Broadcast.setText(text);
         Broadcast.setAutoscrolls(true);
 
-        Broadcast.setBounds(350, 565, 200, 20);
-        Broadcast.setForeground(Color.WHITE);
-        Broadcast.setBounds(25, 25, 200, 50);
+        Broadcast.setBounds(300, 570, 300, 40);
         Broadcast.setForeground(Color.WHITE);
         Broadcast.setBackground(Color.GRAY);
-
-        Broadcast.setEnabled(false);
+        Broadcast.setEditable(false);
+        Broadcast.setEnabled(true);
         Broadcast.setVisible(true);
+
+
         return Broadcast;
     }
     private JButton foldButton(){
