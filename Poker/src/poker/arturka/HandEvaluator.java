@@ -234,8 +234,7 @@ public class HandEvaluator {
 	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
 			PlayerHand entry) {
 		for (PlayerHand playerHand : playerPositions) {
-			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()
-					&& playerHand.getHandScore() < entry.getHandScore()) {
+			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()) {
 				if (!playerHand.equals(entry)) {
 					playerHand.setPosition(playerHand.getPosition() + 1);
 				}
