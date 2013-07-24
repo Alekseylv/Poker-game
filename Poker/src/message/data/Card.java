@@ -111,7 +111,6 @@ public class Card implements Serializable{
         return output;
     }
 
-
     public String toString(){
         String output="";
         switch (rank){
