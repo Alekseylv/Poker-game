@@ -85,10 +85,38 @@ public class HandEvaluatorTest {
 
 	@Test
 	public void testGetPlayerHandEvaluation() {
+		testDifferentHands();
+		testSimilarHands();
+	}
+	
+	private void testSimilarHands() {
+		testKickerComparison();
+		testHighScoreComparison();
+		// When there are two pairs or full house
+		testHighScore2Comparison();
+		
+	}
+
+	private void testHighScore2Comparison() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void testHighScoreComparison() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void testKickerComparison() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void testDifferentHands() {
 		testPlayerPositions();
 		testPlayerHands();
 	}
-	
+
 	private void testPlayerHands() {
 		assertEquals(evaluator.getPlayerHandEvaluation().get(0).getHand(), Hand.ROYAL_FLUSH);
 		assertEquals(evaluator.getPlayerHandEvaluation().get(1).getHand(), Hand.STRAIGHT);

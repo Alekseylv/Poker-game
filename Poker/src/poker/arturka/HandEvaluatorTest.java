@@ -16,24 +16,24 @@ public class HandEvaluatorTest {
 		Player p2 = new Player(2, "bob");
 		Player p3 = new Player(3, "bob");
 
-		Card c1 = new Card(Suit.HEARTS, Rank.TWO);
-		Card c2 = new Card(Suit.DIAMONDS, Rank.EIGHT);
-		Card c3 = new Card(Suit.CLUBS, Rank.THREE);
-		Card c4 = new Card(Suit.SPADES, Rank.KING);
-		Card c5 = new Card(Suit.HEARTS, Rank.SEVEN);
+		Card c1 = new Card(Suit.SPADES, Rank.TEN);
+		Card c2 = new Card(Suit.CLUBS, Rank.FOUR);
+		Card c3 = new Card(Suit.HEARTS, Rank.SIX);
+		Card c4 = new Card(Suit.DIAMONDS, Rank.FOUR);
+		Card c5 = new Card(Suit.DIAMONDS, Rank.EIGHT);
 
-		Card c6 = new Card(Suit.CLUBS, Rank.QUEEN);
-		Card c7 = new Card(Suit.CLUBS, Rank.TEN);
+		Card c6 = new Card(Suit.DIAMONDS, Rank.TWO);
+		Card c7 = new Card(Suit.HEARTS, Rank.TEN);
 		Card[] playerHand = { c6, c7 };
 		p1.hand = playerHand;
 
-		Card c66 = new Card(Suit.SPADES, Rank.QUEEN);
-		Card c77 = new Card(Suit.CLUBS, Rank.TWO);
+		Card c66 = new Card(Suit.HEARTS, Rank.FIVE);
+		Card c77 = new Card(Suit.CLUBS, Rank.FIVE);
 		Card[] playerHand2 = { c66, c77 };
 		p2.hand = playerHand2;
 
-		Card c666 = new Card(Suit.SPADES, Rank.THREE);
-		Card c777 = new Card(Suit.DIAMONDS, Rank.QUEEN);
+		Card c666 = new Card(Suit.CLUBS, Rank.SEVEN);
+		Card c777 = new Card(Suit.DIAMONDS, Rank.KING);
 		Card[] playerHand3 = { c666, c777 };
 		p3.hand = playerHand3;
 
@@ -51,7 +51,7 @@ public class HandEvaluatorTest {
 		List<PlayerHand> playerPositions = evaluator.getPlayerHandEvaluation();
 		for (PlayerHand entry : playerPositions) {
 			System.out.println(entry.getPosition() + "position - PlayerID:"
-					+ entry.getPlayer().getId() + " with " + entry.getHand() + " KICKER:" + entry.getKicker());
+					+ entry.getPlayer().getId() + " with " + entry.getHand() + " SCORE:" + entry.getHandScore());
 		}
 	}
 
