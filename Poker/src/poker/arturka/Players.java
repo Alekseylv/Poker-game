@@ -1,5 +1,6 @@
 package poker.arturka;
 
+import message.data.Card;
 import message.data.Player;
 
 import java.util.*;
@@ -156,6 +157,8 @@ public class Players {
         List<Player> tempList=new ArrayList<Player>();
         Player tempPlayer;
         for(Player player:getPlayersList()){
+            player.setBet(0);
+            player.setHand(new Card[]{null,null});
             tempPlayer=new Player(player);
             if(!tempPlayer.equals(safePlayer)){
                 tempPlayer.giveCards(null,null);
@@ -193,4 +196,14 @@ public class Players {
         }
         return null;
     }
+    public List<Player> playersHaveToMove(){
+        List<Player> tempList=new ArrayList<Player>();
+        for(Player player:playersLeft()){
+            if(!player.hasFolded()&&player.isInGame()&&player.getCash()!=0){
+                tempList.add(player);
+            }
+        }
+        return tempList;
+    }
+
 }
