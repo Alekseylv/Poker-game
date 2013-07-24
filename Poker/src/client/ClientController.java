@@ -124,7 +124,7 @@ public class ClientController implements Observer {
 
                     break;
                 case RAISE:
-                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " has raised $" + (model.getPlayerBet(player.getId())));
+                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " sshas raised $" + (model.getPlayerBet(player.getId())));
 
                     break;
                 case BLIND:
