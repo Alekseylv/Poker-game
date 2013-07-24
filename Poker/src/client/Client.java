@@ -30,19 +30,24 @@ public class Client {
        login = new Login();
 	}
 	
-	public static void start(String name, Integer port, byte[] address) {
+	public static void start(String name, Integer port, String address) {
 		
+		
+		InetAddress host = null;
 		if(port == null) port = 9876;
-		if(address == null)
-			try {
-				address = InetAddress.getLocalHost().getAddress();
-			} catch (UnknownHostException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} 
+		try {
+			if(address == null) {
+				host = InetAddress.getLocalHost();
+			} else {
+				host = InetAddress.getByName(address);
+			}
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		try {
-			Socket socket = new Socket(InetAddress.getByAddress(address), port);
+			Socket socket = new Socket(host, port);
 			PrintWriter out = new PrintWriter(socket.getOutputStream());
 			out.println(name);
 			out.flush();
