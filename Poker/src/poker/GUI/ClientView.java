@@ -649,7 +649,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         for(SendWinnerListCommand.Tuple player : list){
             if(player != null){
-                displayBroadcast().setText(model.getPlayer(player.id).getNick() + " has won $" + player.cash);
+            	
+                displayBroadcast().setText(displayBroadcast().getText() + "\n" + model.getPlayer(player.id).getNick() + " has won $" + player.cash + " with ");
             }
         }
     }
