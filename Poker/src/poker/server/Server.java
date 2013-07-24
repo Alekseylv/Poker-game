@@ -60,14 +60,18 @@ public class Server extends JFrame{
 			
 			
 			Enumeration<InetAddress> cookie = NetworkInterface.getNetworkInterfaces().nextElement().getInetAddresses();
-			
+			InetAddress temp = null;
 			while(cookie.hasMoreElements()) {
-				serverAddress = cookie.nextElement();
-				if(serverAddress.isMCOrgLocal()) break;
+				temp = cookie.nextElement();
+				if(temp.isMCOrgLocal()) {
+					serverAddress = temp;
+					break;
+				}
 			}
 			
-			
-			serverAddress = InetAddress.getLocalHost();
+			if(serverAddress == null) {
+				serverAddress = InetAddress.getLocalHost();
+			}
 //			serverAddress = InetAddress.getByName("192.168.1.108");
 			// Initializes 'ServerSocket'.
 	//		server = SSLServerSocketFactory.getDefault().createServerSocket(PORT,
