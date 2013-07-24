@@ -89,7 +89,7 @@ public class Game implements Runnable {
                 PlayerHand thirdWinnerHand;
                 while(players.getPot()>0){
                     currentWinnerHand=bestPlayers.get(i);
-                    if (bestPlayers.size()>=i+3){
+                    if(bestPlayers.size()>=i+3){
                         anotherWinnerHand=bestPlayers.get(i + 1);
                         thirdWinnerHand=bestPlayers.get(i + 2);
                         if(currentWinnerHand.getPosition()==anotherWinnerHand.getPosition()
@@ -126,7 +126,8 @@ public class Game implements Runnable {
                                 System.out.println("Case when another and third have same bets");
                                 duariaSolver(thirdWinnerHand,anotherWinnerHand,currentWinnerHand,winners);
                             }
-                            i+=2;
+                            i+=3;
+                            continue;
                         }
                     }
                     if(bestPlayers.size()>=i+2){
@@ -149,7 +150,12 @@ public class Game implements Runnable {
                                 winners.add(new SendWinnerListCommand.Tuple(anotherWinnerHand.getPlayer().getId(),betsForWinner));
                             }
                         }
+                        i+=2;
+                        continue;
                     }
+                    betsForWinner=players.fetchBets(currentWinnerHand.getPlayer().getBet());
+                    currentWinnerHand.getPlayer().giveCash(betsForWinner);
+                    winners.add(new SendWinnerListCommand.Tuple(currentWinnerHand.getPlayer().getId(),betsForWinner));
                 }
             }else if(players.playersLeft().size()>0){
                     players.playersLeft().get(0).giveCash(players.getPot());
