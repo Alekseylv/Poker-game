@@ -213,7 +213,18 @@ public class HandEvaluator {
 							}
 						}
 						if (entry.getHand().equals(Hand.TWO_PAIR)) {
-							if (prev.getHandScore2() < entry.getHandScore2()) {
+							if (prev.getHandScore() < entry.getHandScore()) {
+
+								incrementFollowingPlayers(playerPositions,
+										entry);
+								playerPositions.set(
+										i - 1,
+										playerPositions.set(i,
+												playerPositions.get(i - 1)));
+								i--;
+							}
+							else if (prev.getHandScore() == entry.getHandScore() && prev.getHandScore2() < entry.getHandScore2()) {
+								
 								incrementFollowingPlayers(playerPositions,
 										entry);
 								playerPositions.set(
@@ -231,6 +242,16 @@ public class HandEvaluator {
 			} else {
 				prev = entry;
 			}
+			System.out.println("Position: " + playerPositions.get(0).getPosition() 
+					+", Hand: "+playerPositions.get(0).getHand() 
+					+ ", SCORE: " + playerPositions.get(0).getHandScore());
+			System.out.println("Position: " + playerPositions.get(1).getPosition() 
+					+", Hand: "+playerPositions.get(1).getHand() 
+					+ ", SCORE: " + playerPositions.get(1).getHandScore());
+			System.out.println("Position: " + playerPositions.get(2).getPosition() 
+					+", Hand: "+playerPositions.get(2).getHand() 
+					+ ", SCORE: " + playerPositions.get(2).getHandScore());
+			System.out.println("------------------");
 		}
 		return playerPositions;
 	}
