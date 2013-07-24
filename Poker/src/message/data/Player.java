@@ -116,7 +116,7 @@ public class Player extends Observable implements Serializable {
         return nick;
     }
 
-    public String handToString(){
+    public String handToSymbol(){
         String output="";
         for(Card card:hand){
             output+=" ";
