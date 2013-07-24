@@ -40,6 +40,9 @@ public class Login extends JFrame implements ActionListener, ItemListener {
         LoginWindow.add(Players(), null);
         LoginWindow.add(buttonConnect(), null);
         LoginWindow.add(warning(), null);
+
+        LoginWindow.validate();
+        LoginWindow.repaint();
         
     }
 
@@ -159,7 +162,7 @@ public class Login extends JFrame implements ActionListener, ItemListener {
     }
     private JCheckBox createServer() {
     	createServer.setActionCommand("createServer");
-    	createServer.setBounds(10,115,150,20);
+    	createServer.setBounds(10,115,200,20);
     	createServer.setText("Create a new server");
     	createServer.addItemListener(this);
         return createServer;
