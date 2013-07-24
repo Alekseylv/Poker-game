@@ -47,6 +47,8 @@ public class Login extends JFrame implements ActionListener, ItemListener {
     // LoginWindow variables
     private JFrame LoginWindow = new JFrame();
     private String PlayerName;
+    private String IPaddress;
+    private String Port;
     private JLabel labelName = new JLabel();
     private JLabel ipNumber = new JLabel();
     private JLabel portNumber = new JLabel();
@@ -195,8 +197,10 @@ public class Login extends JFrame implements ActionListener, ItemListener {
         	if(buttonConnect.getText().equals("Connect")){
 	            if(textName.getText().length() >= 3 && textName.getText().length() <= 15){
 	                PlayerName = textName.getText();
+                    IPaddress = ipAddress.getText();
+                    Port = port.getText();
 	                LoginWindow.dispose();
-	                Client.start(PlayerName, null, null);
+	                Client.start(PlayerName, Integer.parseInt(Port), IPaddress);
 	            } else {
 	                LoginWindow.setSize(240, 235);
 	                buttonConnect.setText("Connect");
@@ -206,7 +210,8 @@ public class Login extends JFrame implements ActionListener, ItemListener {
 	            }
         	} else {
         		if(playersNum.getText().length() > 9 && textName.getText().length() < 2){
-        			warning.setVisible(false);
+        			Client.startServer();
+                    warning.setVisible(false);
 	            } else {
 	            	LoginWindow.setSize(240, 270);
 	                
