@@ -210,7 +210,8 @@ public class Login extends JFrame implements ActionListener, ItemListener {
 	            }
         	} else {
         		if(playersNum.getText().length() > 9 && textName.getText().length() < 2){
-        			Client.startServer();
+                    int PlayersCount = Integer.parseInt(playersNum.getText());
+        			Client.startServer(PlayersCount);
                     warning.setVisible(false);
 	            } else {
 	            	LoginWindow.setSize(240, 270);
