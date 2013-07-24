@@ -49,6 +49,7 @@ public class HandEvaluator {
 		}
 		playerRanking = sortEvaluatedPlayers();
 		playerRanking = sortPlayerPositions(playerRanking);
+		combination = null;
 		return playerRanking;
 	}
 
@@ -301,6 +302,7 @@ public class HandEvaluator {
 		temp = cloneTable(temp, combination2);
 		int skCount = 0;
 		int pairCount = 0;
+		boolean firstPairLineLeft = false;
 		for (int i = Rank.values().length - 1; i > -1; i--) {
 			scoreCards = new ArrayList<Card>();
 			for (int j = 0; j < Suit.values().length; j++) {
@@ -314,11 +316,13 @@ public class HandEvaluator {
 					evaluateScore(scoreCards, 1);
 					// setPlayerHand();
 					// return true;
-				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1) {
+				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1 && firstPairLineLeft) {
 					evaluateScore(scoreCards, 2);
 					return true;
 				}
 			}
+			if (skCount == 2)
+				firstPairLineLeft = true;
 			scoreCards = null;
 			skCount = 0;
 		}
@@ -575,14 +579,13 @@ public class HandEvaluator {
 	 * @return Sorted array of player cards.
 	 */
 	private Card[] sortHand(Card[] hand) {
-		Card prev;
-		for (int i = 0; i < hand.length - 1; i++) {
-			if (hand[i].getRank().ordinal() < hand[i + 1].getRank().ordinal()) {
-				prev = hand[i];
-				hand[i] = hand[i + 1];
-				hand[i + 1] = prev;
-				i--;
+		Card prev = null;
+		for (int i = 0; i < hand.length; i++) {
+			if (prev != null && prev.getRank().ordinal() < hand[i].getRank().ordinal()) {
+				hand[i - 1] = hand[i];
+				hand[i] = prev;
 			}
+			prev = hand[i];
 		}
 		return hand;
 	}
