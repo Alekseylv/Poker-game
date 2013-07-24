@@ -41,6 +41,8 @@ public class Login extends JFrame implements ActionListener, ItemListener {
         LoginWindow.add(buttonConnect(), null);
         LoginWindow.add(warning(), null);
         
+        LoginWindow.validate();
+        LoginWindow.repaint();
     }
 
 

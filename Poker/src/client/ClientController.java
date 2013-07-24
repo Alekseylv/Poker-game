@@ -124,7 +124,7 @@ public class ClientController implements Observer {
 
                     break;
                 case RAISE:
-                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " sshas raised $" + (model.getPlayerBet(player.getId())));
+                	view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + player.getNick() + " has raised $" + (model.getPlayerBet(player.getId())));
 
                     break;
                 case BLIND:
@@ -136,7 +136,7 @@ public class ClientController implements Observer {
                 }
             view.setNewPot();
             view.setNewCash(model.getPlayerList());
-            view.setNums(0);
+            view.setNums();
 
 		}   else if(arg instanceof Card) {
             view.giveCards(model.getPlayerList());
@@ -147,10 +147,7 @@ public class ClientController implements Observer {
 	}
 	
 	public void update(Bet bet, Object arg) {
-		int newBet = bet.getBet();
-		if(newBet > model.getBlind()){
-			view.setNums(newBet);
-		} 
+	
 
 		//Bet was updated
 	}
