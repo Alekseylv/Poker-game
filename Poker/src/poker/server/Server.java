@@ -55,7 +55,7 @@ public class Server extends JFrame{
 		client = null;
 		try {
 			// Assigns localhost address to 'serverAddress'.
-			serverAddress = InetAddress.getLocalHost();
+			serverAddress = InetAddress.getByName(System.getenv("hostname"));
 			// Initializes 'ServerSocket'.
 	//		server = SSLServerSocketFactory.getDefault().createServerSocket(PORT,
 	//										CONNECTION_LIMIT, serverAddress);
