@@ -54,7 +54,7 @@ public class ClientGame implements Runnable {
         model.changeState(State.READY);
         
         try {
-			this.in =  new ObjectInputStream(in);
+			this.in =  new ObjectInputStream(conn.socket.getInputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
