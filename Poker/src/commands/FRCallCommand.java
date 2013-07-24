@@ -1,6 +1,7 @@
 package commands;
 
 import client.ClientController;
+import client.ClientGame;
 import client.ClientModel;
 import client.State;
 
@@ -17,8 +18,8 @@ public class FRCallCommand implements Command {
 		
 	}
 	
-	public void execute(ClientModel model, ClientController controller) {
-		model.changeState(State.INPUTCALL);
+	public void execute(ClientGame game) {
+		game.model.changeState(State.INPUTCALL);
 	}
 
 }

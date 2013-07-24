@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import poker.GUI.Login;
+import poker.server.StartServer;
 
 
 /**
@@ -29,10 +30,19 @@ public class Client {
        login = new Login();
 	}
 	
-	public static void start(String name) {
+	public static void start(String name, Integer port, byte[] address) {
+		
+		if(port == null) port = 9876;
+		if(address == null)
+			try {
+				address = InetAddress.getLocalHost().getAddress();
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
 		
 		try {
-			Socket socket = new Socket(InetAddress.getLocalHost(), 9999);
+			Socket socket = new Socket(InetAddress.getByAddress(address), port);
 			PrintWriter out = new PrintWriter(socket.getOutputStream());
 			out.println(name);
 			out.flush();
@@ -57,10 +67,12 @@ public class Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+	}
+	
+	
+	public static void startServer() {
+		Thread t1 = new Thread(new StartServer());
+		t1.start();
 	}
 }
 			

@@ -103,8 +103,7 @@
 	<target name="buildClient-jar">
 	<jar destfile="./client.jar"
 	     basedir="bin"
-		 update="true"
-		 excludes="poker/server/*.class, poker/arturka/*.class">
+		 update="false">
 	     <manifest>
 	      <attribute name="Main-Class" value="client.Client"/>
 	     </manifest>
@@ -114,8 +113,7 @@
 	<target name="buildServer-jar">
 		<jar destfile="./server.jar"
 		     basedir="bin"
-			 update="true"
-			 excludes="client/*.class, poker/GUI/*.class">
+			 update="false">
 		     <manifest>
 		      <attribute name="Main-Class" value="poker.server.Server"/>
 		     </manifest>

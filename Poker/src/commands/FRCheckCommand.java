@@ -1,6 +1,7 @@
 package commands;
 
 import client.ClientController;
+import client.ClientGame;
 import client.ClientModel;
 import client.State;
 
@@ -18,8 +19,8 @@ public class FRCheckCommand implements Command {
 		
 	}
 	
-	public void execute(ClientModel model, ClientController controller) {
-		model.changeState(State.INPUTCHECK);
+	public void execute(ClientGame game) {
+		game.model.changeState(State.INPUTCHECK);
 	}
 
 }

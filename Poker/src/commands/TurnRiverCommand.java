@@ -1,6 +1,7 @@
 package commands;
 
 import client.ClientController;
+import client.ClientGame;
 import client.ClientModel;
 import message.data.Card;
 
@@ -36,8 +37,8 @@ public class TurnRiverCommand implements Command {
 		this.cmd = cmd;
 	}
 	
-	public void execute(ClientModel model, ClientController controllers) {
-		Card[] fieldcards = model.getFieldCards();
+	public void execute(ClientGame game) {
+		Card[] fieldcards = game.model.getFieldCards();
 		
 		switch (cmd) {
 			case TURN: {
@@ -49,7 +50,7 @@ public class TurnRiverCommand implements Command {
 				break;
 			}
 		}
-		model.bet.setOldMaxBet(model.getMaxBet());
-		model.changeFieldCards(fieldcards);
+		game.model.bet.setOldMaxBet(game.model.getMaxBet());
+		game.model.changeFieldCards(fieldcards);
 	}
 }
