@@ -710,6 +710,74 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
         return output;
     }
+    private ArrayList<String> fromCardToSymbol(Card[] cards ){
+        ArrayList<String> output=new ArrayList<String>();
+        String cardSymbol="";
+        for(Card card:cards){
+            if(card == null){
+            	cardSymbol = "NULL";
+            	output.add(cardSymbol);
+            	continue;
+            }
+            switch (card.getRank()){
+                case TWO:
+                    cardSymbol = "2";
+                    break;
+                case THREE:
+                    cardSymbol = "3";
+                    break;
+                case FOUR:
+                    cardSymbol = "4";
+                    break;
+                case FIVE:
+                    cardSymbol = "5";
+                    break;
+                case SIX:
+                    cardSymbol = "6";
+                    break;
+                case SEVEN:
+                    cardSymbol = "7";
+                    break;
+                case EIGHT:
+                    cardSymbol = "8";
+                    break;
+                case NINE:
+                    cardSymbol = "9";
+                    break;
+                case TEN:
+                    cardSymbol = "10";
+                    break;
+                case JACK:
+                    cardSymbol = "J";
+                    break;
+                case QUEEN:
+                    cardSymbol = "Q";
+                    break;
+                case KING:
+                    cardSymbol = "K";
+                    break;
+                case ACE:
+                    cardSymbol = "A";
+                    break;
+            }
+            switch (card.getSuit()){
+                case DIAMONDS:
+                    cardSymbol+="♦";
+                    break;
+                case HEARTS:
+                    cardSymbol+="♥";
+                    break;
+                case CLUBS:
+                    cardSymbol+="♣";
+                    break;
+                case SPADES:
+                    cardSymbol+="♠";
+                    break;
+            }
+            output.add(cardSymbol);
+        }
+        return output;
+    }
   
     // Methods for CONTROLLER ENDs
 

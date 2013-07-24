@@ -1,6 +1,7 @@
 package message.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Observable;
 
 /**
@@ -115,7 +116,70 @@ public class Player extends Observable implements Serializable {
         return nick;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public String handToString(){
+        String output="";
+        for(Card card:hand){
+            output+=" ";
+            if(card == null){
+                output+= "NULL";
+                continue;
+            }
+            switch (card.getRank()){
+                case TWO:
+                    output+= "2";
+                    break;
+                case THREE:
+                    output+= "3";
+                    break;
+                case FOUR:
+                    output+= "4";
+                    break;
+                case FIVE:
+                    output+= "5";
+                    break;
+                case SIX:
+                    output+= "6";
+                    break;
+                case SEVEN:
+                    output+= "7";
+                    break;
+                case EIGHT:
+                    output+= "8";
+                    break;
+                case NINE:
+                    output+= "9";
+                    break;
+                case TEN:
+                    output+= "10";
+                    break;
+                case JACK:
+                    output+= "J";
+                    break;
+                case QUEEN:
+                    output+= "Q";
+                    break;
+                case KING:
+                    output+= "K";
+                    break;
+                case ACE:
+                    output+= "A";
+                    break;
+            }
+            switch (card.getSuit()){
+                case DIAMONDS:
+                    output+="♦";
+                    break;
+                case HEARTS:
+                    output+="♥";
+                    break;
+                case CLUBS:
+                    output+="♣";
+                    break;
+                case SPADES:
+                    output+="♠";
+                    break;
+            }
+        }
+        return output;
     }
 }
