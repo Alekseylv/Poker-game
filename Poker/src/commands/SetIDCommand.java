@@ -1,17 +1,18 @@
 package commands;
 
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 
 /**
  * Set's id of a client
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
 public class SetIDCommand implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6807506502828907080L;
 	private int id;
 	/**
 	 * Creates command

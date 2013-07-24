@@ -1,8 +1,6 @@
 package commands;
 
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 import message.data.Card;
 
 /**
@@ -11,9 +9,9 @@ import message.data.Card;
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
 public class TurnRiverCommand implements Command {
 
+	private static final long serialVersionUID = -8607088028675811529L;
 	private Card card4;
 	private RorT cmd;
 	
