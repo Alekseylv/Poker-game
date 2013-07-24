@@ -10,9 +10,11 @@ import java.io.Serializable;
  *
  */
 
-@SuppressWarnings("serial")
 public class ClientResponse implements Serializable {
 	
+	
+	
+	private static final long serialVersionUID = 789120932105335358L;
 	/**
 	 * turn: the turn taken by Client
 	 * optional: the bet (optional)

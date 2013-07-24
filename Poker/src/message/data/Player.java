@@ -1,7 +1,6 @@
 package message.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Observable;
 
 /**
@@ -11,7 +10,11 @@ import java.util.Observable;
  * Time: 1:33 PM
  */
 public class Player extends Observable implements Serializable {
-    private int id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1376483941288154727L;
+	private int id;
     private int cash;
     public Card[] hand;
     private boolean dealer;
