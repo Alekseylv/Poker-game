@@ -37,9 +37,7 @@ public class Client {
 			out.println(name);
 			out.flush();
 						
-			Conn conn = new Conn(socket);
-			
-			
+			Conn conn = new Conn(socket);	
 			ClientGame game = new ClientGame(conn);	
 			
 			Thread gameThread = new Thread(game);
