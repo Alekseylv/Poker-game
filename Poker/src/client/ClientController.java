@@ -49,7 +49,7 @@ public class ClientController implements Observer {
     public void sendViewWinners(List<Tuple> list) {
         //view.getWinners((ArrayList<Tuple>) list);
     	view.broadcastWinner((ArrayList<Tuple>) list);
-
+    	
     }
 
     /**
