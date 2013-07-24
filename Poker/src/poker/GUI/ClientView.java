@@ -21,7 +21,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     
-    
     // TableWindow variables
     private JFrame TableWindow = new JFrame();
     private JButton foldButton = new JButton();
@@ -44,7 +43,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     private JLabel Dealer = new JLabel();
     private JLabel showPot = new JLabel();
-    final JScrollPane scrollPane = new JScrollPane(Broadcast);
 
 
 
@@ -86,7 +84,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(PlusSizeSlider(), null);
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(scroll, null);
-        TableWindow.add(scrollPane, null);
         TableWindow.add(showPot(), null);
 
 
