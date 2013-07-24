@@ -32,9 +32,9 @@ public class Conn {
 	 * @throws IOException
 	 *  Unable to initialize or flush outputstream properly
 	 */
-	public Conn(Socket socket) throws IOException {
+	public Conn(Socket socket, OutputStream out) throws IOException {
 		this.socket = socket;
-		this.out =  new ObjectOutputStream(socket.getOutputStream());
+		this.out =  new ObjectOutputStream(out);
 		out.flush();
 		
 	}

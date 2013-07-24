@@ -16,8 +16,6 @@ import org.junit.Test;
 
 import message.data.Card.Rank;
 import message.data.Card.Suit;
-import client.ClientGame;
-import client.Conn;
 import client.ServerListener;
 import client.TaskQueue;
 
@@ -30,7 +28,7 @@ import client.TaskQueue;
 public class OnlineClientTests {
 
 	private TaskQueue que;
-	private ClientGame game;
+	private FakeClientGame game;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -48,11 +46,16 @@ public class OnlineClientTests {
 			}
 			
 			Socket socket = new Socket(InetAddress.getLocalHost(), 9998);	
+			this.que = new TaskQueue();
 			
-			this.game  = new ClientGame(new Conn(socket));	
+			ServerListener listener = new ServerListener(
+					socket.getInputStream() , que);
+			this.game  = new FakeClientGame(null, que);	
 			
+			Thread listenerThread = new Thread(listener);
 			Thread gameThread = new Thread(game);
 			
+			listenerThread.start();
 			gameThread.start();
 			
 						
@@ -74,7 +77,7 @@ public class OnlineClientTests {
 	public void onlineClientTest() {
 		
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
