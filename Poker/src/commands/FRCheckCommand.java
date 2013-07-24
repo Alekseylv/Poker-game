@@ -1,8 +1,6 @@
 package commands;
 
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 import client.State;
 
 /**
@@ -12,8 +10,12 @@ import client.State;
  *
  */
 
-@SuppressWarnings("serial")
 public class FRCheckCommand implements Command {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7563953177228213112L;
 
 	public FRCheckCommand() {
 		

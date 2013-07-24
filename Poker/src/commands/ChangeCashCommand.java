@@ -1,8 +1,6 @@
 package commands;
 
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 
 /**
  * Changes cash amount on a player in clients list of players
@@ -10,9 +8,15 @@ import client.ClientModel;
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
 public class ChangeCashCommand implements Command {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3610987762357426791L;
+	/**
+	 * 
+	 */
 	private int id;
 	private int newCash;
 	/**

@@ -2,10 +2,7 @@ package commands;
 
 import message.data.ClientTurn;
 import message.data.PlayerMove;
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
-import client.ClientSidePlayer;
 
 /**
  * Notifies Client that a player has made a move and gives
@@ -13,9 +10,12 @@ import client.ClientSidePlayer;
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
 public class PlayerMoveCommand implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8990762495576758862L;
 	private PlayerMove move;
 	
 	/**

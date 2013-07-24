@@ -5,9 +5,7 @@ import java.util.List;
 
 import message.data.Card;
 import message.data.Player;
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 import client.ClientSidePlayer;
 import client.State;
 
@@ -17,9 +15,12 @@ import client.State;
  *
  */
 
-@SuppressWarnings("serial")
 public class SendPlayerListCommand implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2365690181021688137L;
 	private List<Player> list;
 	/**
 	 *  Creates the command

@@ -1,18 +1,19 @@
 package commands;
 
 import message.data.Card;
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 
 /**
  * Command to open the first three cards on the table
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
 public class FlopCommand implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6994809721759386466L;
 	private Card card1;
 	private Card card2;
 	private Card card3;

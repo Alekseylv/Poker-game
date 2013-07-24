@@ -334,7 +334,6 @@ public class HandEvaluator {
 					skCount++;
 				}
 				if (skCount == TWO_PAIR_COUNT && pairCount == 0) {
-					System.out.println(temp[j][i].getRank());
 					pairCount++;
 					evaluateScore(scoreCards, 1);
 					// setPlayerHand();
