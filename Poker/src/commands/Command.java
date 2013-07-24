@@ -2,8 +2,7 @@ package commands;
 
 import java.io.Serializable;
 
-import client.ClientController;
-import client.ClientModel;
+import client.ClientGame;
 /**
  * Interface of the Command, all commands must have an execute
  * method that can be used by the Client
@@ -12,5 +11,5 @@ import client.ClientModel;
  */
 public interface Command extends Serializable {
 
-	public void execute(ClientModel model, ClientController controller);
+	public void execute(ClientGame game);
 }

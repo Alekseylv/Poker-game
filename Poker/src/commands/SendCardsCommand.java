@@ -2,6 +2,7 @@ package commands;
 
 import message.data.Card;
 import client.ClientController;
+import client.ClientGame;
 import client.ClientModel;
 
 /**
@@ -29,8 +30,8 @@ public class SendCardsCommand implements Command {
 	}
 	
 	@Override
-	public void execute(ClientModel model, ClientController controller) {
-		model.getPlayer(id).giveCards(card1, card2);
+	public void execute(ClientGame game) {
+		game.model.getPlayer(id).giveCards(card1, card2);
 	}
 
 }

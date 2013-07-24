@@ -6,6 +6,7 @@ import java.util.List;
 import message.data.Card;
 import message.data.Player;
 import client.ClientController;
+import client.ClientGame;
 import client.ClientModel;
 import client.ClientSidePlayer;
 import client.State;
@@ -28,19 +29,19 @@ public class SendPlayerListCommand implements Command {
 		this.list = list;
 	}
 	
-	public void execute(ClientModel model, ClientController controller) {
+	public void execute(ClientGame game) {
 		List<ClientSidePlayer> playList = new ArrayList<ClientSidePlayer>();
 		
 		for(Player i: list) {
 			ClientSidePlayer tempPlayer = new ClientSidePlayer(i);
-			tempPlayer.addObserver(controller);
+			tempPlayer.addObserver(game.controller);
 			playList.add(tempPlayer);
 		}
 		
-		model.setPlayerList(playList);	
-		model.changeState(State.PLAYING);
+		game.model.setPlayerList(playList);	
+		game.model.changeState(State.PLAYING);
 		Card[] newField = new Card[] {null, null, null, null, null};
-		model.changeFieldCards(newField);
+		game.model.changeFieldCards(newField);
 	}
 
 }

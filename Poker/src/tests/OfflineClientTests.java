@@ -55,7 +55,7 @@ public class OfflineClientTests {
 				new PlayerMove(1, ClientTurn.FOLD, 30, 970)));
 		this.que.addTask(new ChangeDealersCommand(1,2));
 		try {
-			Thread.sleep(200);
+			Thread.sleep(600);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
