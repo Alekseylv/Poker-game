@@ -33,6 +33,14 @@ public class HandEvaluator {
 		this.tableCards = tableCards;
 	}
 
+	public List<Card> getCurrentHand() {
+		List<Card> temp = new ArrayList<Card>();
+		for (Card card: currentHand) {
+			temp.add(card);
+		}
+		return temp;
+	}
+
 	/**
 	 * Returns a copy of table cards for player hand evaluation.
 	 * 
@@ -373,7 +381,7 @@ public class HandEvaluator {
 						}
 					}
 				}
-				if (sCount == 5) {
+				if (sCount == 4) {
 					evaluateScore(scoreCards, 1);
 					setPlayerHand();
 					return true;
@@ -407,7 +415,7 @@ public class HandEvaluator {
 					scoreCards.add(temp[i][j]);
 					fCount++;
 				}
-				if (fCount == 4) {
+				if (fCount == 5) {
 					evaluateScore(scoreCards, 1);
 					setPlayerHand();
 					return true;
@@ -659,6 +667,7 @@ public class HandEvaluator {
 		}
 		// System.out.println("Kicker: " + playerHand.getKicker().getRank());
 		// System.out.println("------------");
+		playerHand.setPlayerHand(currentHand);
 	}
 
 	/* Private instance variables. */

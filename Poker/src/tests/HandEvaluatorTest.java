@@ -14,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import poker.arturka.Hand;
 import poker.arturka.HandEvaluator;
 
 public class HandEvaluatorTest {
@@ -45,7 +46,13 @@ public class HandEvaluatorTest {
 		Player player4 = new Player(4, "Janis");
 		Card p4c1 = new Card(Suit.CLUBS, Rank.ACE);
 		Card p4c2 = new Card(Suit.CLUBS, Rank.KING);
-		player4.hand = new Card[] { p4c1, p4c2 }; 
+		player4.hand = new Card[] { p4c1, p4c2 };
+		
+		//Add players to the list
+		playersForEvaluation.add(player1);
+		playersForEvaluation.add(player2);
+		playersForEvaluation.add(player3);
+		playersForEvaluation.add(player4);
 		
 		// Initializing tableCards
 		Card tableCard1 = new Card(Suit.CLUBS, Rank.QUEEN);
@@ -59,6 +66,9 @@ public class HandEvaluatorTest {
 		tableCards.add(tableCard3);
 		tableCards.add(tableCard4);
 		tableCards.add(tableCard5);
+		
+		// Initialize HandEvaluator
+		evaluator = new HandEvaluator(playersForEvaluation, tableCards);
 	}
 
 	@After
@@ -69,21 +79,31 @@ public class HandEvaluatorTest {
 
 	@Test
 	public void testHandEvaluator() {
-		HandEvaluator evaluator = new HandEvaluator(playersForEvaluation, tableCards);
 		assertEquals(tableCards, evaluator.getTableCards());
 		
 	}
 
 	@Test
 	public void testGetPlayerHandEvaluation() {
-		fail("Not yet implemented");
+		testPlayerPositions();
+		testPlayerHands();
+	}
+	
+	private void testPlayerHands() {
+		assertEquals(evaluator.getPlayerHandEvaluation().get(0).getHand(), Hand.ROYAL_FLUSH);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(1).getHand(), Hand.STRAIGHT);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(2).getHand(), Hand.THREE_OF_A_KIND);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(3).getHand(), Hand.TWO_PAIR);
 	}
 
-	@Test
-	public void testGetHand() {
-		
+	private void testPlayerPositions() {
+		assertEquals(evaluator.getPlayerHandEvaluation().get(0).getPlayer().getId(), 4);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(1).getPlayer().getId(), 2);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(2).getPlayer().getId(), 1);
+		assertEquals(evaluator.getPlayerHandEvaluation().get(3).getPlayer().getId(), 3);
 	}
 
 	List<Player> playersForEvaluation;
 	List<Card> tableCards;
+	HandEvaluator evaluator;
 }
