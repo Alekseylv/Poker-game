@@ -890,7 +890,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         showPot.setForeground(Color.WHITE);
         showPot.setHorizontalAlignment( SwingConstants.CENTER );
         showPot.setText("POT: $" + model.getPot());
-        showPot.setBounds(415,300,70,20);
+        showPot.setBounds(400,300,100,20);
         return showPot;
     }
 
