@@ -42,7 +42,9 @@ public class Client {
 			
 			
 			ClientGame game = new ClientGame(conn);	
-			game.run();	
+			
+			Thread gameThread = new Thread(game);
+			gameThread.start();
 						
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
