@@ -1,5 +1,8 @@
 package client;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import commands.Command;
 import poker.GUI.ClientView;
 
@@ -24,7 +27,8 @@ public class ClientGame implements Runnable {
 	public final ClientView view;
 	public final ClientController controller;
 	private volatile boolean running;
-	private TaskQueue taskList;
+	private ObjectInputStream in;
+
 	
 	
 	/**
@@ -40,7 +44,6 @@ public class ClientGame implements Runnable {
 	
 	public ClientGame(Conn conn, TaskQueue queue) {
 		
-		this.taskList = queue;
 		this.running = true;
 		this.model = new ClientModel(conn);
 		this.view = new ClientView(this.model);
@@ -49,6 +52,13 @@ public class ClientGame implements Runnable {
 		model.addObserver(this.controller);
 		model.bet.addObserver(controller);
         model.changeState(State.READY);
+        
+        try {
+			this.in =  new ObjectInputStream(in);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -57,30 +67,34 @@ public class ClientGame implements Runnable {
 	
 	public void run() {
 		
+		Object token = null;
 		Command task = null;
 		while(running) {
-			synchronized (this.taskList) {
-				if (this.taskList.isEmpty()) {
-					try {
-						taskList.wait();
-					} catch (InterruptedException e) {
-
-						e.printStackTrace();
-					}
-				} else {
-					task = taskList.getNextTask();
-					if(task != null) {
-						task.execute(this.model, this.controller);
-						System.out.println("Executed command");
-					} else {
-						System.out.println("Task is null, discarding it");
-					}
+			
+				try {
+					token = in.readObject();
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.out.println("Connection closed");
+					break;
+				} catch (ClassNotFoundException e) {
+					continue;
 				}
-			}
+				System.out.println("Received token");
+				System.out.println(token);
+				if(token == null) {
+					System.out.println("token is null, discarding it");
+					continue;
+				} else {
+					task = (Command) token;
+					task.execute(this.model, this.controller);
+					System.out.println("Executed command");
+				} 	
+		}
 		
 			
-		}
 	}
+	
 	
 	/**
 	 * Toggles the thread to stop execution
