@@ -43,8 +43,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     private JLabel Dealer = new JLabel();
     private JLabel showPot = new JLabel();
-
-
+    int count = -1;
+    int currentBet = 0;
+    int currentBetFlop = 0;
+    int currentBetTurn = 0;
+    int currentBetRiver = 0;
+    int toRaise = 0;
 
     // *** getLocation() method vars
     private String Card1 = "CardOne";
@@ -269,17 +273,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return 0;
 
     }
-    public void setNums(int newBet){
-        int toRaise = 0;
-        if(model.getBlind() * 2 < newBet){
-            toRaise = newBet;
-        } else {
-            toRaise = model.getBlind() * 2;
+    public void setNums(){
 
-        }
         CashSlider.setMaximum(model.getCash(model.getID()));
-        CashSlider.setValue(toRaise);
-        CashSlider.setMinimum(toRaise);
+        CashSlider.setValue(model.getBlind());
+        CashSlider.setMinimum(model.getBlind());
 
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
@@ -441,6 +439,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
                         break;
                 }
                 TableWindow.add(Dealer(getLocation((model.getDealer() + 1 + offSet)%9,Deal,x),getLocation((model.getDealer() + 1 + offSet)%9,Deal,y)));
+
             }
         }
     }
@@ -626,6 +625,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
                         TableWindow.add(arrayPlayersCards[id][0]);
                         TableWindow.add(arrayPlayersCards[id][1]);
+                        count++;
                         break;
 
                 }
@@ -908,7 +908,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
         if("raise".equals(e.getActionCommand())){
-            model.pressedRaise((int) Math.round(CashSlider.getValue() * 10.0) / 10);
+            model.pressedRaise(model.getMaxBet() + CashSlider.getValue());
+
         } else if("check".equals(e.getActionCommand())){
             model.pressedCheck();
 
