@@ -73,7 +73,6 @@ public class Game implements Runnable {
                 evaluator=new HandEvaluator(players.playersLeft(), table);
                 List<PlayerHand> bestPlayers=evaluator.getPlayerHandEvaluation();
                 int i=0;
-                int betsForWinner;
                 PlayerHand currentWinnerHand;
                 PlayerHand anotherWinnerHand;
                 PlayerHand thirdWinnerHand;

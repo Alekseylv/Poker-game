@@ -1,12 +1,9 @@
 package poker.arturka;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
 import message.data.Card;
 import message.data.Player;
 import message.data.Card.Rank;
@@ -234,8 +231,7 @@ public class HandEvaluator {
 	private void incrementFollowingPlayers(List<PlayerHand> playerPositions,
 			PlayerHand entry) {
 		for (PlayerHand playerHand : playerPositions) {
-			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()
-					&& playerHand.getHandScore() < entry.getHandScore()) {
+			if (playerHand.getHand().ordinal() >= entry.getHand().ordinal()) {
 				if (!playerHand.equals(entry)) {
 					playerHand.setPosition(playerHand.getPosition() + 1);
 				}
