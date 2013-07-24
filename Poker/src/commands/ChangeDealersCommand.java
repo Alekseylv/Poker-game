@@ -1,17 +1,18 @@
 package commands;
 
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 
 /**
  * Changes dealer in player list of a client
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
 public class ChangeDealersCommand implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7619054177056676469L;
 	private int idOld;
 	private int idNew;
 	

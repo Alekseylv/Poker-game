@@ -3,19 +3,19 @@ package commands;
 import java.io.Serializable;
 import java.util.List;
 
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
-import client.State;
 
 /**
  * Sends information about winners and the amount of cash the have won
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
 public class SendWinnerListCommand implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5577005935334322458L;
 	private final List<Tuple> winnerList;
 	/**
 	 * Creates Command
@@ -31,6 +31,10 @@ public class SendWinnerListCommand implements Command {
 	 */
 	
 	public static class Tuple implements Serializable{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -7765856579326354766L;
 		public final int id;
 		public final int cash;
 		

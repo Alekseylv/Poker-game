@@ -1,18 +1,19 @@
 package commands;
 
 import message.data.Card;
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 
 /**
  * Sends the hand held cards of a player to Client
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
 public class SendCardsCommand implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2245728944123256244L;
 	private final int id;
 	private final Card card1;
 	private final Card card2;

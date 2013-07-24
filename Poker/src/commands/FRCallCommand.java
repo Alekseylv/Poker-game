@@ -1,8 +1,6 @@
 package commands;
 
-import client.ClientController;
 import client.ClientGame;
-import client.ClientModel;
 import client.State;
 
 /**
@@ -11,8 +9,13 @@ import client.State;
  * @author Aleksey
  *
  */
-@SuppressWarnings("serial")
+
 public class FRCallCommand implements Command {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4007695118305319542L;
 
 	public FRCallCommand() {
 		

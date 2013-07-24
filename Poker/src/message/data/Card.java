@@ -1,7 +1,6 @@
 package message.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +10,12 @@ import java.util.ArrayList;
  */
 
 public class Card implements Serializable{
-    public enum Suit{
+    /**
+	 * s
+	 */
+	private static final long serialVersionUID = 6039767702677907198L;
+
+	public enum Suit{
         CLUBS,
         DIAMONDS,
         HEARTS,

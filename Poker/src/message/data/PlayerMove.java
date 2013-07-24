@@ -12,6 +12,10 @@ import java.io.Serializable;
 public class PlayerMove implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2343633951072917236L;
 	public final int id;
 	public final ClientTurn turn;
 	public final int currentBet;
