@@ -60,7 +60,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         this.model = model;
 
-        scroll.setBounds(300, 570, 300, 40);
+        scroll.setBounds(300, 560, 300, 40);
 
         // TableWindow appearance
         TableWindow.setSize(900, 630);
