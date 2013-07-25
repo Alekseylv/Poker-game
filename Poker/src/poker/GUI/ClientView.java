@@ -269,14 +269,26 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return 0;
 
     }
-    public void setNums(int newBet){
+    public void setNums(){
         int toRaise = 0;
-        if(model.getBlind() * 2 < newBet){
-            toRaise = newBet;
-        } else {
-            toRaise = model.getBlind() * 2;
+        if(model.getID() - 1 < 1){
+    		
+    		if(model.getBlind() * 2 < model.getPlayerBet(model.getPlayerList().size())){
+    			toRaise = model.getPlayerBet(model.getPlayerList().size());
+            } else {
+                toRaise = model.getBlind() * 2;
 
-        }
+            }
+    	} else {
+    		if(model.getBlind() * 2 < model.getPlayerBet(model.getID() - 1)){
+    			toRaise = model.getPlayerBet(model.getID() - 1);
+            } else {
+                toRaise = model.getBlind() * 2;
+
+            }
+    		
+    	}
+        
         CashSlider.setMaximum(model.getCash(model.getID()));
         CashSlider.setValue(toRaise);
         CashSlider.setMinimum(toRaise);
@@ -637,7 +649,8 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         for(SendWinnerListCommand.Tuple player : list){
             if(player != null){
-                displayBroadcast().setText(model.getPlayer(player.id).getNick() + " has won $" + player.cash);
+            	
+                displayBroadcast().setText(displayBroadcast().getText() + "\n" + model.getPlayer(player.id).getNick() + " has won $" + player.cash + " with " + player.hand);
             }
         }
     }
@@ -908,7 +921,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
         if("raise".equals(e.getActionCommand())){
-            model.pressedRaise((int) Math.round(CashSlider.getValue() * 10.0) / 10);
+        	if(CashSlider.getValue() < model.getCash(model.getID())){
+            model.pressedRaise(CashSlider.getValue());
+        	} else {
+        	model.pressedRaise(model.getCash(model.getID()));	
+        	}
         } else if("check".equals(e.getActionCommand())){
             model.pressedCheck();
 

@@ -11,10 +11,10 @@ import java.util.Observable;
  */
 public class Player extends Observable implements Serializable {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1376483941288154727L;
-	private int id;
+     *
+     */
+    private static final long serialVersionUID = 1376483941288154727L;
+    private int id;
     private int cash;
     public Card[] hand;
     private boolean dealer;
@@ -99,9 +99,12 @@ public class Player extends Observable implements Serializable {
     }
 
     public Card[] getHand() {
-    	return hand;
+        return hand;
     }
 
+    public void setHand(Card[] hand) {
+        this.hand=hand;
+    }
 
     public boolean isInGame() {
         return inGame;
@@ -128,7 +131,7 @@ public class Player extends Observable implements Serializable {
                 continue;
             }
             output+=card.toSymbol();
-         }
+        }
         return output;
     }
 }
