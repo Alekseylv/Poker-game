@@ -171,9 +171,7 @@ public class HandEvaluator {
 							i--;
 						} else if (prev.getHandScore() > entry.getHandScore()) {
 							incrementFollowingPlayers(playerPositions, prev);
-						}
-						// new added start
-						else {
+						} else {
 							if (entry.getHand().equals(Hand.FULL_HOUSE)) {
 								if (prev.getHandScore2() < entry
 										.getHandScore2()) {
@@ -190,7 +188,6 @@ public class HandEvaluator {
 								}
 							}
 						}
-						// new added end
 					} else if (entry.getHand().equals(Hand.ROYAL_FLUSH)) {
 						// do nothing, because it is the strongest hand
 						// empty so that shouldn't write many evaluations in
@@ -336,8 +333,6 @@ public class HandEvaluator {
 				if (skCount == TWO_PAIR_COUNT && pairCount == 0) {
 					pairCount++;
 					evaluateScore(scoreCards, 1);
-					// setPlayerHand();
-					// return true;
 				} else if (skCount == TWO_PAIR_COUNT && pairCount == 1
 						&& firstPairLineLeft) {
 					evaluateScore(scoreCards, 2);
@@ -650,21 +645,16 @@ public class HandEvaluator {
 			if (!temp.contains(currentHand[i])) {
 				temp.add(currentHand[i]);
 			}
-		}/*
-		 * for (Card c: temp) { System.out.println(c.getRank()); }
-		 */
+		}
 		if (temp != null && playerHand != null)
 			playerHand.setPlayerHand(temp);
 		boolean kickerSet = false;
 		for (Card card : temp) {
-			// System.out.println(card.getRank());
 			if (!scoreCards.contains(card) && !kickerSet) {
 				playerHand.setKicker(card);
 				kickerSet = true;
 			}
 		}
-		// System.out.println("Kicker: " + playerHand.getKicker().getRank());
-		// System.out.println("------------");
 		playerHand.setPlayerHand(currentHand);
 	}
 
