@@ -120,6 +120,7 @@ public class Room implements Runnable {
 		if (connections.containsKey(clientSessionID)
 				&& connections.get(clientSessionID).getClient().isConnected()) {
 			connections.remove(clientSessionID);
+			clientStreams.remove(clientSessionID);
 		}
 	}
 
