@@ -1,5 +1,6 @@
 package poker.GUI;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
@@ -9,7 +10,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 
 import client.Client;
@@ -41,6 +44,12 @@ public class Login extends JFrame implements ActionListener, ItemListener {
         LoginWindow.add(Players(), null);
         LoginWindow.add(buttonConnect(), null);
         LoginWindow.add(warning(), null);
+        
+        URL url = getClass().getResource("/poker/GUI/img/icon.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        this.setIconImage(img);
+        LoginWindow.setIconImage(img);
         
         LoginWindow.validate();
         LoginWindow.repaint();

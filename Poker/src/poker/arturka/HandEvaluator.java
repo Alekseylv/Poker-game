@@ -264,11 +264,13 @@ public class HandEvaluator {
 	 */
 	private Hand getPlayerHand(Player player) {
 		Card[] temp = new Card[CARD_COUNT];
-		for (int i = 0; i < temp.length - 2; i++) {
-			temp[i] = tableCards.get(i);
+		if (tableCards.size() > 0) {
+			for (int i = 0; i < temp.length - 2; i++) {
+				temp[i] = tableCards.get(i);
+			}
+			temp[CARD_COUNT - 1] = player.getHand()[0];
+			temp[CARD_COUNT - 2] = player.getHand()[1];
 		}
-		temp[CARD_COUNT - 1] = player.getHand()[0];
-		temp[CARD_COUNT - 2] = player.getHand()[1];
 		return getHand(temp);
 	}
 
@@ -603,7 +605,7 @@ public class HandEvaluator {
 	private Card[] sortHand(Card[] hand) {
 		Card temp = null;
 		for (int i = 1; i < hand.length; i++) {
-			if (hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
+			if (hand != null && i > 0 && hand[i - 1].getRank().ordinal() < hand[i].getRank().ordinal()) {
 				temp = hand[i];
 				hand[i] = hand[i - 1];
 				hand[i - 1] = temp;
