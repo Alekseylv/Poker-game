@@ -111,8 +111,6 @@ public class HandEvaluatorTest {
 				.getId(), 2);
 		assertEquals(evaluator.getPlayerHandEvaluation().get(1).getPlayer()
 				.getId(), 1);
-		System.out.println(evaluator.getPlayerHandEvaluation().get(0).getHand());
-		System.out.println(evaluator.getPlayerHandEvaluation().get(1).getHand());
 	}
 
 	private void testSimilarHands() {
