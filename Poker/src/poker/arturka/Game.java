@@ -69,7 +69,6 @@ public class Game implements Runnable {
         System.out.println("ENTER ENDGAME");
         if (!endGame) {
             System.out.println("ENTER IF ENDGAME");
-            List<SendWinnerListCommand.Tuple> winners =new ArrayList<SendWinnerListCommand.Tuple>();
             evaluator=new HandEvaluator(players.playersLeft(), table);
             if (players.playersLeft().size()>1){
                 List<PlayerHand> bestPlayers=evaluator.getPlayerHandEvaluation();
