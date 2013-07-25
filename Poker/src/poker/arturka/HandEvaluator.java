@@ -193,34 +193,48 @@ public class HandEvaluator {
 						// empty so that shouldn't write many evaluations in
 						// next statement :)
 					} else {
-						if (prev.getKicker() != null
-								&& entry.getKicker() != null) {
-							if (prev.getKicker().getRank().ordinal() < entry
-									.getKicker().getRank().ordinal()) {
-								incrementFollowingPlayers(playerPositions,
-										entry);
-								playerPositions.set(
-										i - 1,
-										playerPositions.set(i,
-												playerPositions.get(i - 1)));
-								i--;
-							} else if (prev.getKicker().getRank().ordinal() > entry
-									.getKicker().getRank().ordinal()) {
-								incrementFollowingPlayers(playerPositions, prev);
-							}
+						if (prev.getHandScore() < entry.getHandScore()) {
+							incrementFollowingPlayers(playerPositions,
+									entry);
+							playerPositions
+									.set(i - 1, playerPositions.set(i,
+											playerPositions.get(i - 1)));
+							i--;
 						}
-						if (entry.getHand().equals(Hand.TWO_PAIR)) {
-							if (prev.getHandScore2() < entry.getHandScore2()) {
-								incrementFollowingPlayers(playerPositions,
-										entry);
-								playerPositions.set(
-										i - 1,
-										playerPositions.set(i,
-												playerPositions.get(i - 1)));
-								i--;
-							} else if (prev.getHandScore2() > entry
-									.getHandScore2()) {
-								incrementFollowingPlayers(playerPositions, prev);
+						else if (prev.getHandScore() > entry.getHandScore()) {
+							incrementFollowingPlayers(playerPositions,
+									prev);
+						}
+						else {
+							if (prev.getKicker() != null
+									&& entry.getKicker() != null) {
+								if (prev.getKicker().getRank().ordinal() < entry
+										.getKicker().getRank().ordinal()) {
+									incrementFollowingPlayers(playerPositions,
+											entry);
+									playerPositions.set(
+											i - 1,
+											playerPositions.set(i,
+													playerPositions.get(i - 1)));
+									i--;
+								} else if (prev.getKicker().getRank().ordinal() > entry
+										.getKicker().getRank().ordinal()) {
+									incrementFollowingPlayers(playerPositions, prev);
+								}
+							}
+							if (entry.getHand().equals(Hand.TWO_PAIR)) {
+								if (prev.getHandScore2() < entry.getHandScore2()) {
+									incrementFollowingPlayers(playerPositions,
+											entry);
+									playerPositions.set(
+											i - 1,
+											playerPositions.set(i,
+													playerPositions.get(i - 1)));
+									i--;
+								} else if (prev.getHandScore2() > entry
+										.getHandScore2()) {
+									incrementFollowingPlayers(playerPositions, prev);
+								}
 							}
 						}
 					}
