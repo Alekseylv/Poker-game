@@ -258,7 +258,7 @@ public class Game implements Runnable {
                                 room.removeUser(better.getId());
                                 players.removePlayer(better.getId());
                         }
-                        if(players.playersLeft().size()<2||players.playersHaveToMove().size()<2){
+                        if(players.playersLeft().size()<2&&players.playersHaveToMove().size()<2){
                             endGame();
                             break;
                         }
