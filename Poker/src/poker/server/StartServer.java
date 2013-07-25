@@ -10,7 +10,7 @@ public class StartServer implements Runnable {
 	
 	@Override
 	public void run() {
-		Server.start(count);
+		Server.start(count, null, -1);
 	}
 
 	
