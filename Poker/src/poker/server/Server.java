@@ -57,7 +57,7 @@ public class Server extends JFrame{
 				System.exit(0);
 			}
 			int port = Integer.parseInt(args[2]);
-			if(!(port > 1 && port < 10)) {
+			if(!(port > -1 && port < 10000)) {
 				System.out.println("Usage: [playercount] [IP address] [port number]");
 				System.out.println("port number must be between 0000 and 9999");
 				System.exit(0);
