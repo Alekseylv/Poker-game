@@ -19,7 +19,7 @@ public class Server extends JFrame{
 	/* Private instance constants */
 	private static int PORT = 9876;
 	private static final int CONNECTION_LIMIT = 50;
-	private static int MAX_PLAYERS_IN_ROOM = 3;
+	private static int MAX_PLAYERS_IN_ROOM = 2;
 	private static final int WAITING_TIMEOUT = 0;
 
 	/* Private instance variables. 
