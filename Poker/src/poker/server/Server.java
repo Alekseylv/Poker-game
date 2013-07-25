@@ -63,12 +63,14 @@ public class Server extends JFrame{
 			InetAddress temp = null;
 			while(cookie.hasMoreElements()) {
 				temp = cookie.nextElement();
-				if(temp.isMCOrgLocal()) {
+				
+				if(temp.getAddress()[0] == (byte)0xC0){
 					serverAddress = temp;
 					break;
 				}
 			}
 			
+			System.out.println(serverAddress);
 			if(serverAddress == null) {
 				serverAddress = InetAddress.getLocalHost();
 			}
