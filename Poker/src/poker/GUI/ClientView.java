@@ -98,11 +98,21 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     // Methods for CONTROLLER
+
+    /**
+     * refreshes a table when some update in
+     * a model was made
+     */
     public void updateView() {
         TableWindow.invalidate();
         TableWindow.validate();
         TableWindow.repaint();
     }
+
+    /**
+     *  describes Ready state
+     *  when no players have connected
+     */
     public void stateReady(){
         scroll.setVisible(true);
         foldButton.setEnabled(false);
@@ -118,6 +128,10 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         MinusSizeSlider.setEnabled(false);
         displayCashSlider.setVisible(false);
     }
+    /**
+     *  describes InputCheck state
+     *  only Call button is allowed
+     */
     public void stateInputCheck(){
         checkButton.setVisible(true);
         callButton.setVisible(false);
@@ -134,6 +148,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         MinusSizeSlider.setEnabled(true);
         displayCashSlider.setVisible(true);
     }
+    /**
+     *  describes InputCall state
+     *  only Call button is allowed
+     */
+
     public void stateInputCall(){
         callButton.setVisible(true);
         checkButton.setVisible(false);
@@ -150,6 +169,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         MinusSizeSlider.setEnabled(true);
         displayCashSlider.setVisible(true);
     }
+
+    /**
+     *  describes Playing state
+     *  all buttons are disabled
+     */
     public void statePlaying(){
         foldButton.setEnabled(false);
         checkButton.setEnabled(false);
@@ -166,6 +190,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         displayCashSlider.setVisible(false);
     }
 
+    /**
+     *  shows cards on the table that are supplied
+     *  after something of an instance of card is changed
+     *  after pre-flop
+     */
     public void tableCards(){
         int count = -1;
         int x = 265;
@@ -189,6 +218,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
     }
+
+    /**
+     *  erases tableCards before
+     *  starting a new hand
+     */
     public void emptyTableCards(){
         for(int i = 0; i < showTableCards.length; i++){
             if(showTableCards[i] != null){
@@ -201,7 +235,15 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
     }
 
-
+    /**
+     *
+     * @param id takes an id of a player substracting one to get
+     *           a location at the table
+     * @param what takes an argument of CardOne, CardTwo or Dealer to
+     *             find its location
+     * @param axis takes an axis of X or Y to get a location on axis' coordinate
+     * @return X or Y point's coordinate as integer
+     */
     private int getLocation(int id, String what, char axis){
 
         ArrayList<Coordinates> PlayerLocation = new ArrayList<Coordinates>();
@@ -277,6 +319,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         return 0;
 
     }
+
+    /**
+     *  sets CashSlider values according to Player's Cash
+     *  and MaxBet during the hand
+     */
     public void setNums(){
         int toRaise = 0;
         if(model.getID() - 1 < 1){
@@ -303,9 +350,19 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
 
         CashSlider.setMajorTickSpacing(model.getCash(model.getID()) / 2);
     }
+
+    /**
+     *  refreshes the current pot
+     */
     public void setNewPot(){
         showPot.setText("POT: $" + model.getPot());
     }
+
+    /**
+     * sets new Cash after player has made a move
+     *
+     * @param list list of current players
+     */
     public void setNewCash(ArrayList<ClientSidePlayer> list){
         int id = 0;
         int offSet = 0;
@@ -385,6 +442,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
 
+    /**
+     * places players by their position in a LIST
+     * makes an offset do show User's cards in central position
+     *
+     * @param list list of current players
+     */
     public void placePlayers(ArrayList<ClientSidePlayer> list){
         int id = 0;
         int offSet = 0;
@@ -465,6 +528,12 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
 
+    /**
+     * gives new cards to players
+     * when a new hand has started
+     *
+     * @param list list of current players
+     */
     public void giveCards(ArrayList<ClientSidePlayer> list){
         int id = 0;
         int offSet = 0;
@@ -653,6 +722,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
             }
         }
     }
+
+    /**
+     * Shows winner's nick and cash he has won
+     * in a broadcast windows
+     *
+     * @param list list of winner players
+     */
     public void broadcastWinner(ArrayList<SendWinnerListCommand.Tuple> list){
 
         for(SendWinnerListCommand.Tuple player : list){
@@ -662,6 +738,13 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
     }
 
+    /**
+     * transform card object into a string as a filename of a card's image
+     *
+     * inserts an invisible card if an array of cards is null
+     * @param cards supplied Cards
+     * @return filename as a string for an object of Card
+     */
     private ArrayList<String> fromCardToString(Card[] cards ){
         ArrayList<String> output=new ArrayList<String>();
         String fileName="";
@@ -675,6 +758,14 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         }
         return output;
     }
+
+    /**
+     * transform Card object into a symbol of a Card's suit
+     *
+     * inserts null if an array of cards is null
+     * @param cards supplied Cards
+     * @return Suit symbol of an object of Card
+     */
     private ArrayList<String> fromCardToSymbol(Card[] cards ){
         ArrayList<String> output=new ArrayList<String>();
         String cardSymbol="";
