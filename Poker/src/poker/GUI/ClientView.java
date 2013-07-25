@@ -735,7 +735,7 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
     }
 
     /**
-     * transform Card object into a string as a filename of a card's image
+     * transform card object into a string as a filename of a card's image
      *
      * inserts an invisible card if an array of cards is null
      * @param cards supplied Cards
