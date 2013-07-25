@@ -48,8 +48,8 @@ public class ClientController implements Observer {
 
     public void sendViewWinners(List<Tuple> list) {
         //view.getWinners((ArrayList<Tuple>) list);
-    	view.broadcastWinner((ArrayList<Tuple>) list);
-    	
+    	//view.broadcastWinner((ArrayList<Tuple>) list);
+        view.displayBroadcast().setText(view.displayBroadcast().getText() + "\n" + model.getPlayer(model.getID() - 1).getNick() + " has won $" + list.get(model.getID() - 1).cash + " with " + list.get(model.getID() - 1).hand);
     }
 
     /**
