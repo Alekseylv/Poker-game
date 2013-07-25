@@ -173,7 +173,7 @@ public class Login extends JFrame implements ActionListener, ItemListener {
     }
     private JCheckBox createServer() {
     	createServer.setActionCommand("createServer");
-    	createServer.setBounds(10,115,150,20);
+    	createServer.setBounds(10,115,170,20);
     	createServer.setText("Create a new server");
     	createServer.addItemListener(this);
         return createServer;
