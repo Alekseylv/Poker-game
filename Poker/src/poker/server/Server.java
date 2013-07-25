@@ -17,9 +17,9 @@ import javax.swing.*;
 public class Server extends JFrame{
 
 	/* Private instance constants */
-	private static final int PORT = 9876;
+	private static int PORT = 9876;
 	private static final int CONNECTION_LIMIT = 50;
-	private static final int MAX_PLAYERS_IN_ROOM = 3;
+	private static int MAX_PLAYERS_IN_ROOM = 3;
 	private static final int WAITING_TIMEOUT = 0;
 
 	/* Private instance variables. 
@@ -71,7 +71,8 @@ public class Server extends JFrame{
 	public static void start(int playerCount, String addr, int port) {
 		server = null;
 		client = null;
-		int portnum = PORT;
+		MAX_PLAYERS_IN_ROOM = playerCount;
+		
 		try {
 			// Assigns localhost address to 'serverAddress'.
 			
@@ -93,14 +94,14 @@ public class Server extends JFrame{
 				
 			} else {
 				serverAddress = InetAddress.getByName(addr);
-				portnum = port;
+				PORT = port;
 			}
 //			serverAddress = InetAddress.getByName("192.168.1.108");
 			// Initializes 'ServerSocket'.
 	//		server = SSLServerSocketFactory.getDefault().createServerSocket(PORT,
 	//										CONNECTION_LIMIT, serverAddress);
 			
-			server = new ServerSocket(portnum, CONNECTION_LIMIT, serverAddress);
+			server = new ServerSocket(PORT, CONNECTION_LIMIT, serverAddress);
             
 			// GUI IMPLEMENTATION'S START
 			showServerInfo.setLayout(new FlowLayout());
