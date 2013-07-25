@@ -93,6 +93,9 @@ public class Server extends JFrame{
 			showServerInfo.add(serverPort(), null);
             showServerInfo.add(serverIPtext(), null);
             showServerInfo.add(serverPortText(), null);
+
+            showServerInfo.validate();
+            showServerInfo.repaint();
 			// GUI IMPLEMENTATION'S END
 			
 			while (true) {
