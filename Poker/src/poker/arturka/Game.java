@@ -77,7 +77,7 @@ public class Game implements Runnable {
                 PlayerHand currentWinnerHand;
                 PlayerHand anotherWinnerHand;
                 PlayerHand thirdWinnerHand;
-                while(players.getPot()>0){
+                while(players.getPot()>0&&i<10){
                     currentWinnerHand=bestPlayers.get(i);
                     if(bestPlayers.size()>=i+3){
                         anotherWinnerHand=bestPlayers.get(i + 1);
@@ -132,7 +132,8 @@ public class Game implements Runnable {
                     moneyDispenser(currentWinnerHand);
                 }
             }else if(players.playersLeft().size()>0){
-                moneyDispenser(evaluator.getPlayerHandEvaluation().get(0));
+                    players.playersLeft().get(0).giveCash(players.getPot());
+                    winners.add(new SendWinnerListCommand.Tuple(players.playersLeft().get(0).getId(), players.getPot(),Hand.LAST_ONE));
             }else{
                 Thread.currentThread().interrupt();
                 return;
@@ -175,15 +176,15 @@ public class Game implements Runnable {
         while(true){
             state=0;
             maxBet=0;
+            endGame=false;
             table.clear();
             room.Broadcast(new FlopCommand(null,null,null));
             room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.TURN));
             room.Broadcast(new TurnRiverCommand(null, TurnRiverCommand.RorT.RIVER));
             for(Player player:players.getPlayersList()){
-                room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList(player)));
+                room.sendToUser(player.getId(), new SendPlayerListCommand(players.getSafeList()));
                 System.out.println("COMMAND TO ID:"+player.getId()+" NICK:"+player.getNick()+" SEND PLAYER LIST");
             }
-            endGame=false;
             deck.shuffleDeck();
             for(Player currentPlayer: players.getPlayersList()){
                 if (currentPlayer.isInGame()){
