@@ -224,30 +224,20 @@ public class PlayersTest {
     @Test
     public void testGetSafeList() throws Exception {
         Players players=new Players();
-        Assert.assertEquals(players.getSafeList(player1).size(),0);
+        Assert.assertEquals(players.getSafeList().size(),0);
 
         Player check=players.addPlayer(id1,"bob");
-        Assert.assertEquals(players.getSafeList(check).size(),1);
-        Assert.assertTrue(players.getSafeList(player1).get(0).equals(check));
+        Assert.assertEquals(players.getSafeList().size(),1);
+        Assert.assertTrue(players.getSafeList().get(0).equals(check));
 
         Player check1=players.addPlayer(id2,"bob");
-        Assert.assertEquals(players.getSafeList(player1).size(),2);
-        Assert.assertTrue(players.getSafeList(player1).get(0).equals(check));
-        Assert.assertTrue(players.getSafeList(player1).get(1).equals(check1));
+        Assert.assertEquals(players.getSafeList().size(),2);
+        Assert.assertTrue(players.getSafeList().get(0).equals(check));
+        Assert.assertTrue(players.getSafeList().get(1).equals(check1));
 
         check.Fold();
-        Assert.assertTrue(players.getSafeList(player1).get(0).equals(check));
-        Assert.assertTrue(players.getSafeList(player1).get(1).equals(check1));
-
-        Card card=new Card(Card.Suit.CLUBS, Card.Rank.ACE);
-        Card card1=new Card(Card.Suit.DIAMONDS, Card.Rank.JACK);
-        check.giveCards(card,card1);
-        Assert.assertNull(players.getSafeList(player1).get(0).getHand()[0]);
-        Assert.assertNull(players.getSafeList(player1).get(0).getHand()[1]);
-        Assert.assertNotNull(players.getSafeList(check).get(0).getHand()[0]);
-        Assert.assertNotNull(players.getSafeList(check).get(0).getHand()[1]);
-        Assert.assertNull(players.getSafeList(check1).get(0).getHand()[0]);
-        Assert.assertNull(players.getSafeList(check1).get(0).getHand()[1]);
+        Assert.assertTrue(players.getSafeList().get(0).equals(check));
+        Assert.assertTrue(players.getSafeList().get(1).equals(check1));
     }
 
     @Test

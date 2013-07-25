@@ -365,16 +365,20 @@ public class HandEvaluator {
 			scoreCards = new ArrayList<Card>();
 			for (int j = 0; j < Suit.values().length; j++) {
 				if (temp[j][i] != null) {
-					for (int k = 0; k < Suit.values().length; k++) {
-						if (temp[k][i - 1] != null && !oneFound) {
-							scoreCards.add(temp[k][i - 1]);
-							sCount++;
-							continued = true;
-							oneFound = true;
+					for (int j2 = 0; j2 < Suit.values().length; j2++) {
+						for (int k = i; k > i - 5; k--) {
+							if (k > 5) {
+								if (temp[j2][i - k] != null && !oneFound) {
+									scoreCards.add(temp[j2][i - k]);
+									sCount++;
+									continued = true;
+									oneFound = true;
+								}
+							}
 						}
 					}
 				}
-				if (sCount == 4) {
+				if (sCount == 5) {
 					evaluateScore(scoreCards, 1);
 					setPlayerHand();
 					return true;
