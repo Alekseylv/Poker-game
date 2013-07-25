@@ -66,6 +66,7 @@ public class Game implements Runnable {
     }
 
     private void endGame(){
+    	winners=new ArrayList<SendWinnerListCommand.Tuple>();
         System.out.println("ENTER ENDGAME");
         if (!endGame) {
             System.out.println("ENTER IF ENDGAME");
