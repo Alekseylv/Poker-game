@@ -186,7 +186,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         AllInSizeSlider.setEnabled(false);
         PlusSizeSlider.setEnabled(false);
         MinusSizeSlider.setEnabled(false);
-        callButton.setVisible(false);
         displayCashSlider.setVisible(false);
     }
 
