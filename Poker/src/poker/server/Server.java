@@ -49,36 +49,58 @@ public class Server extends JFrame{
 	 */
 	
 	public static void main(String[] args) {
-		start(4);
+		if(args.length > 2) {
+			int playercount = Integer.parseInt(args[0]);
+			if(!(playercount > 1 && playercount < 10)) {
+				System.out.println("Usage: [playercount] [IP address] [port number]");
+				System.out.println("player count must be between 2 and 9");
+				System.exit(0);
+			}
+			int port = Integer.parseInt(args[2]);
+			if(!(port > 1 && port < 10)) {
+				System.out.println("Usage: [playercount] [IP address] [port number]");
+				System.out.println("port number must be between 0000 and 9999");
+				System.exit(0);
+			}
+			start(playercount, args[1], port);
+		} else {
+			start(4, null, -1);
+		}
 	}
 	
-	public static void start(int playerCount) {
+	public static void start(int playerCount, String addr, int port) {
 		server = null;
 		client = null;
+		int portnum = PORT;
 		try {
 			// Assigns localhost address to 'serverAddress'.
 			
-			
-			Enumeration<InetAddress> cookie = NetworkInterface.getNetworkInterfaces().nextElement().getInetAddresses();
-			InetAddress temp = null;
-			while(cookie.hasMoreElements()) {
-				temp = cookie.nextElement();
-				
-				if(temp.getAddress()[0] == (byte)0xC0){
-					serverAddress = temp;
-					break;
+			if(addr == null) {
+				Enumeration<InetAddress> cookie = NetworkInterface.getNetworkInterfaces().nextElement().getInetAddresses();
+				InetAddress temp = null;
+				while(cookie.hasMoreElements()) {
+					temp = cookie.nextElement();
+					
+					if(temp.getAddress()[0] == (byte)0xC0){
+						serverAddress = temp;
+						break;
+					}
 				}
-			}
-			
-			if(serverAddress == null) {
-				serverAddress = InetAddress.getLocalHost();
+				
+				if(serverAddress == null) {
+					serverAddress = InetAddress.getLocalHost();
+				}
+				
+			} else {
+				serverAddress = InetAddress.getByName(addr);
+				portnum = port;
 			}
 //			serverAddress = InetAddress.getByName("192.168.1.108");
 			// Initializes 'ServerSocket'.
 	//		server = SSLServerSocketFactory.getDefault().createServerSocket(PORT,
 	//										CONNECTION_LIMIT, serverAddress);
 			
-			server = new ServerSocket(PORT, CONNECTION_LIMIT, serverAddress);
+			server = new ServerSocket(portnum, CONNECTION_LIMIT, serverAddress);
             
 			// GUI IMPLEMENTATION'S START
 			showServerInfo.setLayout(new FlowLayout());
