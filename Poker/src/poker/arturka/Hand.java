@@ -10,5 +10,6 @@ public enum Hand {
 	THREE_OF_A_KIND,
 	TWO_PAIR,
 	ONE_PAIR,
-	HIGH_HAND
+	HIGH_HAND,
+    LAST_ONE
 }

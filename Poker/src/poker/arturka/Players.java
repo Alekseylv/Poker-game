@@ -147,22 +147,18 @@ public class Players {
     }
 
     /**
-     * Returns List of players valid to send to client.
-     * Returns List of players where all players except for safePlayer
+     * Returns List of players where all cards are nullified.
+     * Returns List of players where all players
      * have their hand replaced by {null,null}.
-     * @param safePlayer The user whose cards are not wiped.
      * @return List of players, safe to ship to end user.
      */
-    public List<Player> getSafeList(Player safePlayer){
+    public List<Player> getSafeList(){
         List<Player> tempList=new ArrayList<Player>();
         Player tempPlayer;
         for(Player player:getPlayersList()){
             player.setBet(0);
             player.setHand(new Card[]{null,null});
             tempPlayer=new Player(player);
-            if(!tempPlayer.equals(safePlayer)){
-                tempPlayer.giveCards(null,null);
-            }
             tempList.add(tempPlayer);
         }
         return tempList;
