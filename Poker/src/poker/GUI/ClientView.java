@@ -2,7 +2,6 @@ package poker.GUI;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -90,6 +89,11 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(scroll, null);
         TableWindow.add(showPot(), null);
+        URL url = getClass().getResource("/poker/GUI/img/icon.png");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Image img = kit.createImage(url);
+        this.setIconImage(img);
+        TableWindow.setIconImage(img);
 
     }
 
