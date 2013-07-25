@@ -19,7 +19,7 @@ public class Server extends JFrame{
 	/* Private instance constants */
 	private static final int PORT = 9876;
 	private static final int CONNECTION_LIMIT = 50;
-	private static final int MAX_PLAYERS_IN_ROOM = 2;
+	private static final int MAX_PLAYERS_IN_ROOM = 3;
 	private static final int WAITING_TIMEOUT = 0;
 
 	/* Private instance variables. 
@@ -70,7 +70,6 @@ public class Server extends JFrame{
 				}
 			}
 			
-			System.out.println(serverAddress);
 			if(serverAddress == null) {
 				serverAddress = InetAddress.getLocalHost();
 			}
