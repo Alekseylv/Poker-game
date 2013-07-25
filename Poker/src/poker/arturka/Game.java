@@ -129,6 +129,7 @@ public class Game implements Runnable {
                         }
                     }
                     moneyDispenser(currentWinnerHand);
+                    i++;
                 }
             }else if(players.playersLeft().size()>0){
                     players.playersLeft().get(0).giveCash(players.getPot());
