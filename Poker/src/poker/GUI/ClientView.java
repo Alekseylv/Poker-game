@@ -2,13 +2,18 @@ package poker.GUI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.event.*;
+
 import client.ClientModel;
 import client.ClientSidePlayer;
 import commands.SendWinnerListCommand;
 import message.data.Card;
+
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.JTextComponent;
@@ -85,7 +90,6 @@ public class ClientView extends JFrame implements ChangeListener, ActionListener
         TableWindow.add(MinusSizeSlider(), null);
         TableWindow.add(scroll, null);
         TableWindow.add(showPot(), null);
-
 
     }
 
